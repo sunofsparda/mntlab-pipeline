@@ -1,1 +1,2 @@
-# mntlab-pipeline
+
+Simple Java Project

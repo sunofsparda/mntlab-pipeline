@@ -1,0 +1,7 @@
+server:
+  port: 8089
+spring:
+  data:
+    cassandra:
+      keyspace-name: orderdata
+      contact-points: 104.46.41.106
