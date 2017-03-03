@@ -7,7 +7,14 @@ node {
     sh './gradlew build'
   }
   stage ('Testing'){
-        sh './gradlew test'
+    parallel JUnit: {
+      sh './gradlew test'
+    }, Jacoco: {
+      sh './gradlew jacoco'
+    }, Cucumber: {
+      sh './gradlew jacoco'
+    }
+    failFast: true|false    
   }
   stage ('Triggering job and fetching artefact after finishing'){
    echo 'Hello World'
