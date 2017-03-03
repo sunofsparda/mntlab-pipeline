@@ -1,3 +1,4 @@
+tool(gradle)
 pipeline {
     agent any
     stages {
