@@ -7,8 +7,8 @@ node('master') {
 
   stage 'Building code'
    	sh 'chmod +x gradlew'
-//	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
-	sh './gradlew build'
+	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle build -b ${WORKSPACE}/build.gradle"
+//	sh './gradlew build'
    
  stage 'Testing code'
 	parallel JUnit: {
