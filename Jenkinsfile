@@ -1,6 +1,4 @@
 pipeline {
-    tool name: 'java8', type: 'jdk'
-    tool name: 'gradle3.3', type: 'gradle'
     agent any
     stages {
         stage('Preparation (Checking out)') {
@@ -10,7 +8,9 @@ pipeline {
         }
         stage('Building code') {
             steps {
-                gradle build
+                tool name: 'java8', type: 'jdk'
+                tool name: 'gradle3.3', type: 'gradle'
+                sh 'gradle build --list'
             }
         }
         stage('Test') {
