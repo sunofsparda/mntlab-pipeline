@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
+        stage('Preparation (Checking out)')
         stage('Build') {
             steps {
-               checkout scm
+               git branch: 'pheraska', changelog: false, poll: false, url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             }
         }
         stage('Test') {
