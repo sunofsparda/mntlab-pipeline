@@ -1,4 +1,4 @@
-node {
+node ('host'){
   stage('Preparation (Checking out)') {
                 git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
   }
@@ -20,7 +20,7 @@ node {
    echo 'Hello World'
   }
   stage ('Packaging and Publishing results'){
-   echo 'Hello World'
+   archive 'Jenkinsfile'
   }
   stage ('Asking for manual approval'){
    echo 'Hello World'
