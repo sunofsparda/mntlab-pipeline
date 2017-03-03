@@ -9,8 +9,7 @@ pipeline {
         }
         stage('Building code') {
             steps {
-               sh 'chmod +x gradlew'
-               sh './gradlew build'
+               sh 'gradle build'
             }
         }
         stage('Test') {
