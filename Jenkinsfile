@@ -10,10 +10,8 @@ pipeline {
             steps {
                 tool name: 'java8', type: 'jdk'
                 tool name: 'gradle3.3', type: 'gradle'
-                node{
-                     sh 'gradle build --info'
-                     }
             }
+            sh 'gradle build --info'
         }
         stage('Test') {
             steps {
