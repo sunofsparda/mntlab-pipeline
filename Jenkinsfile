@@ -10,7 +10,7 @@ pipeline {
             steps {
                 tool name: 'java8', type: 'jdk'
                 tool name: 'gradle3.3', type: 'gradle'
-                sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
+                sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle --debug"
             }
         }
         stage('Test') {
