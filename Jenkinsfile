@@ -6,7 +6,7 @@ node('master') {
 	git branch: 'mkuzniatsou', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 
   stage 'Building code'
-//   	sh 'chmod +x gradlew'
+   	sh 'chmod +x gradlew'
 //	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
 	sh './gradlew build'
    
