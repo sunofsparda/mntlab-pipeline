@@ -1,4 +1,3 @@
-include hudson.plugins.*
 pipeline {
     agent any
     stages {
