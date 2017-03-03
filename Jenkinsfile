@@ -23,12 +23,12 @@ node ('host'){
    archive 'Jenkinsfile'
   }
   stage ('Asking for manual approval'){
-   echo 'Hello World'
+   input "Deployment?"
   }    
   stage ('Deployment'){
    echo 'Hello World'
   }
   stage ('Sending status'){
-   echo 'Hello World'
+   echo 'SUCCESS'
   }
  }
