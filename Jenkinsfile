@@ -1,4 +1,3 @@
-tool(gradle)
 pipeline {
     agent any
     stages {
@@ -9,6 +8,7 @@ pipeline {
         }
         stage('Building code') {
             steps {
+               tool('gradle')
                sh 'gradle build'
             }
         }
