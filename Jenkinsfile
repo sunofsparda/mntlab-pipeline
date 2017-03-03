@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Building code') {
             steps {
-               tool('gradle','java8')
+               tool(['gradle','java8'])
                sh 'gradle build'
             }
         }
