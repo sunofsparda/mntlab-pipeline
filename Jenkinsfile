@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('Preparation (Checking out)') {
-            steos {
+            steps {
                 git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
             }
         }
