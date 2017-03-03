@@ -17,7 +17,7 @@ node('master') {
 	sh './gradlew jacoco'}, 
 	Cucumber: {
 	sh './gradlew cucumber'
-
+	}
 
 
   stage 'Triggering job and fetching artefact after finishing'
