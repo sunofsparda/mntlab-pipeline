@@ -9,7 +9,7 @@ node('master') {
    	sh 'chmod +x gradlew'
 	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
 //	sh 'mv ${WORKSPACE}/build/libs/*.jar ${WORKSPACE}/gradle-simple.jar'
-	sh 'echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"' 
+echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}" 
   
  stage 'Testing code'
 	parallel JUnit: {
