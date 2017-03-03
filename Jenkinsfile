@@ -12,7 +12,6 @@ pipeline {
                 tool name: 'gradle3.3', type: 'gradle'
                 sh "echo ${JENKINS_HOME}"
             }
-            sh 'gradle build --info'
         }
         stage('Test') {
             steps {
