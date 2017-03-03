@@ -6,9 +6,9 @@ pipeline {
                 git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
             }
         }
-        stage('Build') {
+        stage('Building code') {
             steps {
-               echo "Building.."
+               sh 'gradle build --info'
             }
         }
         stage('Test') {
