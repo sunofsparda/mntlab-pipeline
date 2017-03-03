@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Preparation (Checking out)")
         {
-            git branch: 'pheraska', changelog: false, poll: false, url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+            git ([url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pheraska'])
         }
         stage('Build') {
             steps {
