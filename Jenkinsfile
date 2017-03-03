@@ -1,10 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage("Preparation")
+        stage("Preparation (Checking out)")
+        {
+            git branch: 'pheraska', changelog: false, poll: false, url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        }
         stage('Build') {
             steps {
-               git branch: 'pheraska', changelog: false, poll: false, url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+               echo "Building.."
             }
         }
         stage('Test') {
