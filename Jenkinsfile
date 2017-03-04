@@ -7,8 +7,7 @@ node('master') {
 	 sh 'env | sort'
 
 
-	
-	node('test-gradle') {
+	stage ('test-gradle') 
     env.GRADLE_HOME="${tool 'gradle3.3'}"
     env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
     sh 'gradle -version'
