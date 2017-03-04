@@ -5,6 +5,14 @@ node('master') {
   stage 'Preparation (Checking out)'
 	git branch: 'mkuzniatsou', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 	 sh 'env | sort'
+
+
+	
+	node('test-gradle') {
+    env.GRADLE_HOME="${tool 'gradle3.3'}"
+    env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+    sh 'gradle -version'
+}
   stage 'Building code'
    	sh 'chmod +x gradlew'
 	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
@@ -15,7 +23,7 @@ echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 	parallel JUnit: {
 	sh './gradlew test'}, 
 	Jacoco: {
-	sh './gradlew jacoco'}, 
+	sh 'gradle jacoco'}, 
 	Cucumber: {
 	sh './gradlew cucumber'
 	}
