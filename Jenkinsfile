@@ -19,7 +19,7 @@ stage ('test-gradle')
 stage 'Building code'
 	sh 'gradle -version'
 //   	sh 'chmod +x gradlew'
-	sh 'gradle -b ${WORKSPACE}/build.gradle"
+	sh 'gradle -b ${WORKSPACE}/build.gradle'
 //	sh 'mv ${WORKSPACE}/build/libs/*.jar ${WORKSPACE}/gradle-simple.jar'
   
 
