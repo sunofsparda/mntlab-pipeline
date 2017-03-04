@@ -5,7 +5,7 @@ node('master') {
 //	withEnv(["JAVA_HOME=${tool 'java8'}"])        
 //env.JAVA_HOME="${tool 'java8'}"
  //       env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-
+      env.GRADLE_HOME="${tool 'gradle3.3'}"
 
 stage 'Preparation (Checking out)'
 	git branch: 'mkuzniatsou', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
