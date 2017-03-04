@@ -11,13 +11,15 @@ node('master') {
     env.GRADLE_HOME="${tool 'gradle3.3'}"
     env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
     sh 'gradle -version'
-}
+
   stage 'Building code'
+ sh 'gradle -version'
    	sh 'chmod +x gradlew'
 	sh "${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/gradle -b ${WORKSPACE}/build.gradle"
 //	sh 'mv ${WORKSPACE}/build/libs/*.jar ${WORKSPACE}/gradle-simple.jar'
 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}" 
   
+
  stage 'Testing code'
 	parallel JUnit: {
 	sh './gradlew test'}, 
