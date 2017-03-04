@@ -1,8 +1,8 @@
 node('master') {
                 tool name: 'java8', type: 'jdk'
                 tool name: 'gradle3.3', type: 'gradle'
-//    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
-//	withEnv(["PATH+JAVA=${tool 'java8'}/bin"])        
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
+	withEnv(["JAVA_HOME=${tool 'java8'}"])        
 //env.JAVA_HOME="${tool 'java8'}"
  //       env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 
