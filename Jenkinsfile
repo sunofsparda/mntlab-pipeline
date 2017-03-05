@@ -41,6 +41,19 @@ node('host')
             sh '''tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
             archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
         }
-    }
+        
+        stage('Asking for approval')
+        {
+            input 'All done. We are ready for deployment. Proceed?'
+        }
 
+	    stage('Deployment')
+        {
+	        sh '''java -jar $(basename ${WORKSPACE}).jar'''
+        }
+        
+        stage('Status') {
+            echo 'Successful Deployment!'
+        }
+    }
 }
