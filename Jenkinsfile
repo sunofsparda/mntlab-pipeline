@@ -33,7 +33,7 @@ node {
    		sh 'cp build/libs/pipeline_project.jar .'
    		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
    		sh 'tar czvf pipeline-yskrabkou-46.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
-   		sh 'archiveArtifacts artifacts: 'pipeline-yskrabkou-46.tar.gz', excludes: null'
+   		archiveArtifacts artifacts: 'pipeline-yskrabkou-46.tar.gz', excludes: null
 
    }
 
