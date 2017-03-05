@@ -4,10 +4,13 @@ node ('host') {
      def gradleHome = tool 'gradle3.3'
      def jdkHome = tool 'java8'
 
-  stage('Preparation')
+ stage('Preparation')
    {
    sh 'which java'
    sh 'echo $JAVA_HOME'
+      echo BUILD_NUMBER
+      echo WORKSPACE
+    
     	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
    }
@@ -16,7 +19,7 @@ node ('host') {
    {
    		echo "##########Building code##########"
    		sh 'chmod +x gradlew'
-   		sh './gradlew build'
+   		sh 'gradlew build'
    }
 
    stage('Testing') 
@@ -32,15 +35,15 @@ node ('host') {
    stage('Packaging and Publishing results') 
    {
    echo "BUILD NUM:"
-   echo ${BUILD_NUMBER}
+   ls -R
    		echo "##########Packaging and Publishing results##########"
-   		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou']]
+   		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
    		sh 'pwd'
    		sh 'ls -R'
    		sh 'cp build/libs/pipeline_project.jar .'
    		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
    		sh 'tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
-   		archiveArtifacts artifacts: 'pipeline-yskrabkou-46.tar.gz', excludes: null
+   		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
 
    }
 
