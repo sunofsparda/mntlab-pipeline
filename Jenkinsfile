@@ -66,7 +66,6 @@ def result = ""
 		}	
   	}
 }
-}											
 catch (err) {
 	currentBuild.result = 'FAILURE'
 }
