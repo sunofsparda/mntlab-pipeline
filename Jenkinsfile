@@ -15,10 +15,10 @@ node {
     	sh './gradlew test'
     }
     stage('Jacoco Tests') {
-    	sh './gradle jacoco'
+    	sh './gradlew jacoco'
     }
     stage('Cucumber Tests') {
-    	sh './gradle cucumber'
+    	sh './gradlew cucumber'
     }
     stage('Deploy') {
     	echo 'Deploying....'
