@@ -9,6 +9,7 @@ node('master')
     stage 'Building code'
 	sh '''
            export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
+           export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/bin/
            gradle build
            '''
 }
