@@ -34,6 +34,12 @@ node('host')
             step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             sh "tar -zxf ${BRANCH_NAME}*.tar.gz"
         }
+        
+        stage ('Packaging')
+        {
+            sh "tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
+            archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+        }
     }
 
 }
