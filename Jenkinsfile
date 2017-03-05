@@ -1,4 +1,4 @@
-node('master')
+node('host')
 {
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
@@ -20,8 +20,8 @@ node('master')
     {
         try
         {
-            //git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
-            git url:'https://github.com/kickman2l/test-jenkins.git', branch:'master'
+            git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
+            //git url:'https://github.com/kickman2l/test-jenkins.git', branch:'master'
         }
         catch (error)
         {
