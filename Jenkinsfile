@@ -17,9 +17,9 @@ node  {
    {
    		echo "Testing"
    		parallel (
-   		Unit tests: {sh './gradlew test'},
-   		Jacoco tests: {sh './gradlew jacoco'},
-   		Cucumber tests: {sh './gradlew cucumber'}
+   		Unit_tests: {sh './gradlew test'},
+   		Jacoco_tests: {sh './gradlew jacoco'},
+   		Cucumber_tests: {sh './gradlew cucumber'}
    		)
    }
 
