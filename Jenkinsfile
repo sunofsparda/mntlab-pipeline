@@ -18,6 +18,15 @@ node('master')
     }
 	
     stage 'Testing.'
+    {
+        parallel JUnit: 
+	{
+	    Test:
+	    {
+	        sh 'gradle test'
+	    }
+        }
+    }
 	
     stage 'Triggering job and fetching artefact after finishing.'
 
