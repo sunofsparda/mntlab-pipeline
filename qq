@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+#For changing connect type to github to ssh
+#git remote set-url origin git@github.com:MNT-LAB/mntlab-dsl
+vrem=$(date)
+
+#To switchover branch
+#git checkout yskrabkou
+echo $vrem
+git add .
+git commit -a -m "$vrem"
+git push origin yskrabkou
