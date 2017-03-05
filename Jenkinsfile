@@ -70,6 +70,7 @@ catch (err) {
 	currentBuild.result = 'FAILURE'
 }
   	stage ('Sending status'){
+		result = "No fails. Congratulations!"
      		echo "RESULT: ${currentBuild.result} - ${result}"
 	}
 }
