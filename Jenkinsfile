@@ -21,6 +21,7 @@ node('host') {
 			sh 'gradle jacoco'
 		}
 	}
+	}
 	stage('\u27A1 Triggering job and fetching artefact after finishing') {
             build job: 'MNTLAB-shreben-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'shreben'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
             step ([$class: 'CopyArtifact',projectName: 'MNTLAB-shreben-child1-build-job',filter: 'shreben_dsl_script.tar.gz']);
@@ -42,4 +43,4 @@ node('host') {
             echo 'Deployment is successful!'
     }
 }
-}
+
