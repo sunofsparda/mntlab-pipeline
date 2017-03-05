@@ -10,7 +10,7 @@ node ('host') {
 	stage('Preparation (Checking out)') {try {
                git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
 		}
-		catch{
+		catch (Exception err) {
 			echo 'Fail with Checking out!' > ${stepFail}
 		}
 	}
@@ -18,7 +18,7 @@ node ('host') {
 		try {
 			sh 'chmod +x gradlew'
 			sh './gradlew build'
-		} catch{
+		} catch (Exception err) {
 			echo 'Fail with Building code' > ${stepFail}
 		}
 	}	
