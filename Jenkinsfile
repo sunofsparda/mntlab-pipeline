@@ -8,7 +8,7 @@ node('master')
     	    git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'abilun'
         }
     
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}"]) {
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}/bin"]) {
         stage ('Building')
         {
             sh '''gradle build'''
