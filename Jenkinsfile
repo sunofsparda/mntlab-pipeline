@@ -68,8 +68,8 @@ node('host')
         {
             try
             {
-                build job: 'MNTLAB-${BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
-                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${BRANCH_NAME}-child1-build-job']);
+                build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+                step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
             catch (error)
             {
@@ -86,7 +86,7 @@ node('host')
                 tar -zxvf pheraska_dsl_script.tar.gz jobs.groovy
                 tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename "$PWD").jar
                 ''';
-                archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
+                archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
             }
             catch (error)
             {
