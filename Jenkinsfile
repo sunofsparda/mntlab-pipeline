@@ -1,6 +1,8 @@
 #!groovy
 
 node ('host') {
+	def jdkHome = tool 'java8'
+    def gradleHome = tool 'gradle3.3'
 	tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
 
