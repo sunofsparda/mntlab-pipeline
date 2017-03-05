@@ -17,9 +17,29 @@ node('master')
            ''';
     }
 	
-    stage 'Testing.'
+    stage ('Testing.')
     {
-    
+	parallel Test: 
+	{
+            node('master')
+	    {
+                try {
+                unstash 'app'
+                sh 'make check'
+                }
+                finally {
+                junit '**/target/*.xml'
+                }
+            }
+        },
+		
+        Cucumber: 
+	{
+            node('master') 
+            {
+            /* .. snip .. */
+            }
+        }
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
