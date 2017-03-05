@@ -54,14 +54,14 @@ def result = ""
   	stage ('Asking for manual approval'){
 		try {
 			input "Deployment?"
-		} catch {
+		} catch (err) {
 			result = "Fail with approval"
 		}
   	}    
   	stage ('Deployment'){
 		try {
 			sh 'java -jar $(basename "${WORKSPACE}").jar'
-		} catch {
+		} catch (err) {
 			result = "Fail with Deployment"
 		}	
   	}
