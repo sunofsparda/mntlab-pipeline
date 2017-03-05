@@ -8,6 +8,7 @@ node  {
   stage('Building code') 
    {
    		echo "Building"
+   		tool name: 'gradle3.3', type: 'gradle'
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
    }
