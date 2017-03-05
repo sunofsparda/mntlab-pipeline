@@ -14,12 +14,12 @@ node('master')
            export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
            export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
            gradle build
-           '''
+           ''';
     }
 	
     stage 'Testing.'
     {
-	    sh '''echo qweqweqwe'''
+	    sh '''echo qweqweqwe''';
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
