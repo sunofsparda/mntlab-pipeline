@@ -4,7 +4,7 @@
    DevOps Lab 2017	*/
 
 node('host') {
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}bin}"]) {
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME="]) {
 	stage('\u27A1 Preparation (Checking out)') {
 	    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
 	}
