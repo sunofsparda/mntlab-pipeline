@@ -73,3 +73,4 @@ catch (err) {
      		echo "RESULT: ${currentBuild.result} - ${result}"
 	}
 }
+}
