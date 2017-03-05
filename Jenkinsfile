@@ -4,15 +4,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
+        stage('Checking out') {
+            git clone 'https://github.com/sunofsparda/mntlab-pipeline.git'
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
+        stage('Building code’') {
+            gradle build
+        }
+        stage('Unit Tests') {
+            gradle test
+        }
+        stage('Jacoco Tests') {
+            gradle jacoco
+        }
+        stage('Cucumber Tests') {
+            gradle cucumber
         }
         stage('Deploy') {
             steps {
