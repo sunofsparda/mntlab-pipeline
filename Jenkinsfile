@@ -21,17 +21,13 @@ node('master')
     {
         parallel Test: 
 	{
-	    try
+	    node('master')
 	    {
-		sh 'gradle test'
+                sh 'gradle test'
 	    }
-	    finally
-	    {
-	        junit '**/target/*.xml'
-	    }
-        },
+        }
     }
-	
+/*	
     stage 'Triggering job and fetching artefact after finishing.'
 
     stage 'Packaging and Publishing results.'
@@ -41,4 +37,5 @@ node('master')
     stage 'Deployment.'
 
     stage 'Sending status.'
+	*/
 }
