@@ -10,16 +10,16 @@ try{
 		try {
        	       		git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
 		}
-		catch (Exception err) {
-			echo 'Fail with Checking out!' > ${stepFail}
+		catch (err) {
+			echo "Fail with Checking out!" > ${stepFail}
 		}
 	}
 	stage ('Building code'){
 		try {
 			sh 'chmod +x gradlew'
 			sh './gradlew build'
-		} catch (Exception err) {
-			echo 'Fail with Building code' > ${stepFail}
+		} catch (err) {
+			echo "Fail with Building code" > ${stepFail}
 		}
 	}	
   	stage ('Testing'){
@@ -44,7 +44,7 @@ try{
   	stage ('Deployment'){
    		echo 'Hello World'
   	}
-  	} catch (Exception err){
+  	} catch (err){
     		currentBuild.result = 'FAILURE'
 	}
   	stage ('Sending status'){
