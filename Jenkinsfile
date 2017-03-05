@@ -23,7 +23,11 @@ node('master')
 	{
             node('master')
 	    {
-               sh "gradle test"
+               sh '''
+                  export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
+                  export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+                  gradle test
+                  ''';
             }
         },
 		
@@ -31,7 +35,11 @@ node('master')
 	{
             node('master') 
             {
-                sh "gradle jacoco"
+	        sh '''
+	           export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
+	           export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+	           gradle jacoco
+	           ''';
             }
         },
 		
@@ -39,7 +47,11 @@ node('master')
 	{
             node('master') 
             {
-                sh "gradle cucumber"
+                sh '''
+	           export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
+	           export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+	           gradle cucumber
+	           ''';
             }
         }
 	    
