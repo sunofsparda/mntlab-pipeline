@@ -34,8 +34,8 @@ node {
 
    stage('Packaging and Publishing results') 
    {
-   echo "BUILD NUM:"
-   ls -R
+   sh 'pwd'
+      sh 'ls -R'
    		echo "##########Packaging and Publishing results##########"
    		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
    		sh 'pwd'
