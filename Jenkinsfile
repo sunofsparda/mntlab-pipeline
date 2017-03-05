@@ -1,14 +1,15 @@
 #!Jenkinsfile
 
-pipeline {
+master {
     agent any
 
     stages {
         stage('Checking out') {
-            git clone 'https://github.com/sunofsparda/mntlab-pipeline.git'
+            git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
         }
         stage('Building code’') {
-            gradle build
+            sh "./gradlew clean build"
+            //gradle build
         }
         stage('Unit Tests') {
             gradle test
