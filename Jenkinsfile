@@ -30,7 +30,7 @@ node('master')
                   gradle test jacoco
                   ''';
             }
-        },	    
+        }	    
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
