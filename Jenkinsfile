@@ -37,7 +37,7 @@ node('host')
         try
         {
             sh '''
-            export PATH=$PATH:${gradleHome}/bin
+            export PATH=$PATH:"${gradleHome}"/bin
             export JAVA_HOME=$PATH:$jdkHome
             gradle build
             ''';
