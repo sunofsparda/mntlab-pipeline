@@ -45,3 +45,4 @@ node('host') {
             echo 'Deployment is successful!'
 	}
 }
+}
