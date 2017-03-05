@@ -1,49 +1,74 @@
 node ('host') {
 tool name: 'gradle3.3', type: 'gradle'
 tool name: 'java8', type: 'jdk'
-def jdkHome = tool 'java8'
-def gradleHome = tool 'gradle3.3'
 currentBuild.result = 'SUCCESS'
 def result = ""
-try{
+withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) try {
 	stage('Preparation (Checking out)') {
-		try{
-		   git url:'https://github.com/MNT-Lab/mnt111lab-pipeline.git', branch:'mburakouski'
+		try {
+		   git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
 		} catch (err) {
 			result = "Fail with Checking" 
 		}
 		
 	}
 	stage ('Building code'){
-		
-			sh 'chmod +x gradlew'
-			sh './gradlew build'
-		
+		try {
+			sh 'export PATH=$PATH:${gradleHome}/bin/'
+			sh 'export JAVA_HOME=$PATH:$jdkHome'
+			gradle build
+		} catch (err) {
+			result = "Fail with Building code"
+		}
 	}	
   	stage ('Testing'){
+		try {
     		parallel JUnit: {
-      			sh './gradlew test'
+      			gradle test
     		}, Jacoco: {
-      			sh './gradlew jacoco'
+      			gradle cucumber
     		}, Cucumber: {
-      			sh './gradlew jacoco'
-    	}
-    	failFast: true|false    
+      			gradle jacoco
+		} catch (err) {
+			result = "Fail with Testing"
+		}
+		}
+    	failFast: true|false  
   	}
   	stage ('Triggering job and fetching artefact after finishing'){
-   		echo 'Hello World'
-  	}
+   		try {
+			build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
+            step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', filter: '*.tar.gz']);
+		} catch (err) {
+			result = "Fail with Triggering job and fetching artefact"
+		}
+	}
   	stage ('Packaging and Publishing results'){
-   		archive 'Jenkinsfile'
+		try{
+			cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}
+			tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz	
+			tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar
+			archive 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
+		} catch (err) {
+				result = "Fail with Packaging and Publishing results"
+		}
   	}
   	stage ('Asking for manual approval'){
-   		input "Deployment?"
+		try {
+			input "Deployment?"
+		} catch {
+			result = "Fail with approval"
+		}
   	}    
   	stage ('Deployment'){
-   		echo 'Hello World'
+		try {
+			java -jar $(basename "${WORKSPACE}").jar
+		} catch {
+			result = "Fail with Deployment"
+		}	
   	}
 } catch (err) {
-currentBuild.result = 'FAILURE'
+	currentBuild.result = 'FAILURE'
 }
   	stage ('Sending status'){
      		echo "RESULT: ${currentBuild.result} - ${result}"
