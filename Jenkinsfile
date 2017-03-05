@@ -19,7 +19,7 @@ node('master')
 	
     stage 'Testing.'
     {
-	    sh '''echo qweqweqwe''';
+    
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
