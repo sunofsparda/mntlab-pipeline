@@ -1,6 +1,9 @@
-node {
-     tool name: 'gradle3.3', type: 'gradle';
-     tool name: 'java8', type: 'jdk';
+node ('host') {
+     tool name: 'gradle3.3', type: 'gradle'
+     tool name: 'java8', type: 'jdk'     
+     def gradleHome = tool 'gradle3.3'
+     def jdkHome = tool 'java8'
+
   stage('Preparation')
    {
    sh 'which java'
@@ -28,13 +31,15 @@ node {
 
    stage('Packaging and Publishing results') 
    {
+   echo "BUILD NUM:"
+   echo ${BUILD_NUMBER}
    		echo "##########Packaging and Publishing results##########"
    		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou']]
    		sh 'pwd'
    		sh 'ls -R'
    		sh 'cp build/libs/pipeline_project.jar .'
    		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
-   		sh 'tar czvf pipeline-yskrabkou-46.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
+   		sh 'tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
    		archiveArtifacts artifacts: 'pipeline-yskrabkou-46.tar.gz', excludes: null
 
    }
