@@ -3,7 +3,7 @@
 node ('host') {
 	tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
-	def jdkHome = tool 'java8'
+	def JDK_HOME = tool 'java8'
     def gradleHome = tool 'gradle3.3'
     stage('Checking out') {
     	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
