@@ -3,6 +3,8 @@ node {
      tool name: 'java8', type: 'jdk';
   stage('Preparation')
    {
+   sh 'which java'
+   sh 'echo $JAVA_HOME'
     	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
    }
@@ -19,15 +21,20 @@ node {
    		echo "##########Testing##########"
    		parallel (
    		unit_tests: {sh './gradlew build'},
-   		phase2: {sh './gradlew jacoco'},
-   		phase3: {sh './gradlew cucumber'}
+   		jacoco_tests: {sh './gradlew jacoco'},
+   		cucumber_tests: {sh './gradlew cucumber'}
    		)
    }
 
-   stage('"##########Packaging and Publishing results##########') 
+   stage('Packaging and Publishing results') 
    {
-   		echo "Deployment"
+   		echo "##########Packaging and Publishing results##########"
    		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou']]
+   		sh 'cp build/libs/pipeline_project.jar .'
+   		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
+   		sh 'tar czvf pipeline-yskrabkou-46.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
+   		sh 'archiveArtifacts artifacts: 'pipeline-yskrabkou-46.tar.gz', excludes: null'
+
    }
 
     stage('Asking for manual approval') 
