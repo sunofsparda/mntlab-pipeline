@@ -1,6 +1,6 @@
 node {
-     tool name: 'gradle3.3', type: 'gradle'
-     tool name: 'java', type: 'jdk'     
+     //tool name: 'gradle3.3', type: 'gradle'
+     //tool name: 'java8', type: 'jdk'     
      //def gradleHome = tool 'gradle3.3'
      //def jdkHome = tool 'java8'
 
