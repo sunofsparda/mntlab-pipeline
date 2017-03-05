@@ -10,12 +10,14 @@ node ('host') {
     	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
     }
     stage('Building code') {
-       	sh 'export PATH=$PATH:$GRADLE_TOOL'
-    	sh 'export JAVA_HOME=$JDK_TOOL'
-    	sh 'echo $PATH'
-    	sh 'echo $JAVA_HOME'
-    	sh 'chmod +x gradlew'
-    	sh './gradlew build'
+       	sg '''
+       		export PATH=$PATH:$GRADLE_TOOL
+    		export JAVA_HOME=$JDK_TOOL
+    		echo $PATH
+    		echo $JAVA_HOME
+    		chmod +x gradlew
+    		./gradlew build
+    	''';
     	//sh './gradlew build --stacktrace --info --debug'
     }
     stage('Testing code') {   	
