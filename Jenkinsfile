@@ -7,6 +7,7 @@ node('host') {
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=/opt/jdk1.8.0_121"]) {
 	stage('\u27A1 Preparation (Checking out)') {
 	    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
+		checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'refs/heads/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
 	}
 	stage('\u27A1 Building code') {
 	    sh '''env
@@ -29,7 +30,8 @@ node('host') {
             sh 'tar -zxf shreben_dsl_script.tar.gz'
     }
 	stage('\u27A1 Packaging and Publishing results') {
-            sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/MNT-pipeline-test.jar"
+	    sh 'git clone '
+            sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/${JOB_NAME}.jar"
             archiveArtifacts "pipeline-shreben-${BUILD_NUMBER}.tar.gz"
     }
 	stage('\u27A1 Asking for manual approval') {
