@@ -23,23 +23,26 @@ node('master')
 	{
             node('master')
 	    {
-                try {
-                unstash 'app'
-                sh 'make check'
-                }
-                finally {
-                junit '**/target/*.xml'
-                }
+               sh "gradle test"
             }
         },
 		
-        Cucumber: 
+        Jacoco: 
 	{
             node('master') 
             {
-            /* .. snip .. */
+                sh "gradle jacoco"
+            }
+        },
+		
+	Cucumber: 
+	{
+            node('master') 
+            {
+                sh "gradle cucumber"
             }
         }
+	    
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
