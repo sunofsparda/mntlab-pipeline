@@ -11,7 +11,7 @@ node {
     	sh 'chmod +x gradlew'
     	//gradle build
     }
-    stage('Testing code')    	
+    stage('Testing code') {   	
     	parallel Junint: {
     		sh './gradlew test'
     	},
