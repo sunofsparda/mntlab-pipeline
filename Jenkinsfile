@@ -82,9 +82,9 @@ node('host')
             try
             {
                 sh '''
-                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}
+                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 tar -zxvf pheraska_dsl_script.tar.gz jobs.groovy
-                tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename "$PWD").jar
+                tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
             }
@@ -113,7 +113,7 @@ node('host')
         {
             try
             {
-                sh 'java -jar $(basename "$PWD").jar'
+                sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
             }
             catch (error)
             {
