@@ -1,6 +1,6 @@
 #!Jenkinsfile
 
-master {
+node {
     agent any
 
     stages {
