@@ -34,7 +34,6 @@ node('host')
         {
             try
             {
-                echo ${gradleHome}
                 sh 'gradle build';
             }
             catch (error)
