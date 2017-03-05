@@ -1,31 +1,33 @@
-node  {
-   stage('Preparation')
+node ('host') {
+     tool name: 'gradle3.3', type: 'gradle';
+     tool name: 'java', type: 'jdk';
+  stage('Preparation')
    {
-    	echo "Start"
+    	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
    }
 
   stage('Building code') 
    {
-   		echo "Building"
-   		tool name: 'gradle3.3', type: 'gradle'
+   		echo "##########Building code##########"
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
    }
 
    stage('Testing') 
    {
-   		echo "Testing"
+   		echo "##########Testing##########"
    		parallel (
-   		Unit_tests: {sh './gradlew test'},
-   		Jacoco_tests: {sh './gradlew jacoco'},
-   		Cucumber_tests: {sh './gradlew cucumber'}
+   		unit_tests: {sh './gradlew build'},
+   		phase2: {sh './gradlew jacoco'},
+   		phase3: {sh './gradlew cucumber'}
    		)
    }
 
-   stage('Packaging and Publishing results') 
+   stage('"##########Packaging and Publishing results##########') 
    {
    		echo "Deployment"
+   		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou']]
    }
 
     stage('Asking for manual approval') 
