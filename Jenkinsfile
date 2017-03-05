@@ -28,7 +28,13 @@ node {
   stage ('Deployment'){
    echo 'Hello World'
   }
-  stage ('Sending status'){
+  stage ('Sending status')
+  try{
+    echo 'Hello World!'
+    currentBuild.result = 'SUCCESS'
+  } catch (Exception err){
+    currentBuild.result = 'FAILURE'
+  }
    echo "RESULT: ${currentBuild.result}"
   }
  }
