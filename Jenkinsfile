@@ -29,6 +29,6 @@ node ('host'){
    echo 'Hello World'
   }
   stage ('Sending status'){
-   echo 'SUCCESS'
+   echo "RESULT: ${currentBuild.result}"
   }
  }
