@@ -16,6 +16,11 @@ node  {
    stage('Testing') 
    {
    		echo "Testing"
+   		parallel (
+   		Unit tests: {sh './gradlew test'},
+   		Jacoco tests: {sh './gradlew jacoco'},
+   		Cucumber tests: {sh './gradlew cucumber'}
+   		)
    }
 
    stage('Packaging and Publishing results') 
