@@ -1,4 +1,4 @@
-node ('host') {
+node {
      tool name: 'gradle3.3', type: 'gradle';
      tool name: 'java8', type: 'jdk';
   stage('Preparation')
