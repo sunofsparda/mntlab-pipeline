@@ -123,7 +123,8 @@ node('host')
 
         stage ('Sending status.')
         {
-            if ("${errorArray}" != "0")
+            def arrSize = errorArray.size();
+            if (arrSize != 0)
             {
                 echo "${errorArray}"
             }
@@ -134,4 +135,3 @@ node('host')
         }
     }
 }
-//check
