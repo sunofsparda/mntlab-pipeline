@@ -20,42 +20,17 @@ node('master')
 	
     stage ('Testing.')
     {
-	parallel Test: 
+	parallel test: 
 	{
             node('master')
 	    {
                sh '''
                   export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
                   export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
-                  gradle test
+                  gradle test jacoco
                   ''';
             }
-        },
-		
-        Jacoco: 
-	{
-            node('master') 
-            {
-	        sh '''
-	           export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-	           export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
-	           gradle jacoco
-	           ''';
-            }
-        },
-		
-	Cucumber: 
-	{
-            node('master') 
-            {
-                sh '''
-	           export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-	           export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
-	           gradle cucumber
-	           ''';
-            }
-        }
-	    
+        },	    
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
