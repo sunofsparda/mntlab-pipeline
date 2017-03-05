@@ -8,17 +8,17 @@ node {
             git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
         }
         stage('Building code’') {
-            sh "./gradlew clean build"
+            sh 'chmod +x gradlew'
             //gradle build
         }
         stage('Unit Tests') {
-            gradle test
+            sh './gradlew test'
         }
         stage('Jacoco Tests') {
-            gradle jacoco
+            sh './gradle jacoco'
         }
         stage('Cucumber Tests') {
-            gradle cucumber
+            sh './gradle cucumber'
         }
         stage('Deploy') {
             steps {
