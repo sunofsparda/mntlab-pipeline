@@ -32,6 +32,7 @@ node('host')
             build job: 'MNTLAB-abilun-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
             step ([$class: 'CopyArtifact', projectName: 'MNTLAB-abilun-child1-build-job']);
             sh 'tar -zxf *.tar.gz'
+        }
     }
 
 }
