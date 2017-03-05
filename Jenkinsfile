@@ -28,17 +28,16 @@ node('host') {
             sh 'tar -zxf shreben_dsl_script.tar.gz'
     }
 	stage('\u27A1 Packaging and Publishing results') {
-	    sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/\$(basename \${WORKSPACE}).jar"
-            archiveArtifacts "pipeline-shreben-${BUILD_NUMBER}.tar.gz"
+		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
+		sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
+		archiveArtifacts "pipeline-shreben-${BUILD_NUMBER}.tar.gz"
     }
 	stage('\u27A1 Asking for manual approval') {
             input 'Artifact is built and ready for deployment. Proceed?'
-	sh 'echo \$JAVA_HOME \$PATH'
     }
 //	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
 	stage('\u27A1 Deployment') {
-	sh 'echo \$JAVA_HOME \$PATH'
-	sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
+	sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 //	}
     stage('\u27A1 Sending status') {
