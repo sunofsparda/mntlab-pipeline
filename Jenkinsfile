@@ -1,6 +1,6 @@
 node ('host') {
      tool name: 'gradle3.3', type: 'gradle';
-     tool name: 'java', type: 'jdk';
+     tool name: 'java8', type: 'jdk';
   stage('Preparation')
    {
     	echo "##########Preparation##########"
