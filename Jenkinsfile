@@ -7,8 +7,10 @@ node('master')
 	    git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
 	
     stage 'Building code'
-	sh 'export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/'
-   	sh "gradle build"
+	sh '''
+           export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
+           gradle build
+           '''
 }
 
 
