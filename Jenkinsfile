@@ -38,7 +38,7 @@ node('host') {
             input 'Artifact is built and ready for deployment. Proceed?'
     }
 	stage('\u27A1 Deployment') {
-            sh 'java -jar build/libs/MNT-pipeline-test.jar'
+            sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
     }
     stage('\u27A1 Sending status') {
             echo 'Deployment is successful!'
