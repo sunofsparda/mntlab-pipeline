@@ -4,13 +4,13 @@ tool name: 'java8', type: 'jdk'
 def jdkHome = tool 'java8'
 def gradleHome = tool 'gradle3.3'
 currentBuild.result = 'SUCCESS'
-def ErrorStep = 'No fails'
+def result = ""
 try{
 	stage('Preparation (Checking out)') {
 		try{
 		   git url:'https://github.com/MNT-Lab/mnt111lab-pipeline.git', branch:'mburakouski'
 		} catch (err) {
-			${ErrorStep} = 'Fail with Checking' 
+			result = "Fail with Checking" 
 		}
 		
 	}
@@ -46,6 +46,6 @@ try{
 currentBuild.result = 'FAILURE'
 }
   	stage ('Sending status'){
-     		echo "RESULT: ${currentBuild.result} - ${ErrorStep}"
+     		echo "RESULT: ${currentBuild.result} - ${result}"
 	}
 }
