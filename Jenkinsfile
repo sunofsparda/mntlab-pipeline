@@ -3,17 +3,25 @@ node ('host') {
 	tool name: 'java8', type: 'jdk'
 	def jdkHome = tool 'java8'
     def gradleHome = tool 'gradle3.3'
+	def stepFail = 'No fails. Congratulations!'
 	
-currentBuild.result = 'SUCCESS'
+	currentBuild.result = 'SUCCESS'
 	try{
-  stage('Preparation (Checking out)') {
-                git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
-  }
-  stage ('Building code'){
-	  echo $JAVA_HOME
-    sh 'chmod +x gradlew'
-    sh './gradlew build'
-  }
+	stage('Preparation (Checking out)') {try {
+               git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
+		}
+		catch{
+			echo 'Fail with Checking out!' > ${stepFail}
+		}
+	}
+	stage ('Building code'){
+		try {
+			sh 'chmod +x gradlew'
+			sh './gradlew build'
+		} catch{
+			echo 'Fail with Building code' > ${stepFail}
+		}
+	}	
   stage ('Testing'){
     parallel JUnit: {
       sh './gradlew test'
@@ -40,6 +48,6 @@ currentBuild.result = 'SUCCESS'
     currentBuild.result = 'FAILURE'
 	}
   stage ('Sending status'){
-     echo "RESULT: ${currentBuild.result}"
+     echo "RESULT: ${currentBuild.result} - ${stepFail}"
  }
  }
