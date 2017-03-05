@@ -4,7 +4,7 @@
    DevOps Lab 2017	*/
 
 node('host') {
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}"]) {
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}"]) {
 	stage('\u27A1 Preparation (Checking out)') {
 		checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
 	}
@@ -33,12 +33,14 @@ node('host') {
     }
 	stage('\u27A1 Asking for manual approval') {
             input 'Artifact is built and ready for deployment. Proceed?'
+	sh 'JAVA_HOME'
     }
-	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
+//	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
 	stage('\u27A1 Deployment') {
-            sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
+	sh 'echo $JAVA_HOME'
+	sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
 	}
-	}
+//	}
     stage('\u27A1 Sending status') {
             echo 'Deployment is successful!'
     }
