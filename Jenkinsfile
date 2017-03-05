@@ -4,7 +4,7 @@
    DevOps Lab 2017	*/
 
 node('host') {
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}"]) {
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"]) {
 	stage('\u27A1 Preparation (Checking out)') {
 		checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
 	}
@@ -21,7 +21,7 @@ node('host') {
 			sh 'gradle jacoco'
 		}
 	}
-	}
+	
 	stage('\u27A1 Triggering job and fetching artefact after finishing') {
             build job: 'MNTLAB-shreben-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'shreben'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
             step ([$class: 'CopyArtifact',projectName: 'MNTLAB-shreben-child1-build-job',filter: 'shreben_dsl_script.tar.gz']);
@@ -43,6 +43,5 @@ node('host') {
 //	}
     stage('\u27A1 Sending status') {
             echo 'Deployment is successful!'
-    }
+	}
 }
-
