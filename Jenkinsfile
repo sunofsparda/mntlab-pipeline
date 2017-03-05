@@ -3,7 +3,7 @@ tool name: 'gradle3.3', type: 'gradle'
 tool name: 'java8', type: 'jdk'
 currentBuild.result = 'SUCCESS'
 def result = ""
-withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) try {
+	withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) { try {
 	stage('Preparation (Checking out)') {
 		try {
 		   git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
@@ -67,7 +67,9 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) t
 			result = "Fail with Deployment"
 		}	
   	}
-} catch (err) {
+}
+}											
+catch (err) {
 	currentBuild.result = 'FAILURE'
 }
   	stage ('Sending status'){
