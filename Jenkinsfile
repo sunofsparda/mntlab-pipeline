@@ -1,10 +1,10 @@
 node {
-  stage('Preparation Stage')
+  stage('Preparation')
    {
     	echo "Start"
    }
 
-  stage('Building') 
+  stage('Building code') 
    {
    		echo "Building"
    }
@@ -14,12 +14,22 @@ node {
    		echo "Testing"
    }
 
-   stage('Deployment') 
+   stage('Packaging and Publishing results') 
    {
    		echo "Deployment"
    }
 
-    stage('Checking') 
+    stage('Asking for manual approval') 
+   {
+   		echo "Checking"
+   }
+
+   stage('Deployment') 
+   {
+   		echo "Checking"
+   }
+
+   stage('Sending status') 
    {
    		echo "Checking"
    }
