@@ -15,7 +15,7 @@ try {
 	}
 	stage ('Building code'){
 		try {
-			gradle build
+			sh 'gradle build'
 		} catch (err) {
 			result = "Fail with Building code"
 		}
@@ -23,11 +23,11 @@ try {
   	stage ('Testing'){
 		try {
     		parallel JUnit: {
-      			gradle test
+      			sh 'gradle test'
     		}, Jacoco: {
-      			gradle cucumber
+      			sh 'gradle cucumber'
     		}, Cucumber: {
-      			gradle jacoco
+      			sh 'gradle jacoco'
 		} 
 		} catch (err) {
 			result = "Fail with Testing"
