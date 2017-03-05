@@ -5,8 +5,8 @@ node {
     tool name: 'gradle3.3', type: 'gradle'
 
     stage('Checking out') {
-    	git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
-    	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+    	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
+    	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
     }
     stage('Building code') {
     	sh 'chmod +x gradlew'
