@@ -85,8 +85,8 @@ node('host')
     {
         try
         {
-            build job: 'kickman', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
-            step ([$class: 'CopyArtifact', projectName: 'kickman']);
+            build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
+            step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job']);
         }
         catch (error)
         {
