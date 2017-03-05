@@ -9,6 +9,8 @@ node('host')
     {
         try
         {
+            echo "${jdkHome}"
+            echo "${gradleHome}"
             step([$class: 'WsCleanup'])
         }
         catch (error)
