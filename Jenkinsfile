@@ -7,17 +7,17 @@ node {
     stage('Checking out') {
     	git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
     }
-    stage('Building code’') {
+    stage('Building code') {
     	sh 'chmod +x gradlew'
     	//gradle build
     }
-    parallel {
+    parallel ('Testing code')
     	stage('Unit Tests') {
     		sh './gradlew test'
-    	}
+    	},
     	stage('Jacoco Tests') {
     		sh './gradlew jacoco'
-    	}
+    	},
     	stage('Cucumber Tests') {
     		sh './gradlew cucumber'
     	}
