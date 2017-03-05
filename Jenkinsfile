@@ -10,7 +10,8 @@ node {
     }
     stage('Building code') {
     	sh 'chmod +x gradlew'
-    	sh './gradlew build --stacktrace --info --debug'
+    	sh './gradlew build'
+    	//sh './gradlew build --stacktrace --info --debug'
     }
     stage('Testing code') {   	
     	parallel Junint: {
