@@ -11,15 +11,17 @@ node {
     	sh 'chmod +x gradlew'
     	//gradle build
     }
-    stage('Unit Tests') {
-    	sh './gradlew test'
-    }
-    stage('Jacoco Tests') {
-    	sh './gradlew jacoco'
-    }
-    stage('Cucumber Tests') {
-    	sh './gradlew cucumber'
-    }
+    parallel (
+    	stage('Unit Tests') {
+    		sh './gradlew test'
+    	}
+    	stage('Jacoco Tests') {
+    		sh './gradlew jacoco'
+    	}
+    	stage('Cucumber Tests') {
+    		sh './gradlew cucumber'
+    	}
+    )
     stage('Deploy') {
     	echo 'Deploying....'
     }
