@@ -50,7 +50,6 @@ node('host')
 	    stage('Deployment')
         {
 	        sh '''java -jar $(basename ${WORKSPACE}).jar'''
-		sh 'java -jar $(basename "$PWD").jar'
         }
         
         stage('Status') {
