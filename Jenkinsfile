@@ -3,7 +3,8 @@ node('host')
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
     def errorArray = []
-
+    def jdkHome = tool 'java8'
+    def gradleHome = tool 'gradle3.3'
     stage ('cleanup')
     {
         try
@@ -34,8 +35,8 @@ node('host')
         try
         {
             sh '''
-            export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-            export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+            export PATH=$PATH:${gradleHome}/bin/
+            export JAVA_HOME=$PATH:$jdkHome
             gradle build
             ''';
         }
@@ -52,24 +53,24 @@ node('host')
             parallel JUnit:
             {
                 sh '''
-                export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-                export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+                export PATH=$PATH:${gradleHome}/bin/
+                export JAVA_HOME=$PATH:$jdkHome
                 gradle test
                 ''';
             },
             Jacoco:
             {
                 sh '''
-                export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-                export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+                export PATH=$PATH:${gradleHome}/bin/
+                export JAVA_HOME=$PATH:$jdkHome
                 gradle cucumber
                 ''';
             },
             Cucumber:
             {
             sh '''
-                export PATH=$PATH:${JENKINS_HOME}/tools/hudson.plugins.gradle.GradleInstallation/gradle3.3/bin/
-                export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+                export PATH=$PATH:${gradleHome}/bin/
+                export JAVA_HOME=$PATH:$jdkHome
                 gradle jacoco
                 ''';
             }
@@ -130,7 +131,7 @@ node('host')
         try
         {
             sh '''
-            export JAVA_HOME=${JENKINS_HOME}/tools/hudson.model.JDK/java8/
+            export JAVA_HOME=$PATH:$jdkHome
             java -jar $(basename "$PWD").jar
             '''
         }
