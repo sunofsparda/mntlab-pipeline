@@ -4,21 +4,18 @@ tool name: 'java8', type: 'jdk'
 def jdkHome = tool 'java8'
 def gradleHome = tool 'gradle3.3'
 currentBuild.result = 'SUCCESS'
+try{
 	stage('Preparation (Checking out)') { 
-		try {
+		
        		    git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
-		}
-		catch (err) {
-			currentBuild.result = 'FAILURE'
-		}
+		
+		
 	}
 	stage ('Building code'){
-		try {
+		
 			sh 'chmod +x gradlew'
 			sh './gradlew build'
-		} catch (err) {
-			currentBuild.result = 'FAILURE' 
-		}
+		
 	}	
   	stage ('Testing'){
     		parallel JUnit: {
@@ -42,6 +39,9 @@ currentBuild.result = 'SUCCESS'
   	stage ('Deployment'){
    		echo 'Hello World'
   	}
+} catch (err) {
+currentBuild.result = 'FAILURE'
+}
   	stage ('Sending status'){
      		echo "RESULT: ${currentBuild.result}"
 	}
