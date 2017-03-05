@@ -30,6 +30,8 @@ node {
    {
    		echo "##########Packaging and Publishing results##########"
    		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou']]
+   		sh 'pwd'
+   		sh 'ls -R'
    		sh 'cp build/libs/pipeline_project.jar .'
    		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
    		sh 'tar czvf pipeline-yskrabkou-46.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
