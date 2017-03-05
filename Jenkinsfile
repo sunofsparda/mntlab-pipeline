@@ -9,7 +9,7 @@ currentBuild.result = 'SUCCESS'
        		    git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
 		}
 		catch (err) {
-			currentBuild.result = 'Fail with Checking out'
+			currentBuild.result = 'FAILURE'
 		}
 	}
 	stage ('Building code'){
@@ -17,7 +17,7 @@ currentBuild.result = 'SUCCESS'
 			sh 'chmod +x gradlew'
 			sh './gradlew build'
 		} catch (err) {
-			currentBuild.result = "Fail with Building code" 
+			currentBuild.result = 'FAILURE' 
 		}
 	}	
   	stage ('Testing'){
