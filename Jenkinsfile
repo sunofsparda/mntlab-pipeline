@@ -3,16 +3,16 @@
 node ('host') {
 	tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
-	def JDK_TOOL = tool 'java8'
-    def GRADLE_TOOL = tool 'gradle3.3'
+	def jdktool = tool 'java8'
+    def gradletool = tool 'gradle3.3'
     stage('Checking out') {
     	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
     	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
     }
     stage('Building code') {
        	sh '''
-       		export PATH=$PATH:$GRADLE_TOOL
-    		export JAVA_HOME=$JDK_TOOL
+       		export PATH=$PATH:${gradletool}/bin/
+            export JAVA_HOME=$PATH:$jdktool
     		echo $PATH
     		echo $JAVA_HOME
     		chmod +x gradlew
