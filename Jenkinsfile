@@ -28,20 +28,21 @@ node {
    		)
    }
 
-   stage('Packaging and Publishing results') 
+    stage('Packaging and Publishing results') 
    {
-   sh 'pwd'
-      sh 'ls -R'
+   artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
+   echo "Git committer email: ${artefactName}"
    		echo "##########Packaging and Publishing results##########"
    		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-   		sh 'pwd'
-   		sh 'ls -R'
-   		sh 'cp build/libs/pipeline_project.jar .'
-   		sh 'cp  ../MNTLAB-yskrabkou-child1-build-job/jobs.groovy .'
-   		sh 'tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz pipeline_project.jar jobs.groovy Jenkinsfile'
+   		 //build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'origin/yskrabkou'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+   		//step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+   		//sh "tar -zxf ${BRANCH_NAME}*.tar.gz"
+   		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
+   		echo "############"
+   		//sh "cp build/libs/$artefactName"" ."
+   		sh "tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
    		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
-
-   }
+}
 
     stage('Asking for manual approval') 
    {
