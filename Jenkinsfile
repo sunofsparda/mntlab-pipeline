@@ -21,10 +21,7 @@ node('master')
     {
         parallel JUnit: 
 	{
-	    Test:
-	    {
-	        sh 'gradle test'
-	    }
+	    sh 'gradle test'
         }
     }
 	
