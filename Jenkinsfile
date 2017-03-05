@@ -14,8 +14,6 @@ def result = ""
 	}
 	stage ('Building code'){
 		try {
-			sh 'export PATH=$PATH:${gradleHome}/bin/'
-			sh 'export JAVA_HOME=$PATH:$jdkHome'
 			gradle build
 		} catch (err) {
 			result = "Fail with Building code"
@@ -45,9 +43,9 @@ def result = ""
 	}
   	stage ('Packaging and Publishing results'){
 		try{
-			cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}
-			tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz	
-			tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar
+			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
+			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz'	
+			sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar'
 			archive 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
 		} catch (err) {
 				result = "Fail with Packaging and Publishing results"
@@ -62,7 +60,7 @@ def result = ""
   	}    
   	stage ('Deployment'){
 		try {
-			java -jar $(basename "${WORKSPACE}").jar
+			sh 'java -jar $(basename "${WORKSPACE}").jar'
 		} catch {
 			result = "Fail with Deployment"
 		}	
