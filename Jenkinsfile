@@ -19,13 +19,7 @@ node('master')
 	
     stage 'Testing.'
     {
-        parallel Test: 
-	{
-	    node('master')
-	    {
-                sh 'gradle test'
-	    }
-        }
+	    sh '''echo qweqweqwe'''
     }
 /*	
     stage 'Triggering job and fetching artefact after finishing.'
