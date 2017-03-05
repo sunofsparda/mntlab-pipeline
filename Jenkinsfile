@@ -9,7 +9,9 @@ node('host') {
 	    checkout scm
 	}
 	stage('\u27A1 Building code') {
-	    sh 'gradle build'
+	    sh '''env
+		ls -la
+		gradle -version'''
 	}
 	stage('\u27A1 Testing') {
 	    parallel cucumber: {
