@@ -19,7 +19,7 @@ node ('host') {
    {
    		echo "##########Building code##########"
    		sh 'chmod +x gradlew'
-   		sh 'gradlew build'
+   		sh './gradlew build'
    }
 
    stage('Testing') 
