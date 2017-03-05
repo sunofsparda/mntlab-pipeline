@@ -9,9 +9,7 @@ node('host') {
 		checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
 	}
 	stage('\u27A1 Building code') {
-	    sh '''env
-		ls -la
-		gradle clean
+	    sh '''gradle clean
 		gradle build'''
 	}
 	stage('\u27A1 Testing') {
@@ -29,17 +27,17 @@ node('host') {
             sh 'tar -zxf shreben_dsl_script.tar.gz'
     }
 	stage('\u27A1 Packaging and Publishing results') {
-	    sh 'ls -la'
-	    sh 'ls -la build/libs/'
-            sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/\$(basename \${WORKSPACE}).jar"
+	    sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/\$(basename \${WORKSPACE}).jar"
             archiveArtifacts "pipeline-shreben-${BUILD_NUMBER}.tar.gz"
     }
 	stage('\u27A1 Asking for manual approval') {
             input 'Artifact is built and ready for deployment. Proceed?'
     }
+	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
 	stage('\u27A1 Deployment') {
             sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
-    }
+	}
+	}
     stage('\u27A1 Sending status') {
             echo 'Deployment is successful!'
     }
