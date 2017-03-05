@@ -1,9 +1,9 @@
 node('host')
 {
+    tool name: 'java8', type: 'jdk'
+    tool name: 'gradle3.3', type: 'gradle'
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
     {
-        tool name: 'java8', type: 'jdk'
-        tool name: 'gradle3.3', type: 'gradle'
         def errorArray = []
         stage ('cleanup')
         {
@@ -55,7 +55,7 @@ node('host')
                 },
                 Cucumber:
                 {
-                sh 'gradle jacoco';
+                    sh 'gradle jacoco';
                 }
             }
             catch (error)
