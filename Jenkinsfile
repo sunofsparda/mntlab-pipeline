@@ -37,7 +37,7 @@ node('host')
         try
         {
             sh '''
-            export PATH=$PATH:${gradleHome}/bin/
+            export PATH=$PATH:${gradleHome}/bin
             export JAVA_HOME=$PATH:$jdkHome
             gradle build
             ''';
@@ -55,7 +55,7 @@ node('host')
             parallel JUnit:
             {
                 sh '''
-                export PATH=$PATH:${gradleHome}/bin/
+                export PATH=$PATH:${gradleHome}/bin
                 export JAVA_HOME=$PATH:$jdkHome
                 gradle test
                 ''';
@@ -63,7 +63,7 @@ node('host')
             Jacoco:
             {
                 sh '''
-                export PATH=$PATH:${gradleHome}/bin/
+                export PATH=$PATH:${gradleHome}/bin
                 export JAVA_HOME=$PATH:$jdkHome
                 gradle cucumber
                 ''';
@@ -71,7 +71,7 @@ node('host')
             Cucumber:
             {
             sh '''
-                export PATH=$PATH:${gradleHome}/bin/
+                export PATH=$PATH:${gradleHome}/bin
                 export JAVA_HOME=$PATH:$jdkHome
                 gradle jacoco
                 ''';
