@@ -1,160 +1,138 @@
 node('host')
 {
-    tool name: 'java8', type: 'jdk'
-    tool name: 'gradle3.3', type: 'gradle'
-    def errorArray = []
-    def jdkHome = tool 'java8'
-    def gradleHome = tool 'gradle3.3'
-    stage ('cleanup')
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
     {
-        try
+        tool name: 'java8', type: 'jdk'
+        tool name: 'gradle3.3', type: 'gradle'
+        def errorArray = []
+        stage ('cleanup')
         {
-            echo "${jdkHome}"
-            echo "${gradleHome}"
-            step([$class: 'WsCleanup'])
+            try
+            {
+                step([$class: 'WsCleanup'])
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Cant cleanup workspace!")
+            }        
         }
-        catch (error)
-        {
-            errorArray.push("ERROR: Cant cleanup workspace!")
-        }        
-    }
-    
-    stage ('Preparation (Checking out).')
-    {
-        try
-        {
-            git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
-            //git url:'https://github.com/kickman2l/test-jenkins.git', branch:'master'
-        }
-        catch (error)
-        {
-            errorArray.push("ERROR: Cant clone from git!")
-        }
-    }
 
-    stage ('Building code.')
-    {
-        try
+        stage ('Preparation (Checking out).')
         {
-            echo ${gradleHome}
-            sh '''
-            export GRADLE_HOME=${gradleHome}
-            export JAVA_HOME=$PATH:${jdkHome}
-            PATH=$PATH:$GRADLE_HOME/bin
-            gradle build
-            ''';
-            //export PATH=$PATH:"${gradleHome}"/bin
-        }
-        catch (error)
-        {
-            errorArray.push("ERROR: Cant build with gradle!")
-        }
-    }
-
-    stage ('Testing.')
-    {
-        try
-        {
-            parallel JUnit:
+            try
             {
-                sh '''
-                export PATH=$PATH:${gradleHome}/bin
-                export JAVA_HOME=$PATH:$jdkHome
-                gradle test
-                ''';
-            },
-            Jacoco:
+                git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'pheraska'
+                //git url:'https://github.com/kickman2l/test-jenkins.git', branch:'master'
+            }
+            catch (error)
             {
-                sh '''
-                export PATH=$PATH:${gradleHome}/bin
-                export JAVA_HOME=$PATH:$jdkHome
-                gradle cucumber
-                ''';
-            },
-            Cucumber:
-            {
-            sh '''
-                export PATH=$PATH:${gradleHome}/bin
-                export JAVA_HOME=$PATH:$jdkHome
-                gradle jacoco
-                ''';
+                errorArray.push("ERROR: Cant clone from git!")
             }
         }
-        catch (error)
-        {
-            errorArray.push("ERROR: Something goes wrong with tests!")
-        }
-    }
-    
-    stage ('Triggering job and fetching artefact after finishing.')
-    {
-        try
-        {
-            build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
-            step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job']);
-        }
-        catch (error)
-        {
-            errorArray.push("ERROR: Cant trigger other project!")
-        }
-    }
-    
-    stage ('Packaging and Publishing results.')
-    {
-        try
-        {
-            sh '''
-            cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}
-            tar -zxvf pheraska_dsl_script.tar.gz jobs.groovy
-            tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename "$PWD").jar
-            ''';
-            archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
-        }
-        catch (error)
-        {
-            errorArray.push("ERROR: Cant create artifacts!")
-        }
-    }
 
-    stage ('Asking for manual approval.')
-    {
-        try
+        stage ('Building code.')
         {
-            timeout(time:3, unit:'MINUTES') 
+            try
             {
-                input message:'Approve deployment?'
+                echo ${gradleHome}
+                sh 'gradle build';
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Cant build with gradle!")
             }
         }
-        catch (error)
+
+        stage ('Testing.')
         {
-            errorArray.push("ERROR: Somet wrong with with approve!")
+            try
+            {
+                parallel JUnit:
+                {
+                    sh 'gradle test';
+                },
+                Jacoco:
+                {
+                    sh 'gradle cucumber';
+                },
+                Cucumber:
+                {
+                sh 'gradle jacoco';
+                }
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Something goes wrong with tests!")
+            }
         }
-    }
-    
-    stage ('Deployment.')
-    {
-        try
+
+        stage ('Triggering job and fetching artefact after finishing.')
         {
-            sh '''
-            export JAVA_HOME=$PATH:$jdkHome
-            java -jar $(basename "$PWD").jar
-            '''
+            try
+            {
+                build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
+                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job']);
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Cant trigger other project!")
+            }
         }
-        catch (error)
+
+        stage ('Packaging and Publishing results.')
         {
-            errorArray.push("ERROR: Somet wrong with deployent!")
+            try
+            {
+                sh '''
+                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}
+                tar -zxvf pheraska_dsl_script.tar.gz jobs.groovy
+                tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename "$PWD").jar
+                ''';
+                archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Cant create artifacts!")
+            }
         }
-    }
-    
-    stage ('Sending status.')
-    {
-        if ("${errorArray}" != "0")
+
+        stage ('Asking for manual approval.')
         {
-            echo "${errorArray}"
+            try
+            {
+                timeout(time:3, unit:'MINUTES') 
+                {
+                    input message:'Approve deployment?'
+                }
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Somet wrong with with approve!")
+            }
         }
-        else
+
+        stage ('Deployment.')
         {
-            echo "SUCCESS: No errors found!"
+            try
+            {
+                sh 'java -jar $(basename "$PWD").jar'
+            }
+            catch (error)
+            {
+                errorArray.push("ERROR: Somet wrong with deployent!")
+            }
+        }
+
+        stage ('Sending status.')
+        {
+            if ("${errorArray}" != "0")
+            {
+                echo "${errorArray}"
+            }
+            else
+            {
+                echo "SUCCESS: No errors found!"
+            }
         }
     }
 }
