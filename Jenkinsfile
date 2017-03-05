@@ -12,13 +12,13 @@ node {
     	//gradle build
     }
     stage('Testing code')    	
-    	parallel ('Unit Tests') {
+    	parallel Junint: {
     		sh './gradlew test'
     	},
-    	('Jacoco Tests') {
+    	Jacoco: {
     		sh './gradlew jacoco'
     	},
-    	('Cucumber Tests') {
+    	Cucumber: {
     		sh './gradlew cucumber'
     	}
     }
