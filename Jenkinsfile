@@ -33,11 +33,11 @@ node('host') {
     }
 	stage('\u27A1 Asking for manual approval') {
             input 'Artifact is built and ready for deployment. Proceed?'
-	sh 'JAVA_HOME'
+	sh 'echo \$JAVA_HOME \$PATH'
     }
 //	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
 	stage('\u27A1 Deployment') {
-	sh 'echo $JAVA_HOME'
+	sh 'echo \$JAVA_HOME \$PATH'
 	sh 'java -jar build/libs/\$(basename \${WORKSPACE}).jar'
 	}
 //	}
