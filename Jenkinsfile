@@ -1,6 +1,8 @@
 node ('host') {
 	tool name: 'gradle3.3', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
+	def jdkHome = tool 'java8'
+    def gradleHome = tool 'gradle3.3'
 	
 currentBuild.result = 'SUCCESS'
 	try{
