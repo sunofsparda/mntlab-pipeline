@@ -29,9 +29,9 @@ def result = ""
       			gradle cucumber
     		}, Cucumber: {
       			gradle jacoco
+		} 
 		} catch (err) {
 			result = "Fail with Testing"
-		}
 		}
     	failFast: true|false  
   	}
