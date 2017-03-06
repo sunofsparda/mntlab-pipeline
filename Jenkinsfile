@@ -39,8 +39,25 @@ try {
 		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		}
   	stage ('Asking for manual approval'){
-		result = "Fail with approval"
-		input "Deployment?"
+	    try
+            {
+                timeout(time:3, unit:'MINUTES') 
+                {
+                    input message:'Approve deployment?'
+                }
+            }
+            catch (error)
+            {
+		 def user = err.getCauses()[0].getUser()
+             if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+                didTimeout = true
+                 } 
+             else {
+                 userInput = false
+                 echo "Aborted by: [${user}]"
+                 }
+                // errorArray.push("ERROR: Somet wrong with with approve!")
+            }
 		}    
   	stage ('Deployment'){
 		result = "Fail with Deployment"
