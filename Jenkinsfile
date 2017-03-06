@@ -6,11 +6,11 @@
 node('host') {
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"]) {
 	stage('\u27A1 Preparation (Checking out)') {
-		checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
+//	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
+		checkout scm
 	}
 	stage('\u27A1 Building code') {
-	    sh '''gradle clean
-		gradle build'''
+	    sh 'gradle build'
 	}
 	stage('\u27A1 Testing') {
 	    parallel cucumber: {
@@ -35,12 +35,10 @@ node('host') {
 	stage('\u27A1 Asking for manual approval') {
             input 'Artifact is built and ready for deployment. Proceed?'
     }
-//	withEnv(["JAVA_HOME=/usr/lib/jvm/jre"]) {
 	stage('\u27A1 Deployment') {
 	sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
-//	}
-    stage('\u27A1 Sending status') {
+	stage('\u27A1 Sending status') {
             echo 'Deployment is successful!'
 	}
 }
