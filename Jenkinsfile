@@ -1,5 +1,3 @@
-#!groovy
-
 //node  {
 node('host') {
 	tool name: 'java8', type: 'jdk'
