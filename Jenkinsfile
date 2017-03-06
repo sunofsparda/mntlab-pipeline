@@ -46,6 +46,9 @@ node('master') {
         sh 'tar -czf pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
         archiveArtifacts "pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz"
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
+//tab
+    stage ('Wipeout WORKSPACE')
+        sh 'rm -rf ${WORKSPACE}/*'
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
 //tab
