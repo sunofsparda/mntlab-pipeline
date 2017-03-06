@@ -135,7 +135,7 @@ env.status='Everything is working fine!!!'
                 from: 'ivanOKman@mail.ru',
                 replyTo: 'ivanOKman@tut.by',
                 subject: 'project build successful',
-                to: 'ivanOKman@mail.ru''
+                to: 'ivanOKman@mail.ru'
 	    }
  }
 }
