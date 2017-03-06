@@ -1,4 +1,4 @@
-node
+node('host')
 {
 // Configurate tools as they set into Jenkins  
     tool name: 'java8', type: 'jdk'	
@@ -58,6 +58,8 @@ node
 		echo "$status"
 	      }
 	} //end try
+
+
 	catch(err){
 		env.status = " === Build FAILED  === "
 		throw err
