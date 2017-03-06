@@ -6,7 +6,6 @@ node ('host') {
         sh 'java -version'
         def GRADLE_HOME = tool name: 'gradle3.3', type: 'hudson.plugins.gradle.GradleInstallation'
         sh "${GRADLE_HOME}/bin/gradle tasks"
-        }
         sh 'gradle -version'
     // preparation
     stage ('preparation'){
