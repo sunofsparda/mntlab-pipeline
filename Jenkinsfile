@@ -46,7 +46,7 @@ stage 'Triggering job and fetching artefact after finishing'
 stage 'Packaging and Publishing results'
        	sh '''
 	cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}
-       	tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
+       	tar czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
 	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 
 
