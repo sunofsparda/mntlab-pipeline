@@ -3,11 +3,20 @@ node('host'){
 //DECLARE ENVIRONMENT VARIABLES
 
 def result = 'SUCCESS'
+echo "${currentBuild.result}"
+echo "WARNING"
+echo "${result}"	
+	
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
 //CHECKOUT GIT BRANCH
             stage('Preparation')
             {
+		    //comment
+		echo "${currentBuild.result}"
+		echo "WARNING"
+		echo "${result}"
+		    //comment2
 		try
 		{
 		echo 'Checking out git branch'
@@ -15,9 +24,9 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with connection to GIT"
+		result = "An error with connection to GIT"
 		throw err
-		echo "${currentBuild.result}"
+		echo "${result}"
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
@@ -30,7 +39,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with a gradle building"
+		result = "An error with a gradle building"
 		throw err
 		}  
             }
@@ -58,7 +67,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with passing the tests"
+		result = "An error with passing the tests"
 		throw err
 		}  
             }
@@ -73,7 +82,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with building a job from previous project"
+		result = "An error with building a job from previous project"
 		throw err
 		}  
             }
@@ -90,7 +99,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
+		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
 		throw err
 		}
             }
@@ -113,7 +122,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		currentBuild.result = "An error with deploying an application"
+		result = "An error with deploying an application"
 		throw err
 		}
             }
@@ -124,7 +133,7 @@ def result = 'SUCCESS'
 		{
 		echo "### SUCCESS!!! ###"
 		echo "COOL!"
-		echo "${currentBuild.result}"
+		echo "${result}"
 		}
 		else
 		{
