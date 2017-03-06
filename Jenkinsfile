@@ -13,7 +13,7 @@ node('host') {
         ''';
         //sh './gradlew build --stacktrace --info --debug'
         
-            stage('Checking out') {
+            stage('Preparation (Checking out)') {
             	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
             	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
                 checkout scm
@@ -24,15 +24,15 @@ node('host') {
             	//sh './gradlew build --stacktrace --info --debug'
             }
 
-            stage('Testing code') {   	
+            stage('Testing') {   	
             	parallel (
-            		Junit: {
+            		'JUnit Tests': {
             		 	sh 'gradle test'
             		},
-            		Jacoco: {
+            		'Jacoco Tests': {
         			sh 'gradle jacoco'
             		},
-            		Cucumber: {
+            		'Cucumber Tests': {
             			sh 'gradle cucumber'
             		}
             	)
