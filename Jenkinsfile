@@ -20,5 +20,8 @@ stage ('Testing code'){
                   stage ('cucumber'){sh 'gradle cucumber'}
              }
     }
+stage ('Triggering job and fetching artefact after finishing'){
+build job: 'MNTLAB-akutsko-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'akutsko')], quietPeriod: 0
+    }
 }
 }
