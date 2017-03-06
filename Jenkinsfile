@@ -65,7 +65,7 @@ node('master') {
         }
 //tab
     stage ('Status')
-        sh 'echo result: ${currentBuild.result}"'
+        sh 'echo result: -------------BUILD SUCCESS!-------------"'
     //STASH using
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
