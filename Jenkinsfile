@@ -1,25 +1,33 @@
 //IS NECESSARY FOR NODES
-//node('host'){
+node{
+     env.JAVA_HOME="${tool 'java8'}"env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+     sh 'java -version'
+     def GRADLE_HOME = tool name: 'gradle3.3', type: 'hudson.plugins.gradle.GradleInstallation'
+     sh '${GRADLE_HOME}/bin/gradle tasks'
+//('host'){
+//DECLARE ENVIRONMENT VARIABLES
+       //  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])        
+//pipeline{
 
-pipeline{   
 //agents is a mandatory section
 agent any
         stages {
-        //CHECKOUT GIT BRANCH    
-            stage('Preparation') 
+        
+        //CHECKOUT GIT BRANCH
+            stage('Preparation')
             {
                 steps {
                     echo 'Checking out git branch'
-                    checkout( [$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
                         }
             }
         //BUILDING GRADLE
-            stage('Building code')
+          stage('Building code')
             {
                 steps {
                     echo 'Building gradle'
-                    sh 'chmod +x ./gradlew'
-                    sh './gradlew clean build'
+                    //sh 'chmod +x ./gradlew'
+                    sh '${GRADLE_HOME}/bin/gradle clean build'
                         }
             }
     /*    stage('Testing') {
@@ -32,7 +40,7 @@ agent any
                 echo 'Triggering job..'
             }
         }
-        stage('Packaging and Publishing') {
+         stage('Packaging and Publishing') {
             steps {
                 echo 'Packaging and Publishing..'
             }
@@ -47,12 +55,16 @@ agent any
                 echo 'Deploying'
             }
         }
-         stage('Sending status') {
+              stage('Sending status') {
             steps {
                 echo 'Finished'
             }
         }*/
-        
+
     }
 }
+
+
+
+
 
