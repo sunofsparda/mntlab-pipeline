@@ -50,7 +50,7 @@ stage 'Triggering job and fetching artefact after finishing'
 	}
   stage 'Deployment'
 } 
-  stage 'Sending status'
+//  stage 'Sending status'
 
 catch (caughtError) {
     err = caughtError
