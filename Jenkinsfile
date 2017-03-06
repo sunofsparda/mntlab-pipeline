@@ -87,5 +87,6 @@ node('host')
 
 @NonCPS
 def getLog() {
-    return currentBuild.rawBuild.getLog(100)
+    def log = currentBuild.rawBuild.getLog(100)
+    return log.toString()
 }
