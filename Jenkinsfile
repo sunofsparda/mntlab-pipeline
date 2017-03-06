@@ -79,13 +79,13 @@ catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err){
         sh "echo ${err}"
          }
 
-catch (err) {
+catch (e) {
         currentBuild.result = "FAILED"
-        sh "echo ${err}"
-        mail body: "project build error: ${err}" ,
+        sh "echo ${e}"
+        mail body: "project build error: ${e}" ,
         subject: 'project build failed',
         to: 'n.g.kuznetsov@gmail.com'
-        throw err
+        throw e
     }
 
 
