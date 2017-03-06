@@ -1,4 +1,4 @@
-node {
+node ('host') {
 
 stage('Checking out') { 
     git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'amatveenko'
@@ -6,8 +6,9 @@ stage('Checking out') {
     
 stage('Building code') {
         sh '''      
-    	chmod +x gradlew
-    	./gradlew build
+        gradle build
+    	//chmod +x gradlew
+    	//./gradlew build
     	''';
     	}
     
