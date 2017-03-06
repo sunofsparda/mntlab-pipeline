@@ -1,7 +1,7 @@
 node {
-   stage 'Preparation'{
+   stage 'Stage 1'{
 	checkout scm
-		      }
+		  }
    
 
    stage 'Stage 2'
