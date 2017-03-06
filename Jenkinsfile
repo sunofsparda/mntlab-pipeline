@@ -15,11 +15,14 @@ node('master')
 			}
 			stage('build gradle dew')
 			{
-				try {
-			sh 'gradle build'
-		} catch (err) {
-			result = "Fail with Building code"
-		}
+				try
+				{
+					sh 'gradle build'
+				}
+				catch (err)
+				{
+					result = "Fail with Building code"
+				}
 			}
 
 
@@ -27,18 +30,24 @@ node('master')
 
 			stage('testing')
 			{
-				try {
-    		parallel JUnit: {
-      			sh 'gradle test'
-    		}, Jacoco: {
-      			sh 'gradle cucumber'
-    		}, Cucumber: {
-      			sh 'gradle jacoco'
-		} 
-		} catch (err) {
-			result = "Fail with Testing"
-		}
-    	failFast: true|false  
+				try
+				{
+					parallel JUnit:
+					{
+						sh 'gradle test'
+					}, Jacoco:
+					{
+						sh 'gradle cucumber'
+					}, Cucumber:
+					{
+						sh 'gradle jacoco'
+					}
+				}
+				catch (err)
+				{
+					result = "Fail with Testing"
+				}
+				failFast: true | false
 			}
 
 			//parallel map
@@ -50,12 +59,17 @@ node('master')
 
 			stage('Starting child job')
 			{
-				try {
-			build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]]
-            	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
-		} catch (err) {
-			result = "Fail with Triggering job and fetching artefact"
-		}
+				try
+				{
+					build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [
+						[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]
+					]
+					step([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
+				}
+				catch (err)
+				{
+					result = "Fail with Triggering job and fetching artefact"
+				}
 			}
 
 
@@ -63,13 +77,16 @@ node('master')
 			{
 				step
 				{
-					sh 'echo "create archive and stuff into archive" ' //падает с трещиной от шеи до жопы
-					sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}' //постоянно еб твою мать
-					sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz' //распаковали и достали jobs.groovy
-					sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar' //сделаем тарку
-					archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz' //делаем доступным
+					sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}' //падает с трещиной от шеи до жопы
+					sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz' //постоянно еб твою мать
+					sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar' //распаковали и достали jobs.groovy
+					archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz' //сделаем тарку
+
 				}
 			}
+
+
+
 
 			//stage ('create archive and stuff into archive')
 			//{
@@ -116,14 +133,14 @@ node('master')
 
 		stage('Sending status')
 		{
-			if (currentBuild.result == 'FAILURE'  ) 
+			if (currentBuild.result == 'FAILURE')
 			{
-   				echo "*****fail*****"
+				echo "*****fail*****"
 			}
-			else (currentBuild.result == 'SUCCESS')
+			else(currentBuild.result == 'SUCCESS')
 			{
 				echo "*****YEAH BITCH*****"
-			} 
+			}
 
 		}
 	}
