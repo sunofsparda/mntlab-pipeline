@@ -42,9 +42,9 @@ stage ('Asking for manual approval')
 	input message:'Approve deployment?'
 	}
 	
-stage('Deploy') {
+stage('Deployment') {
 	sh ''' 
-	echo 'Deploying....'
+	java -jar gradle-simple.jar
 	ls -lh
 	'''
     }  
