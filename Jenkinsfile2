@@ -30,7 +30,8 @@ stage ('Packaging and Publishing results'){
     }   
 stage ('Asking for manual approval'){
     input message: 'Do you want to deploy this artefact?', ok: 'Deploy'
-    build.getExecutor().interrupt(Result.ABORTED)
+    def user = build.getExecutor().interrupt(Result.ABORTED)
+    println "Aborted by ${user}"
     }
 }
 }
