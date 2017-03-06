@@ -31,9 +31,11 @@ node('master') {
 //tab
     stage ('Triggering job')
         //sh 'BRANCH_NAME=$(echo $BRANCH_NAME | cut -c 8-)'
+        sh 'TRUE_BRANCH=$BRANCH_NAME'
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
+        sh 'mv ${BRANCH_NAME}_dsl_script.tar.gz $TRUE_BRANCH_dsl_script.tar.gz'
         sh 'echo "--------------COPIED OK"----------'
         sh 'pwd'
         sh 'echo "pwd is ^^"'
