@@ -1,4 +1,6 @@
-node('host')
+import hudson.AbortException
+
+node('master')
 {
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
@@ -68,13 +70,11 @@ node('host')
 	    }
     }
     catch (hudson.AbortException ae) {
-    	stage('Status') {
-	        echo "Aborted"
-		log = getLog()
-		echo "$log"
-		throw ae
-		   
-	}
+      def userName = ae.getCauses()[0].getUser()
+	    stage('Status') {
+		    echo "Aborted by:\n ${userName}"
+		    throw ae
+	    }
     }
     catch (error)
 	    {
@@ -85,11 +85,11 @@ node('host')
 	    } 
 }
 
-@NonCPS
+/*NonCPS
 def getLog() {
     def log = currentBuild.rawBuild.getLog(100)
-	log.each{line ->
-		if (line.contains('Aborted By')){
+	log.each{String line ->
+		if (line.contains('Aborted by')){
 			return line}	   
 	}
-}
+}*/
