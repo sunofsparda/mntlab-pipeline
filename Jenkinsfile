@@ -5,46 +5,45 @@ node('host') {
     tool name: 'gradle3.3', type: 'gradle'
 //	def jdktool = tool 'java8'
 //  def gradletool = tool 'gradle3.3'
-    withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"])
-    {
+    withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"]) {
+        // cheking env
         sh '''
             echo $PATH
             echo $JAVA_HOME           
         ''';
         //sh './gradlew build --stacktrace --info --debug'
-    
+        
 
-    stage('Checking out') {
-    	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
-    	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
-        checkout scm
-    }
-
-
-    stage('Building code') {
-       	gradle build
-    	//sh './gradlew build --stacktrace --info --debug'
-    }
+            stage('Checking out') {
+            	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
+            	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+                checkout scm
+            }
 
 
-    stage('Testing code') {   	
-    	parallel (
-    		Junit: {
-    		 	sh 'gradle test'
-    		},
-    		Jacoco: {
-    			sh 'gradle jacoco'
-    		},
-    		Cucumber: {
-    			sh 'gradle cucumber'
-    		}
-    	)
-    }
+            stage('Building code') {
+               	sh 'gradle build'
+            	//sh './gradlew build --stacktrace --info --debug'
+            }
 
-    stage('Deploy') {
-    	echo 'Deploying....'
-    } 
 
+            stage('Testing code') {   	
+            	parallel (
+            		Junit: {
+            		 	sh 'gradle test'
+            		},
+            		Jacoco: {
+        			sh 'gradle jacoco'
+            		},
+            		Cucumber: {
+            			sh 'gradle cucumber'
+            		}
+            	)
+            }
+
+            stage('Deploy') {
+            	echo 'Deploying....'
+            }
     }
 
 }
