@@ -3,9 +3,6 @@ node('host'){
 //DECLARE ENVIRONMENT VARIABLES
 
 def result = 'SUCCESS'
-echo "${currentBuild.result}"
-echo "WARNING"
-echo "${result}"	
 	
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
@@ -13,14 +10,13 @@ echo "${result}"
             stage('Preparation')
             {
 		    //comment
-		echo "${currentBuild.result}"
 		echo "WARNING"
 		echo "${result}"
 		    //comment2
 		try
 		{
 		echo 'Checking out git branch'
-                checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                checkout([$class: 'GiM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
 		}
 		catch (err)
 		{
@@ -129,7 +125,7 @@ echo "${result}"
       stage('Sending status') 
   
             {
-		if(currentBuild.result == 'SUCCESS')
+		if(result == 'SUCCESS')
 		{
 		echo "### SUCCESS!!! ###"
 		echo "COOL!"
@@ -138,7 +134,7 @@ echo "${result}"
 		else
 		{
 		echo "!!! FAILED !!!"
-		sh 'echo ${currentBuild.result}'
+		echo "${result}"
 		}
 		
 
