@@ -44,7 +44,7 @@ try {
 		}    
   	stage ('Deployment'){
 		result.push("Fail with Deployment")
-		sh 'java -jar gradle-simple.jar'
+		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 }
 catch (err) {
