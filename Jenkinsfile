@@ -16,7 +16,7 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with connection to GIT"
+		currentBuild.result = "An error with connection to GIT"
 		throw err
 		}    
             }
@@ -30,7 +30,7 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with a gradle building"
+		currentBuild.result = "An error with a gradle building"
 		throw err
 		}  
             }
@@ -58,7 +58,7 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with passing the tests"
+		currentBuild.result = "An error with passing the tests"
 		throw err
 		}  
             }
@@ -73,7 +73,7 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with building a job from previous project"
+		currentBuild.result = "An error with building a job from previous project"
 		throw err
 		}  
             }
@@ -90,7 +90,7 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
+		currentBuild.result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
 		throw err
 		}
             }
@@ -113,21 +113,22 @@ def result = ""
 		}
 		catch (err)
 		{
-		result = "An error with deploying an application"
+		currentBuild.result = "An error with deploying an application"
 		throw err
 		}
             }
       stage('Sending status') 
   
             {
-		if (currentBuild.result == 'FAILURE')
-		{
-		echo "!!! FAILED !!!"
-		}
-		else(currentBuild.result == 'SUCCESS')
+		if(currentBuild.result == 'SUCCESS')
 		{
 		echo "### SUCCESS!!! ###"
 		}
+		else
+		{
+		echo "!!! FAILED !!!"
+		}
+		
 
 	    }
  }
