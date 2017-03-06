@@ -1,8 +1,6 @@
 #!groovy
 
 node { timestamps { 
-	try {
-
 		tool name: 'java8', type: 'jdk'
 	    tool name: 'gradle3.3', type: 'gradle'
 	//	def jdktool = tool 'java8'
@@ -14,6 +12,8 @@ node { timestamps {
 	            echo $JAVA_HOME           
 	        ''';
 	        //sh './gradlew build --stacktrace --info --debug'
+
+	        try {
 	        
 	            stage('Preparation (Checking out)') {
 	            	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
@@ -34,7 +34,7 @@ node { timestamps {
 	            		'Cucumber Tests': {sh 'gradle cucumber'}
 	            	)
 	            }
-	    }
+	    
 
 	            stage('Triggering job and fetching artefact after finishing') {
 	                echo 'Building MNTLAB-acherlyonok-child1-build-job'
@@ -75,10 +75,13 @@ node { timestamps {
 	            }
 
 
-	} // try
-	catch(err){
-		env.status = " === Build FAILED  === "
-		throw err
+			}
+
+	    	catch(err){
+				env.status = " === Build FAILED  === "
+				throw err
+			}
 	}
 
-}}
+}
+}
