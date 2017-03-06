@@ -1,5 +1,5 @@
-node{
-//I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
+node('host'){
+//I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
