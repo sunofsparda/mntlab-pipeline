@@ -1,3 +1,4 @@
+//ALL FIXED. DONT TOUCH!
 node('host')
 {
     tool name: 'java8', type: 'jdk'
