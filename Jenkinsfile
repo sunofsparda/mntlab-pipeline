@@ -30,6 +30,7 @@ node('host') {
         }
 //tab
     stage ('Triggering job')
-        build 'MNTLAB-ikhamiakou-child1-build-job'
-        sh 'echo "build started"'
+        build job: 'MNTLAB-ikhamiakou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/ikhamiakou']]
+
+        sh 'echo "MNTLAB-ikhamiakou-child1-build-job STARTED OK"'
 }
