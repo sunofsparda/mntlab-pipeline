@@ -2,7 +2,9 @@ node {
    
  stage('Preparation')
    {
-   sh 'which java'
+   tool name: 'gradle3.3', type: 'gradle'
+     tool name: 'java8', type: 'jdk'     
+   sh 'which java8'
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
       echo WORKSPACE
