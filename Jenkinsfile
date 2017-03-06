@@ -1,4 +1,4 @@
-node('host')
+node //('host')
 {
 // Configurate tools as they set into Jenkins  
     tool name: 'java8', type: 'jdk'	
@@ -18,7 +18,8 @@ node('host')
 //Start parallel test with gradle            
 	  stage ('Tests')
 	    {
-               parallel JUnit:
+               parallel
+		JUnit:
                 { sh 'gradle test'; },
                 Jacoco:
                 { sh 'gradle cucumber';},
@@ -45,7 +46,21 @@ node('host')
 	      }
 //waiting for approval            
 	  stage ('Manual approval ')
-	      {	input 'deploy'   }
+		{
+		try {
+		      timeout(time: 15, unit: 'SECONDS') {
+			    input message: 'Do you want to release this build?',
+			     parameters: [[$class: 'BooleanParameterDefinition',
+                            defaultValue: false,
+                            description: 'Ticking this box will do a release',
+                            name: 'Release']]
+			}
+		} catch (err) {
+		    def user = err.getCauses()[0].getUser()
+		    echo "Aborted by:\n ${user}"
+			    }
+		}
+	     // {	input 'deploy'   }
             
 
 	  stage ('Deployment.')
