@@ -46,7 +46,10 @@ node('host'){
          stage('Packaging and Publishing') 
             {
                 echo 'Packaging and Publishing..'
+		sh 'echo ##############'    
 		sh 'echo ${WORKSPACE}'
+		sh 'echo ##############'    
+		sh 'echo ${basename}'
 		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
 		sh "tar czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
 		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
