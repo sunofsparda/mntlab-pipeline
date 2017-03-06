@@ -29,11 +29,15 @@ node ('master') {
 
 stage ('Trigerred')
 {   
-      build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-            step ([$class: 'CopyArtifact',projectName: 'MNTLAB-aslesarenka-child1-build-job',filter: 'aslesarenka_dsl_script.tar.gz']);
-            sh 'tar -zxf aslesarenka_dsl_script.tar.gz'
+ build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka')], quietPeriod: 0
+    step ([$class: 'CopyArtifact',
+          projectName: 'MNTLAB-aslesarenka-child1-build-job',
+          filter: 'aslesarenka_dsl_script.tar.gz']);     
+// build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+       //     step ([$class: 'CopyArtifact',projectName: 'MNTLAB-aslesarenka-child1-build-job',filter: 'aslesarenka_dsl_script.tar.gz']);
+         //   sh 'tar -zxf aslesarenka_dsl_script.tar.gz'
 }
-stage ('Package')
+/*stage ('Package')
 {
 
           sh '''
@@ -43,7 +47,7 @@ stage ('Package')
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
            
-}
+}*/
 
     stage('Approve for Deploy:') 
    {
