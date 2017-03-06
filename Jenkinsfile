@@ -1,28 +1,19 @@
-//IS NECESSARY FOR NODES
-node('host') {
-//('host'){
+node{
+//I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
-//pipeline{
-
-//agents is a mandatory section
 //CHECKOUT GIT BRANCH
             stage('Preparation')
             {
-                steps {
                     echo 'Checking out git branch'
                     checkout([$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
-                        }
             }
-        //BUILDING GRADLE
+        //CLEANING WORKSPACE AND BUILDING GRADLE
           stage('Building code')
             {
-                steps {
                     echo 'Building gradle'
-                    //sh 'chmod +x ./gradlew'
-                    sh '${GRADLE_HOME}/bin/gradle clean build'
-                        }
+                    sh 'gradle clean build'
             }
     /*    stage('Testing') {
             steps {
@@ -56,8 +47,3 @@ node('host') {
         }*/
  }
 }
-
-
-
-
-
