@@ -37,8 +37,10 @@ stage 'Testing code'
 	}
 
 stage 'Triggering job and fetching artefact after finishing'
-	build job: 'MNTLAB-{BRANCH_NAME}-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
-	archiveArtifacts '{BRANCH_NAME}_dsl_script.tar.gz,jobs.groovy,script.sh'
+	build job: "MNTLAB-{$BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
+//	archiveArtifacts '{BRANCH_NAME}_dsl_script.tar.gz,jobs.groovy,script.sh'
+	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+
 
   stage 'Packaging and Publishing results'
 
@@ -57,7 +59,12 @@ catch (caughtError) {
 mail body: "project build error: ${err}" ,
 subject: 'project build failed',
 to: 'n.g.kuznetsov@gmail.com'
-} finally {
+} 
+
+	stage 'Sending status'
+	echo "RESULT: ${currentBuild.result}"
+
+finally {
 
     /* Must re-throw exception to propagate error */
     if (err) {
