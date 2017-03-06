@@ -1,9 +1,10 @@
-//node  {
+#!Groovy
+
 node('host') {
 	tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
 //	def jdktool = tool 'java8'
-//    def gradletool = tool 'gradle3.3'
+//  def gradletool = tool 'gradle3.3'
     withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"])
 
 
@@ -42,6 +43,5 @@ node('host') {
     stage('Deploy') {
     	echo 'Deploying....'
     } 
-
 
 }
