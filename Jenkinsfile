@@ -5,8 +5,11 @@ stage('Checking out') {
     }
     
 stage('Building code') {
-    echo 'Deploying....'
-    }
+        sh '''      
+    	chmod +x gradlew
+    	./gradlew build
+    	''';
+    	}
     
 stage('Testing code') {  
     echo 'Deploying....'
