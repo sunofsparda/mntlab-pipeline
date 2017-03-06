@@ -42,8 +42,10 @@ stage ('Asking for manual approval') {
 	}
 	
 stage('Deploy') {
-    echo 'Deploying....'
-	sh 'ls -lh'
+	sh ''' 
+	echo 'Deploying....'
+	ls -lh
 	rm -rf *
+	'''
     }  
 }
