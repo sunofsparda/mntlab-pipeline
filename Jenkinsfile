@@ -56,7 +56,9 @@ node('master') {
         sh 'java -jar gradle-simple.jar'
 //tab
     stage ('Wiping out WORKSPACE')
-        sh 'rm -rf ${WORKSPACE}/*'
+        timeout(time:1, unit:'HOURS') {
+        input 'Are you shure you want to wipeout workspace dir?'
+        sh 'rm -rf ${WORKSPACE}/*>>2>&1'
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
 //tab
