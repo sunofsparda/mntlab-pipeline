@@ -54,5 +54,5 @@ stage('Sending status') {
 	echo "SUCCESS"
 	}
 }
-
+}
 // rm -rf *
