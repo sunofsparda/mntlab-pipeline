@@ -15,9 +15,9 @@ node('host') {
 			}
 	
 			stage ('testing'){
-				parallel junit: {sh './gradle test'},
-				jacoco: {sh './gradle jacoco'},
-                                cucumber: {sh './gradle cucumber'}
+				parallel junit: {sh 'gradle test'},
+				jacoco: {sh 'gradle jacoco'},
+                                cucumber: {sh 'gradle cucumber'}
 			}
 
 			stage ('triggering job and fetching'){
