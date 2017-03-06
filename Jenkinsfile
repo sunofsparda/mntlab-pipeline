@@ -6,10 +6,10 @@ node('host') {
 	tool name: 'gradle3.3', type: 'gradle'
 	env.JAVA_HOME="${tool 'java8'}"
 	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-        env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
 	env.GRADLE_HOME="${tool 'gradle3.3'}"
-//        withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
-//        withEnv(["JAVA_HOME=${tool 'java8'}"])
+        env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+//      withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
+//      withEnv(["JAVA_HOME=${tool 'java8'}"])
 
 	def err = null
 	currentBuild.result = "SUCCESS"
