@@ -80,7 +80,7 @@ try {
    stage('Deployment') 
    {
     echo "##########Deployment##########"
-   	sh 'java -jar \$(basename \${ORKSPACE}).jar'
+   	sh 'java -jar \$(basename \${WORKSPACE}).jar'
 
    	 deplStatus = "\nDeployment Stage: [OK]"
    }
