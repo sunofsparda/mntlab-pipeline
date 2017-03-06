@@ -1,6 +1,6 @@
 #!groovy
 
-node('host') { timestamps {
+node { timestamps {
     
 
 	tool name: 'java8', type: 'jdk'
