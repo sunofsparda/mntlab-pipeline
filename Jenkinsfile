@@ -37,10 +37,10 @@ node('host') {
         //  projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job',
         //  filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
         sh 'echo "STASH_TEST">>stash.txt'
-        stash includes: '*.txt', name: 'test'
+        stash includes: '*.tar.gz', name: 'test'
 //tab
     stage ('stash_test')
         unstash 'test'
-        sh 'cat stash.txt'
-
+        sh 'ls -la *.tar.gz>>test.txt'
+        sh 'cat test.txt'
 }
