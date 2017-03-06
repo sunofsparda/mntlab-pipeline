@@ -2,51 +2,34 @@ node ('master') {
    
  stage('Preparation')
    {
-	tool name: 'java8', type: 'jdk'
-        def jdktool = tool 'java8'
-        tool name: 'gradle3.3', type: 'gradle'
-        def gradletool = tool 'gradle3.3'
-
-  /* sh 'which java'
+   sh 'which java'
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
-      echo WORKSPACE*/
-    	echo "Getting Source:"
-    	checkout([$class: 'GitSCM', branches: [[name: '*/aslesarenka']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
-         echo "Success!"
+      echo WORKSPACE
+        tool name: 'gradle', type: 'gradle'
+        def gradletool = tool 'gradle'
+
+
+  git branch: 'aslesarenka', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
    }
 
- /* stage('Building code') 
+  stage('Building code') 
    {
-   		echo "Starting build"
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
-                echo "Success!"
    }
 
    stage('Testing') 
    {
-   		echo "##########Testing##########"
    		parallel (
-   		unit_tests: {sh './gradlew build'},
-   		jacoco_tests: {sh './gradlew jacoco'},
-   		cucumber_tests: {sh './gradlew cucumber'}
+   		unit: {sh './gradlew build'},
+   		jacoco: {sh './gradlew jacoco'},
+   		cucumber: {sh './gradlew cucumber'}
    		)
    }
 
- // stage('Packaging and Publishing results') 
- //  {
-  //artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
-   //echo "Git committer email: ${artefactName}"
-   	//	echo "Starting Packaging:"
-   	//	build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-   		 
-   	//	sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
-   	
-   	//	sh "tar czvf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
-   	//	archiveArtifacts artifacts: 'pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz', excludes: null
- //               echo "Success!"
-//}
+stage ('Package')
+{echo "skip"}
 
     stage('Asking for manual approval') 
    {
@@ -55,13 +38,13 @@ node ('master') {
 
    stage('Deployment') 
    {
-   		echo "Checking"
+   		echo "skip"
    }
 
    stage('Sending status') 
    {
-   		echo "Checking"
+   		echo "skip"
    }
 
 
-  }*/
+  }
