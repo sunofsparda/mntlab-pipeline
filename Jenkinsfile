@@ -38,8 +38,6 @@ node('host') {
         step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
         //fixing invalid name caused by DSL script that cuts "origin/"
         sh 'mv *tar.gz ${BRANCH_NAME}_dsl_script.tar.gz'
-        sh 'pwd'
-        sh 'echo "--------------------PWD------------------------"'
 //tab
     stage ('Packaging and Publishing results')        
         sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
