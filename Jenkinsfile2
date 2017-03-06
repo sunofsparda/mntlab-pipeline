@@ -54,9 +54,9 @@ stage ('Packaging and Publishing results'){
 		result = "Fail with Packaging and Publishing results"
 		sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
 		sh 'mv $(basename "${WORKSPACE}").jar gradle-simple.jar '
-		sh "tar xvzf aslesarenka_dsl_script.tar.gz"	
-		sh "tar cvzf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar"
-		archiveArtifacts "pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz"
+		sh "tar -xvzf aslesarenka_dsl_script.tar.gz"	
+		sh "tar -cvzf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy aslesarenka-${BUILD_NUMBER}.jar"
+		archiveArtifacts artifacts: "pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz"
 		}
 
     stage('Approve for Deploy:') 
