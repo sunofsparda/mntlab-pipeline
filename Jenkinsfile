@@ -12,6 +12,8 @@ node('master') {
 //tab    
     stage 'Building'
         sh 'gradle clean build'
+        sh 'echo "11111111111111111111BUILD OK, ECHO TEST1111111111111111111111111"'
+
 //tab
     //stage 'Testing'
     //    Parallel(
