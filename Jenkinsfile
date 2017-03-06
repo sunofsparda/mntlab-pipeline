@@ -121,6 +121,11 @@ node('host')
                 errorArray.push("ERROR: Somet wrong with deployent!")
             }
         }
+        
+        stahe ('Checking for build abort.')
+        {
+           sh "curl '${JENKINS_URL}/job/${JOB_NAME}/lastBuild/consoleText'";
+        }
 
         stage ('Sending status.')
         {
