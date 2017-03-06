@@ -50,19 +50,16 @@ def result = ""
 		        echo 'Junit test'    
 		        sh 'gradle test'
 		        },
-		        jacocozz:
+		        jacoco:
 		        {
 		        echo 'Jacoco test'    
-		        sh 'gradlezz jacoco'
+		        sh 'gradle jacoco'
 		        }
 		}
 		catch (err)
 		{
 		currentBuild.result = "An error with passing the tests"
 		throw err
-		sh 'echo ${currentBuild.result}'
-		echo WARNING
-		echo ${currentBuild.result}
 		}  
             }
         stage('Triggering job and fetching')
@@ -129,6 +126,7 @@ def result = ""
 		sh 'echo ${currentBuild.result}'
 		echo WARNING
 		echo ${currentBuild.result}
+		return currentBuild.result
 		}
 		else
 		{
