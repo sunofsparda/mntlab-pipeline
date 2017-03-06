@@ -61,7 +61,7 @@ stage ('Package')
    stage('Deployment') 
    {
 
-    sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
+    sh 'java -jar aslesarenka-${BUILD_NUMBER}.jar'
 
    }
 
