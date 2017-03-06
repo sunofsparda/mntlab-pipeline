@@ -124,7 +124,7 @@ node('host')
         
         stage ('Checking for build abort.')
         {
-           sh "curl '${JENKINS_URL}/job/${JOB_NAME}/lastBuild/consoleText'";
+           sh "curl http://jenkins-mntlab.dynu.com/view/pheraska/job/_MNT-Lab-Pipeline-testing_/job/pheraska/lastBuild/consoleText";
         }
 
         stage ('Sending status.')
