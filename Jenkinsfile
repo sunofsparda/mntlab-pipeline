@@ -12,7 +12,7 @@ node ('host') {
     try {
         checkout scm
         sleep 10
-        println "Aborted by ${abortUser} ... "
+        println "Build is OK."
     } catch (err) {
         def abortUser = findInLog(currentBuild.rawBuild.getLog(100), ABORTED_RE)
         if (abortUser) {
