@@ -15,7 +15,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 	}
 	stage ('Building code'){
 		try {
-			sh 'gradle build'
+			sh 'gradle1 build'
 		} catch (err) {
 			result = "Fail with Building code"
 		}
