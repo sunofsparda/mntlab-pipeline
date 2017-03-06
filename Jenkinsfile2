@@ -31,5 +31,8 @@ stage ('Packaging and Publishing results'){
 stage ('Asking for manual approval'){
     input message: 'Do you want to deploy this artefact?', ok: 'Deploy'
     }
+stage ('Deployment'){
+    sh 'java -jar ./build/libs/$(basename "$PWD").jar'
+    {
 }
 }
