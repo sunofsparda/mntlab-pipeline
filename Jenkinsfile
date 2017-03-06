@@ -108,6 +108,7 @@ node('master')
 
 		}
 		catch (err)
+		echo "*****fail*****"
 		{
 			currentBuild.result = 'FAILURE'
 		}
