@@ -40,14 +40,15 @@ node('host') {
     }
 	stage('\u27A1 Asking for manual approval') {
 		env.Stage = 'Asking for manual approval'
-		input 'Artifact is built and ready for deployment. Proceed?'
+		input message 'Artifact is built and ready for deployment. Proceed?', submitterParameter: 'submitter'
     }
 	stage('\u27A1 Deployment') {
 		env.Stage = 'Deployment'
 		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 	stage('\u27A1 Sending status') {
-		env.Msg = '''============================
+		env.Msg = '''
+		============================
 		Build SUCCESSFUL
 		============================'''
 		echo "$Msg"
@@ -55,13 +56,24 @@ node('host') {
 	}	// try end
 	catch(error) {
 		currentBuild.result = "FAILURE"
-		env.Msg = '''============================
+		env.Msg = '''
+		============================
 		Build FAILED on stage $Stage
 		============================
 
 		The error message is:
 		$error'''
 		echo "$Msg"
+	}
+	finally {
+		(currentBuild.result = "ABORTED") {
+		env.Msg = '''
+		===============================================
+		Build ABORTED on stage $Stage  by $submitter
+		===============================================
+		'''
+		echo "$Msg"
+		}
 	}
 }	// withEnv end
 }	// node end
