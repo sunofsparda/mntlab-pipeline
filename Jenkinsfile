@@ -38,7 +38,7 @@ stage ('Package')
 
           sh '''
                 cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
-                tar -zxvf pheraska_dsl_script.tar.gz jobs.groovy
+                tar -zxvf aslesarenka_dsl_script.tar.gz jobs.groovy
                 tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
@@ -62,7 +62,7 @@ stage ('Package')
 
    stage('Sending Final Status') 
    {
-   		echo "skip"
+        echo 'Deployment success!'
    }
 
 
