@@ -26,24 +26,25 @@ node ('host') {
 stage ('Trigerred')
 {   
  build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka')], quietPeriod: 0
+//build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
     step ([$class: 'CopyArtifact',
           projectName: 'MNTLAB-aslesarenka-child1-build-job',
           filter: 'aslesarenka_dsl_script.tar.gz']);     
-// build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
        //     step ([$class: 'CopyArtifact',projectName: 'MNTLAB-aslesarenka-child1-build-job',filter: 'aslesarenka_dsl_script.tar.gz']);
          //   sh 'tar -zxf aslesarenka_dsl_script.tar.gz'
 }
-/*stage ('Package')
+stage ('Package')
 {
 
           sh '''
-                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
+                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/aslesarenka-${BUILD_NUMBER}.jar
                 tar -zxvf aslesarenka_dsl_script.tar.gz jobs.groovy
-                tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
+                tar -czf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile aslesarenka-${BUILD_NUMBER}.jar
                 ''';
-                archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+                archiveArtifacts artifacts: "pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz"
            
-}*/
+}
 
     stage('Approve for Deploy:') 
    {
@@ -56,7 +57,7 @@ stage ('Trigerred')
    stage('Deployment') 
    {
 
-    sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
+    sh 'java -jar aslesarenka-${BUILD_NUMBER}.jar'
 
    }
 
