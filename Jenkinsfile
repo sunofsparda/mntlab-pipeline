@@ -42,15 +42,15 @@ node('host') {
 			}
   
 			stage ('deployment'){
-				echo 'deploy'
+				sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
 			}
+
+			stage ('status send'){
+                        	echo "PIPELINE SUCCESS"
+                	}
 
 		} catch (Exception err){
 			currentBuild.result = 'FAILURE'
-		}
-
-		stage ('status send'){
-			echo "RESULT: ${currentBuild.result}"
 		}
 	}
 }
