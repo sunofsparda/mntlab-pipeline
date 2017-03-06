@@ -70,6 +70,7 @@ node('master')
 
 			stage ('Packaging and Publishing results'){
 		try{
+			sh 'ls -al'
 			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
 			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz'	
 			sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar'
@@ -104,18 +105,14 @@ node('master')
 
 			
 			}
-			stage('Deployment')
-			{
-				try
-				{
-					sh 'ls -al'
-					sh 'java -jar mnikolayev-${BUILD_NUMBER}.jar'
-				}
-				catch (err)
-				{
-					result = "Fail with Deployment"
-				}
-			}
+ 	stage ('Deployment'){
+		try {
+			sh 'ls -al'
+			sh 'java -jar $(basename "${WORKSPACE}").jar'
+		} catch (err) {
+			result = "Fail with Deployment"
+		}	
+  	}
 
 		}
 		catch (err)
