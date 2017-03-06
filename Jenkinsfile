@@ -44,7 +44,6 @@ node('host') {
     }
 	stage('\u27A1 Deployment') {
 		env.Stage = 'Deployment'
-		sh 'failed'
 		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 	stage('\u27A1 Sending status') {
@@ -61,7 +60,7 @@ node('host') {
 		currentBuild.result = "FAILURE"
 		env.Msg = """
 		============================
-		Build FAILED on stage $Stage
+		Build FAILED on stage "$Stage"
 		============================
 
 		The error message is:
@@ -72,7 +71,7 @@ node('host') {
 		(currentBuild.result = "ABORTED") {
 		env.Msg = """
 		===============================================
-		Build ABORTED on stage $Stage  by $submitter
+		Build ABORTED on stage "$Stage"  by "$submitter"
 		===============================================
 		"""
 		echo "$Msg"
