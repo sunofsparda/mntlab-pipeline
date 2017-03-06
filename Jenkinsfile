@@ -42,7 +42,7 @@ node('host') {
 			}
   
 			stage ('deployment'){
-				sh 'll'
+				sh 'ls -a'
 				sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
 			}
 
