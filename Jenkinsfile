@@ -14,15 +14,6 @@ node('master') {
     }
 
     stage('Build') {
-        sh 'make'
-    }
-
-    stage('Test') {
-        sh 'make check'
-        junit 'reports/**/*.xml'
-    }
-
-    stage('Deploy') {
-        sh 'make publish'
-    }
+        sh 'gradle clean build'
+   
 }
