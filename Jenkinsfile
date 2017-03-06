@@ -102,7 +102,3 @@ stage ('Sending status')
 	echo "RESULT: ${currentBuild.result} - ${result}"
 }
 }
-////
-////
-////
-////
