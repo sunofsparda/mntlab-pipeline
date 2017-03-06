@@ -17,8 +17,8 @@ node('master')
 			{
 				step
 				{
-					sh 'echo "build gradle dew" ' //вывод для того чтобы хоть отдаленно понимать где фейлится
-					sh returnStatus: true, script: 'bash gradlew build' //билд зис //долго билдается что-то
+					sh 'echo "build gradledew" ' //вывод для того чтобы хоть отдаленно понимать где фейлится
+					sh returnStatus: true, script: 'gradle build' //билд зис //долго билдается что-то
 					sh 'echo "*****YEAH BITCH*****"'
 				}
 			}
@@ -32,24 +32,24 @@ node('master')
 				{
 					parallel JUnit:
 						{
-							sh 'bash gradlew test'
+							sh 'gradle test'
 						}, //тест зис ин параллел виз ждиюнит, якоко, огурец
 						Jacoco:
 						{
-							sh 'bash gradlew jacoco'
+							sh 'gradle jacoco'
 						},
 						Cucumber:
 						{
-							sh 'bash gradlew cucumber'
+							sh 'gradle cucumber'
 						}
 					failFast: true | false //
 					sh 'echo "*****YEAH BITCH*****"'
 				}
 			}
 
-			//parallel map //
+			//parallel map
 			//parallel spam: map['spam'], eggs: map['eggs'], failFast: true  
-			//parallel map, failFast: true // 
+			//parallel map, failFast: true  
 
 
 
