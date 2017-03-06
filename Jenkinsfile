@@ -1,8 +1,10 @@
-node {
-	tool name: 'gradle3.3', type: 'gradle'
+node('host') {
+
 	tool name: 'java8', type: 'jdk'
-	currentBuild.result = 'SUCCESS'
-	withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
+	tool name: 'gradle3.3', type: 'gradle'
+	def stageStatus = ''
+
+	withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin", "PATH+JAVA=${tool 'java8'}/bin","JAVA_HOME=${tool 'java8'}"]) {
 		try {
 			stage('preparation') {
 				git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'sivanchic'
