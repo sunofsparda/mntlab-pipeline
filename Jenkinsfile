@@ -19,6 +19,7 @@ node('master')
 				{
 					sh 'echo "build gradle dew" ' //вывод для того чтобы хоть отдаленно понимать где фейлится
 					sh returnStatus: true, script: 'bash gradlew build' //билд зис //долго билдается что-то
+					sh 'echo "*****YEAH BITCH*****"'
 				}
 			}
 
@@ -42,6 +43,7 @@ node('master')
 							sh 'bash gradlew cucumber'
 						}
 					failFast: true | false //
+					sh 'echo "*****YEAH BITCH*****"'
 				}
 			}
 
@@ -54,6 +56,7 @@ node('master')
 
 			stage('Starting child job')
 			{
+				sh 'echo "*****YEAH BITCH*****"'
 				build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]]
 				step([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
 			}
