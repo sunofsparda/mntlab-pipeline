@@ -1,5 +1,5 @@
 node {
-   stage 'Stage 1'{
+   stage 'Build' {
 	checkout scm
 		  }
    
