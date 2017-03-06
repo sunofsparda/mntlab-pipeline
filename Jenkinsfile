@@ -1,5 +1,4 @@
 //ALL FIXED. DONT TOUCH!
-extends Exception
 node('host')
 {
     try
@@ -139,8 +138,9 @@ node('host')
             }
         }
     }
-    catch (hudson.AbortException ae)
+    catch (AbortException ae)
     {
+        echo "ima here"
         if (ae.getMessage().contains('script returned exit code 143'))
         {
             echo "DETECTED DAVAI DAVAI"
