@@ -98,7 +98,8 @@ catch (e) {
 	mail body: "project build error: ${err}" ,
 	subject: 'project build failed',
 	to: 'n.g.kuznetsov@gmail.com'
-} */
+} 
+*/
 
 
 def doTheThing(Closure doMe) {
@@ -134,12 +135,12 @@ def doTheThing(Closure doMe) {
 
 
 
+///*
+//finally {
 
-finally {
-
-    /* Must re-throw exception to propagate error */
-    if (err) {
-        throw err
-	}	
-    }
+ //   * Must re-throw exception to propagate error */
+//    if (err) {
+ //       throw err
+//	}	
+//    } 
 }
