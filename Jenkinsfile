@@ -18,13 +18,13 @@ node('host')
         {
         
             parallel junit:
-                {sh '''gradle test'''},
+                {sh 'gradle test'},
                 
                 jacoco:
-                {sh '''gradle jacoco'''},
+                {sh 'gradle jacoco'},
                 
                 cucumber:
-                {sh '''gradle cucumber'''}
+                {sh 'gradle cucumber'}
         }
         
         stage ('Triggering')
@@ -39,6 +39,7 @@ node('host')
             sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''
             sh '''tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
             archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+	    sh '''rm pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'''
         }
         
         stage('Asking for approval')
