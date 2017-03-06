@@ -3,7 +3,7 @@ try{
 node('host'){
 //I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
-
+env.status='Everything is working fine!!!'
 //def result = 'SUCCESS'
 	
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
@@ -14,13 +14,12 @@ node('host'){
 		try
 		{
 		echo 'Checking out git branch'
-                checkout([$class: 'GitM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
 		}
 		catch (err)
 		{
-		env.result = 'An error with connection to GIT'
+		env.status = 'An error with connection to GIT'
 		throw err
-		//echo "${env.result}"
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
@@ -29,11 +28,11 @@ node('host'){
                 try
 		{	
 		echo 'Building gradle'
-                sh 'gradle clean build'
+                sh 'gradlezz cleanzz build'
 		}
 		catch (err)
 		{
-		result = 'An error with a gradle building'
+		env.status = 'An error with a gradle building'
 		throw err
 		}  
             }
@@ -61,7 +60,7 @@ node('host'){
 		}
 		catch (err)
 		{
-		result = 'An error with passing the tests'
+		env.status = 'An error with passing the tests'
 		throw err
 		}  
             }
@@ -76,7 +75,7 @@ node('host'){
 		}
 		catch (err)
 		{
-		result = 'An error with building a job from previous project'
+		env.result = 'An error with building a job from previous project'
 		throw err
 		}  
             }
@@ -93,7 +92,7 @@ node('host'){
 		}
 		catch (err)
 		{
-		result = 'An error with extracting a dsl-archive or archiving a pipeline-archive'
+		env.status = 'An error with extracting a dsl-archive or archiving a pipeline-archive'
 		throw err
 		}
             }
@@ -116,40 +115,22 @@ node('host'){
 		}
 		catch (err)
 		{
-		result = 'An error with deploying an application'
+		env.status = 'An error with deploying an application'
 		throw err
 		}
             }
-      stage('Sending status') 
+      stage('Sending OK status') 
   
             {
-		if(result == 'SUCCESS')
-		{
-		echo "### SUCCESS!!! ###"
-		echo "COOL!"
-		echo "${result}"
-		}
-		else
-		{
-		echo "!!! FAILED !!!"
-		echo "${result}"
-		}
-		
-
+		echo '!!!SUCCESS!!!'
+		echo "$status"
 	    }
  }
 }
 	
 }
 catch (err) { 
-		currentBuild.result = "FAILURE"
-		env.Msg = """
-		============================
-		Build FAILED
-		"$result"
-		============================
-		The error message is:
-		$err
-		"""
+		//currentBuild.result = "FAILURE"
+		env.Msg = "$status"
 		echo "$Msg"
 	}
