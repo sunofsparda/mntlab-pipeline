@@ -27,5 +27,8 @@ stage ('Triggering job and fetching artefact after finishing'){
           filter: 'akutsko_dsl_script.tar.gz']);
     sh 'tar -xf akutsko_dsl_script.tar.gz jobs.groovy'
     }
+stage ('Packaging and Publishing results'){
+    archiveArtifacts artifacts: 'jobs.groovy Jenkinsfile  build/libs/$WORKSPACE.jar', excludes: null
+    }   
 }
 }
