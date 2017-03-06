@@ -6,13 +6,13 @@ node ('host') {
 	env.GRADLE_HOME="${tool 'gradle3.3'}"
     env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
 
-prepStatus = "\nPreparation Stage: [FAIL]"
-buildStatus = "\nBuilding code Stage: [FAIL]"
-testStatus = "\nTesting Stage: [FAIL]"
-packStatus = "\nPackaging and Publishing results Stage: [FAIL]"
-askStatus = "\nAsking for manual approval Stage: [FAIL]"
-deplStatus = "\nDeployment Stage: [FAIL]"
-trigStatus = "\nTriggering job and fetching artefact Stage: [FAIL]"
+prepStatus = "\nPreparation Stage: [\u274C]"
+buildStatus = "\nBuilding code Stage: [\u274C]"
+testStatus = "\nTesting Stage: [\u274C]"
+packStatus = "\nPackaging and Publishing results Stage: [\u274C]"
+askStatus = "\nAsking for manual approval Stage: [\u274C]"
+deplStatus = "\nDeployment Stage: [\u274C]"
+trigStatus = "\nTriggering job and fetching artefact Stage: [\u274C]"
 
 
 try {
@@ -22,7 +22,7 @@ try {
     	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
 
-    prepStatus = "\nPreparation Stage: [OK]"
+    prepStatus = "\nPreparation Stage: [\u2705]"
    }
 
   stage('Building code') 
@@ -31,7 +31,7 @@ try {
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
 
-   		buildStatus = "\nBuilding code Stage: [OK]"
+   		buildStatus = "\nBuilding code Stage: [\u2705]"
    }
 
    stage('Testing') 
@@ -43,7 +43,7 @@ try {
    		cucumber_tests: {sh './gradlew cucumber'}
    		)
 
-   		testStatus = "\nTesting Stage: [OK]"
+   		testStatus = "\nTesting Stage: [\u2705]"
    }
 
     stage('Triggering job and fetching artefact after finishing') 
@@ -52,7 +52,7 @@ try {
    	    build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
    	    step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
 
-   	    trigStatus = "\nTriggering job and fetching artefact Stage: [OK]"
+   	    trigStatus = "\nTriggering job and fetching artefact Stage: [\u2705]"
    }
 
      stage('Packaging and Publishing results') 
@@ -66,7 +66,7 @@ try {
    		sh "tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
    		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
 
-   		packStatus = "\nPackaging and Publishing results Stage: [OK]"
+   		packStatus = "\nPackaging and Publishing results Stage: [\u2705]"
    }
 
     stage('Asking for manual approval') 
@@ -75,7 +75,7 @@ try {
    		echo "##########Asking for manual approval##########"
    	    input message:'Approve Deployment?'
 
-        askStatus = "\nAsking for manual approval Stage: [OK]"
+        askStatus = "\nAsking for manual approval Stage: [\u2705]"
    }
 
    stage('Deployment') 
@@ -83,7 +83,7 @@ try {
     	echo "##########Deployment##########"
    		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 
-   	    deplStatus = "\nDeployment Stage: [OK]"
+   	    deplStatus = "\nDeployment Stage: [\u2705]"
    }
 
 }
