@@ -13,7 +13,7 @@ node('master') {
     git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
     }
 
-    stage('Build') {
+    stage ('Build') {
         sh 'gradle clean build'
-   
+   }
 }
