@@ -25,6 +25,7 @@ stage ('Triggering job and fetching artefact after finishing'){
     step ([$class: 'CopyArtifact',
           projectName: 'MNTLAB-akutsko-child1-build-job',
           filter: 'akutsko_dsl_script.tar.gz']);
+    sh 'echo "dhydshy"'
     }
 }
 }
