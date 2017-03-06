@@ -11,10 +11,6 @@ def result = 'SUCCESS'
 //CHECKOUT GIT BRANCH
             stage('Preparation')
             {
-		    //comment
-		echo "WARNING"
-		echo "${result}"
-		    //comment2
 		try
 		{
 		echo 'Checking out git branch'
@@ -22,7 +18,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with connection to GIT"
+		result = 'An error with connection to GIT'
 		throw err
 		echo "${result}"
 		}    
@@ -37,7 +33,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with a gradle building"
+		result = 'An error with a gradle building'
 		throw err
 		}  
             }
@@ -65,7 +61,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with passing the tests"
+		result = 'An error with passing the tests'
 		throw err
 		}  
             }
@@ -80,7 +76,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with building a job from previous project"
+		result = 'An error with building a job from previous project'
 		throw err
 		}  
             }
@@ -97,7 +93,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
+		result = 'An error with extracting a dsl-archive or archiving a pipeline-archive'
 		throw err
 		}
             }
@@ -120,7 +116,7 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = "An error with deploying an application"
+		result = 'An error with deploying an application'
 		throw err
 		}
             }
@@ -143,15 +139,17 @@ def result = 'SUCCESS'
 	    }
  }
 }
+	
 }
 catch (err) { 
 		currentBuild.result = "FAILURE"
 		env.Msg = """
 		============================
-		Build FAILED on stage "$result"
+		Build FAILED
+		"$result"
 		============================
 		The error message is:
 		$err
 		"""
 		echo "$Msg"
-}
+	}
