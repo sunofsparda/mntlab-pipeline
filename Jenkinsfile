@@ -1,12 +1,12 @@
 node ('host') {
-    tool name: 'gradle3.3', type: 'gradle'
-    tool name: 'java8', type: 'jdk'
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
-    {
+	tool name: 'gradle3.3', type: 'gradle'
+	tool name: 'java8', type: 'jdk'
+	withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
+	{
 
 stage('Checking out') { 
-    git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'amatveenko'
-    }
+	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'amatveenko'
+	}
     
 stage('Building code') {
         sh '''      
@@ -36,9 +36,14 @@ stage ('Packaging and Publishing results') {
 	'''
         archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 	}
-	       
+
+stage ('Asking for manual approval') {
+	input message:'Approve deployment?'
+	}
+	
 stage('Deploy') {
     echo 'Deploying....'
 	sh 'ls -lh'
+	rm -rf *
     }  
 }
