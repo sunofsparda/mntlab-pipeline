@@ -7,7 +7,7 @@ withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin:${e
  
 stage ('Preparation (Checking out).')
     {
-git branch: 'akutsko', credentialsId: 'fc03fd58-f4e9-44ba-aea8-6c3ce8863ec3', url: 'git@github.com:MNT-Lab/mntlab-pipeline.git'
+git branch: 'akutsko', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     }
 
 stage ('Building code'){sh 'gradle build'}
@@ -28,7 +28,8 @@ stage ('Triggering job and fetching artefact after finishing'){
     sh 'tar -xf akutsko_dsl_script.tar.gz jobs.groovy'
     }
 stage ('Packaging and Publishing results'){
-    archiveArtifacts artifacts: "./jobs.groovy ./Jenkinsfile  ./build/libs/${WORKSPACE}.jar", excludes: null
+    sh 'tar -cvzf pipeline-akutsko-${BUILD_NUMBER}.tar.gz ./jobs.groovy ./Jenkinsfile  ./build/libs/${WORKSPACE}.jar'
+    archiveArtifacts artifacts: 'pipeline-akutsko-${BUILD_NUMBER}.tar.gz', excludes: null
     }   
 }
 }
