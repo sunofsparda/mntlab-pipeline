@@ -22,12 +22,7 @@ node('host') {
 
 
     stage('Building code') {
-       	sh '''      
-    		echo $PATH
-    		echo $JAVA_HOME
-    		chmod +x gradlew
-    		gradle build
-    	''';
+       	gradle build
     	//sh './gradlew build --stacktrace --info --debug'
     }
 
