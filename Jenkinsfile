@@ -8,8 +8,6 @@ node('host') {
     withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"])
     {
         sh '''
-            export PATH=$PATH:${gradletool}/bin/
-            export JAVA_HOME=$PATH:$jdktool
             echo $PATH
             echo $JAVA_HOME           
         ''';
@@ -18,7 +16,8 @@ node('host') {
 
     stage('Checking out') {
     	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
-    	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+    	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+        checkout scm
     }
 
 
