@@ -1,8 +1,8 @@
 #!groovy
 
 //Setting parameters for current node: tools, PATH, HOME
-node('master') {
-//node('host') {	
+//node('master') {
+node('host') {	
 	tool name: 'java8', type: 'jdk'
 	tool name: 'gradle3.3', type: 'gradle'
 	env.JAVA_HOME="${tool 'java8'}"
@@ -14,8 +14,8 @@ node('master') {
 
 
 //ENbling errors cathing
-	def err = null
-	currentBuild.result = "SUCCESS"
+//	def err = null
+//	currentBuild.result = "SUCCESS"
 
 //	try {
 
@@ -128,18 +128,6 @@ catch (e) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ///*
