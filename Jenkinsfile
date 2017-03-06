@@ -1,10 +1,11 @@
-node ('host') {
-    tool name: 'java8', type: 'jdk'
-	tool name: 'gradle3.3', type: 'gradle'
-	env.JAVA_HOME="${tool 'java8'}"
-	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-	env.GRADLE_HOME="${tool 'gradle3.3'}"
-    env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+//node ('host') {
+node  {
+   // tool name: 'java8', type: 'jdk'
+	//tool name: 'gradle3.3', type: 'gradle'
+	//env.JAVA_HOME="${tool 'java8'}"
+	//env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+	//env.GRADLE_HOME="${tool 'gradle3.3'}"
+   // env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
 
 prepStatus = "\nPreparation Stage: [\u274C]"
 buildStatus = "\nBuilding code Stage: [\u274C]"
