@@ -41,11 +41,15 @@ node('host'){
                 build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
                 step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
-    /*
+
          stage('Packaging and Publishing') 
             {
                 echo 'Packaging and Publishing..'
+		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
+		sh "tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
+		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
             }
+/*
         stage('Asking for manual approval') 
             {
                 echo 'Do you want to approve?'
