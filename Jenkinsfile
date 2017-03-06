@@ -34,6 +34,7 @@ node('master') {
         sh 'pwd'
         sh 'echo "PWDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"'
         sh '$ORIGIN_NAME="origin/${BRANCH_NAME}"'
+        sh 'echo $ORIGIN_NAME'
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${ORIGIN_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
