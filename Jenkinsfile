@@ -19,11 +19,7 @@ node('host') { timestamps {
             	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
             	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
                 checkout scm
-
 //                checkout([$class: 'GitSCM', branches: [[name: '*/acherlyonok']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4da30b2e-bd0e-445d-89bb-3aca0cd96599', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
-
-
-
             }
 
             stage('Building code') {
@@ -48,8 +44,8 @@ node('host') { timestamps {
 
             stage('Triggering job and fetching artefact after finishing') {
                 echo 'Building MNTLAB-acherlyonok-child1-build-job'
-                build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok']]
-                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-acherlyonok-child1-build-job', filter: 'acherlyonok_dsl_script.tar.gz']);    
+                build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok']], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-acherlyonok-child1-build-job', filter: 'acherlyonok_dsl_script.tar.gz']);
             }
 
 
