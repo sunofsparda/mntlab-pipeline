@@ -6,7 +6,7 @@ node ('host') {
         sh 'java -version'
         def GRADLE_HOME = tool name: 'gradle3.3', type: 'hudson.plugins.gradle.GradleInstallation'
         sh "${GRADLE_HOME}/bin/gradle tasks"
-        sh 'gradle -version'
+    //    sh 'gradle -version'
     // preparation
     stage ('preparation'){
         checkout([$class: 'GitSCM', branches: [[name: '*/rvashkevich']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
@@ -14,7 +14,7 @@ node ('host') {
     //building
     stage ('building') {
         
-        sh ' gradle build '
+        sh ' gradle clean build '
         
     }
 
