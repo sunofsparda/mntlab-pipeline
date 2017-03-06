@@ -47,7 +47,11 @@ stage('Deployment') {
 	java -jar gradle-simple.jar
 	ls -lh
 	'''
-    }  
+	}
+	
+stage('Sending status') {
+	echo "SUCCESS"
+	}
 }
 
 // rm -rf *
