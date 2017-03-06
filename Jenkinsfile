@@ -70,14 +70,14 @@ node('host')
     catch (hudson.AbortException ae) {
     	stage('Status') {
 	           echo "Aborted"
-		   trow error
+		   throw error
 	}
     }
     catch (error)
 	    {
                 stage('Status') {
 	           echo "Error on $stageStatus"
-		   trow error
+		   throw error
 		}
 	    } 
 }
