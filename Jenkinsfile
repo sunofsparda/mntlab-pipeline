@@ -72,7 +72,7 @@ node('host')
 	           echo "Aborted"
 		log = currentBuild.rawBuild.getLog(100)
 		echo "$log"
-		   throw error
+		   throw ae
 		   
 	}
     }
