@@ -6,12 +6,10 @@ node('master') {
         env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
         env.GRADLE_HOME="${tool 'gradle3.3'}"
         env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
-          
+//tab
     stage 'Preparation checkout'
-    git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
-    
-
+        git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
+//tab    
     stage '\u2781 Building code'
         sh 'gradle clean build'
-   
 }
