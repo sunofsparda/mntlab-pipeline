@@ -78,7 +78,7 @@ catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e){
         echo "the job was cancelled or aborted"
         sh "echo ${e}"
          
-	throw e
+//	throw e
 }
 catch (e) {
         currentBuild.result = "FAILED"
