@@ -15,7 +15,7 @@ askStatus = "\nAsking for manual approval Stage: [\u274C]"
 deplStatus = "\nDeployment Stage: [\u274C]"
 trigStatus = "\nTriggering job and fetching artefact Stage: [\u274C]"
 
-withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"]) {
+withEnv(["JAVA_HOME=${tool 'java'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java'}/bin"]) {
 
 try {
 
