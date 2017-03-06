@@ -31,4 +31,5 @@ node('master') {
 //tab
     stage ('Triggering job')
         build 'MNTLAB-ikhamiakou-child1-build-job'
+        sh 'echo "build started"'
 }
