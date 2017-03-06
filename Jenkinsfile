@@ -4,7 +4,9 @@ node ('host') {
         env.JAVA_HOME="${tool 'java8'}"
         env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
         sh 'java -version'
-        env.GRADLE_HOME ="${tool 'gradle3.3'}"
+        def gradle(command) {
+        sh "${tool name: 'gradle3.3', type: 'hudson.plugins.gradle.GradleInstallation'}/bin/gradle ${command}"
+        }
         sh 'gradle -version'
     // preparation
     stage ('preparation'){
