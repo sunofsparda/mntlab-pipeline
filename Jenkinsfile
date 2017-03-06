@@ -28,9 +28,9 @@ node('host') {
 			stage ('packaging and publishing'){
 
 				sh '''
-   				tar -xvzf ${BRANCH_NAME}_dsl_script.tar.gz
-   				cp build/libs/\$(basename \${WORKSPACE}).jar .
-	   			tar czvf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile
+   					tar -xvzf artifacts/${BRANCH_NAME}_dsl_script.tar.gz
+	   				cp build/libs/\$(basename \${WORKSPACE}).jar .
+		   			tar -czvf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile
 				''';
 
 	   			archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz', excludes: null
