@@ -46,7 +46,10 @@ node ('host') {
 
     stage('Asking for manual approval') 
    {
-   		echo "Checking"
+   		echo "##########Asking for manual approval##########"
+   		stage 'PO Approval'
+        timeout(time:8, unit:'HOURS') {
+        input message:'Approve Deployment?'
    }
 
    stage('Deployment') 
