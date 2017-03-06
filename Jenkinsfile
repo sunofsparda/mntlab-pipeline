@@ -1,7 +1,8 @@
 //ALL FIXED. DONT TOUCH!
 node('host')
 {
-    try {
+    try
+    {
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle3.3', type: 'gradle'
         withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
@@ -139,7 +140,11 @@ node('host')
     }
     catch (hudson.AbortException ae)
     {
-        echo "${ae}"
+        if (ae.getMessage().contains('script returned exit code 143'))
+        {
+            echo "DETECTED DAVAI DAVAI"
+            //throw new UserInterruptedException(ae)
+        }
         /*if (ae.getMessage().contains('script returned exit code 143'))
         {
             throw new UserInterruptedException(ae)
