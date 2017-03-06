@@ -14,7 +14,7 @@ node ('host') {
     //building
     stage ('building') {
         
-        sh ' gradle ''clean build'''
+        sh "${GRADLE_HOME}/bin/gradle build"
         
     }
 
