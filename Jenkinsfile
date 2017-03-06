@@ -1,4 +1,4 @@
-node //('host')
+node('host')
 {
 // Configurate tools as they set into Jenkins  
     tool name: 'java8', type: 'jdk'	
