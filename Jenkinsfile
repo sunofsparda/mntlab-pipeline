@@ -1,3 +1,5 @@
+try{
+
 node('host'){
 //I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
@@ -16,7 +18,7 @@ def result = 'SUCCESS'
 		try
 		{
 		echo 'Checking out git branch'
-                checkout([$class: 'GiM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
 		}
 		catch (err)
 		{
@@ -140,4 +142,16 @@ def result = 'SUCCESS'
 
 	    }
  }
+}
+}
+catch (err) { 
+		currentBuild.result = "FAILURE"
+		env.Msg = """
+		============================
+		Build FAILED on stage "$result"
+		============================
+		The error message is:
+		$err
+		"""
+		echo "$Msg"
 }
