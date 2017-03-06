@@ -37,7 +37,7 @@ stage 'Testing code'
 	}
 
 stage 'Triggering job and fetching artefact after finishing'
-	build job: "MNTLAB-{$BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
+	build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
 //	archiveArtifacts '{BRANCH_NAME}_dsl_script.tar.gz,jobs.groovy,script.sh'
 	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
 
@@ -45,7 +45,7 @@ stage 'Triggering job and fetching artefact after finishing'
   stage 'Packaging and Publishing results'
 
   stage 'Asking for manual approval'
-	timeout(time:30, unit:'SECONDS') {
+	timeout(time:60, unit:'SECONDS') {
 	input 'Previous stage successful. Deploy this artefact?'
 	}
   stage 'Deployment'
