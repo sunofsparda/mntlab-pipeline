@@ -15,8 +15,7 @@ node('host') {
 			}
 	
 			stage ('testing'){
-				parallel 
-				junit: {sh './gradle test'},
+				parallel junit: {sh './gradle test'},
 				jacoco: {sh './gradle jacoco'},
                                 cucumber: {sh './gradle cucumber'}
 			}
