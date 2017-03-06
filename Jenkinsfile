@@ -18,6 +18,7 @@ node('master')
 				try
 				{
 					sh 'gradle build'
+					sh 'ls -al'
 				}
 				catch (err)
 				{
