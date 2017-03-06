@@ -10,19 +10,19 @@ node('master') {
     stage 'Preparation checkout'
         git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
 //tab    
-    stage 'Building code'
+    stage 'Building'
         sh 'gradle clean build'
 //tab
-    stage 'Testing'
-        Parallel(
-        Test{
-            sh 'gradle Test'
-        }
-        Jacoco{
-            sh 'gradle jacoco'
-        }
-        Cucumber{
-            sh 'gradle cucumber'
-        }
-        )
+    //stage 'Testing'
+    //    Parallel(
+    //    Cucumber{
+    //        sh 'gradle cucumber'
+    //    }
+    //    Test{
+    //        sh 'gradle Test'
+    //    }
+    //    Jacoco{
+    //        sh 'gradle jacoco'
+    //    }        
+    //    )
 }
