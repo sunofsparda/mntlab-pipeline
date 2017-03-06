@@ -96,7 +96,7 @@ stage ('Deployment')
 			result = "Fail with Deployment"
 		}	
 }
-
+}
 catch (err) 
 {
 	currentBuild.result = 'FAILURE'
