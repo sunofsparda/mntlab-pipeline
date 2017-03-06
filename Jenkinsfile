@@ -70,9 +70,8 @@ try {
 
 
 			            stage('Sending status') {
-			            	echo 'error'
+			            	echo 'Success'
 			            	sh 'tarwqe'
-			                echo1 'NOT WORKING YET........'
 			            }
 
 
