@@ -16,7 +16,7 @@ withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin", "
 try{ 
 stage ('Preparation')
     {
-    git branch: 'akutsko', url: 'https://github.com/MNT-Lab2/mntlab-pipeline.git'
+    git branch: 'akutsko', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     prepStatus = "\nPreparation: [\u2600]"
     }
 
@@ -60,7 +60,7 @@ catch (ERROR){}
     stage('Sending status') 
    {
 	echo prepStatus + buildStatus + testStatus + trigStatus + packStatus + aprStatus + deployStatus
-        if ( prepStatus=="26c8" ){currentBuild.result = 'FAILURE'}
+        if ( prepStatus=="26c8" || buildStatus=="26c8" || testStatus=="26c8" || trigStatus=="26c8" || packStatus=="26c8" || aprStatus=="26c8" || deployStatus=="26c8" ){currentBuild.result = 'FAILURE'}
         else {currentBuild.result = 'SACCESS'}
    }
 
