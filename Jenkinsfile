@@ -5,6 +5,7 @@ node
     tool name: 'gradle3.3', type: 'gradle'
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'JDK'}","PATH+JAVA=${tool 'JDK'}/bin"])
     {
+    
 // Choose repos               
 	  stage ('Preparation (Checking out).')
 	    { git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski' }
@@ -32,7 +33,7 @@ node
             }
 
             
-	  stage ('Packaging and Publishing results.')
+	  stage ('Packaging and Publishing results ')
 	      {
                 sh '''
                 cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
@@ -42,21 +43,17 @@ node
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 	      }
             
-        stage ('Manual approval.')
-	    {
-		input 'deploy'
-            /* timeout(time:3, unit:'MINUTES') 
-                {
-                    input message:'Approve deployment?'
-                } */
-            }
+	  stage ('Manual approval ')
+	      {	input 'deploy'   }
             
 
-        stage ('Deployment.')
-	    {
-             sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
-            }
+	  stage ('Deployment.')
+	      { sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar' }
             
-
+	  stage ('View status')
+	      {
+		env.status = " === Build Successful === "
+		echo $status
+	      }
      }  
 }
