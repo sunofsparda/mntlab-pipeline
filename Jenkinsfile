@@ -8,7 +8,7 @@ node('host')
 	    stage ('Preparation (Checking out from git)')
 		{
 		    stageStatus = 'Preparation (Checking out from git)'
-		    git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'abilun'
+		    checkout scm
 		}
 
 	    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin", "PATH+JAVA=${tool 'java8'}/bin","JAVA_HOME=${tool 'java8'}"]) {
