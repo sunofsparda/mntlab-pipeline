@@ -38,26 +38,9 @@ try {
 		sh "tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar"
 		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		}
-  	stage ('Asking for manual approval'){
-	    try
-            {
-                timeout(time:3, unit:'MINUTES') 
-                {
-                    input message:'Approve deployment?'
-                }
-            }
-            catch (error)
-            {
-		 def user = err.getCauses()[0].getUser()
-             if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-                didTimeout = true
-                 } 
-             else {
-                 userInput = false
-                 echo "Aborted by: [${user}]"
-                 }
-                // errorArray.push("ERROR: Somet wrong with with approve!")
-            }
+        stage ('Asking for manual approval'){
+		result = "Fail with approval"
+		input "Deployment?"
 		}    
   	stage ('Deployment'){
 		result = "Fail with Deployment"
@@ -68,8 +51,19 @@ try {
 catch (err) {
 	currentBuild.result = 'FAILURE'
 }
-  	stage ('Sending status'){		
-     		echo "RESULT: ${currentBuild.result} - ${result}"
+  	stage ('Sending status'){	
+		 def user = err.getCauses()[0].getUser()
+                 if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+                        didTimeout = true
+                   } 
+		  
+		 else {
+        		userInput = false
+        		echo "Aborted by: [${user}]"
+    		      }		
+		
+     		// echo "RESULT: ${currentBuild.result} - ${result}"
 	}
+	
     }
 }
