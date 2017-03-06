@@ -29,15 +29,9 @@ node('host') { timestamps {
 
             stage('Testing') {   	
             	parallel (
-            		'JUnit Tests': {
-            		 	sh 'gradle test'
-            		},
-            		'Jacoco Tests': {
-        			sh 'gradle jacoco'
-            		},
-            		'Cucumber Tests': {
-            			sh 'gradle cucumber'
-            		}
+            		'JUnit Tests': {sh 'gradle test'},
+            		'Jacoco Tests': {sh 'gradle jacoco'},
+            		'Cucumber Tests': {sh 'gradle cucumber'}
             	)
             }
     }
@@ -46,11 +40,14 @@ node('host') { timestamps {
                 echo 'Building MNTLAB-acherlyonok-child1-build-job'
                 build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
                 step ([$class: 'CopyArtifact', projectName: 'MNTLAB-acherlyonok-child1-build-job', filter: 'acherlyonok_dsl_script.tar.gz']);
+                sh 'tar -xzf acherlyonok_dsl_script.tar.gz'
+
             }
 
 
             stage('Packaging and Publishing results') {
-                echo 'NOT WORKING YET........'
+                echo 'Creating new artifact'
+                sh 'tar -czf pipeline-acherlyonok-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
             }
 
 
