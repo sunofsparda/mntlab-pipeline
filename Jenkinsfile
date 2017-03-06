@@ -47,7 +47,7 @@ stage 'Packaging and Publishing results'
        	sh '''
 	cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}
 	tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy       	
-	tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
+	tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar'''
 	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 
 
@@ -56,25 +56,21 @@ stage 'Asking for manual approval'
 	input 'Previous stage successful. Artefact is ready. Deploy this artefact?'
 	}
 stage 'Deployment'
+	sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
 
+stage 'Sending status'
         stage 'Sending status'
         echo "RESULT: ${currentBuild.result}"
-
-
 } 
-//  stage 'Sending status'
 
 catch (caughtError) {
     err = caughtError
     currentBuild.result = "FAILURE"
 
-mail body: "project build error: ${err}" ,
-subject: 'project build failed',
-to: 'n.g.kuznetsov@gmail.com'
+	mail body: "project build error: ${err}" ,
+	subject: 'project build failed',
+	to: 'n.g.kuznetsov@gmail.com'
 } 
-
-//	stage 'Sending status'
-//	echo "RESULT: ${currentBuild.result}"
 
 finally {
 
