@@ -67,6 +67,12 @@ node('host')
 		}
 	    }
     }
+    catch (hudson.AbortException ae) {
+    	stage('Status') {
+	           echo "Aborted"
+		   trow error
+	}
+    }
     catch (error)
 	    {
                 stage('Status') {
