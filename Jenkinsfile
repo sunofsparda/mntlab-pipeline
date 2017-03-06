@@ -40,7 +40,7 @@ stage ('Packaging and publishing results') {
     }
     stage 'Asking for manual approval'
 	timeout(time:1, unit:'HOURS') {
-	input 'Artefact is ready for deploy. Do you want proceed?', submitter:'admin' 
+	input 'Artefact is ready for deploy. Do you want proceed?' 
 	}
 
 stage 'Deployment'
