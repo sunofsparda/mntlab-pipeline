@@ -1,0 +1,40 @@
+node('host')
+{
+    tool name: 'java8', type: 'jdk'
+    tool name: 'gradle3.3', type: 'gradle'
+    tool name: 'git', type: 'git'
+    def gradleHome  = tool "gradle3.3" 
+    def javaHome  = tool "java8"
+    printf $gradleHome
+    printf $javaHome
+  
+stage ('Preparation (Checking out).')
+    {
+git branch: 'akutsko', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+    }
+
+stage ('Building code')
+    {
+      sh '''
+      export GRADLE_HOME=/opt/gradle/gradle-3.3
+      export PATH=${PATH}:${GRADLE_HOME}/bin
+      gradle build
+      '''  
+        }
+stage ('Testing code'){
+    stage ('Unit Tests'){
+      sh '''
+      export GRADLE_HOME=/opt/gradle/gradle-3.3
+      export PATH=${PATH}:${GRADLE_HOME}/bin
+      gradle test
+      '''
+    }
+    stage ('Jacoco Tests'){
+      sh '''
+      export GRADLE_HOME=/opt/gradle/gradle-3.3
+      export PATH=${PATH}:${GRADLE_HOME}/bin
+      gradle jacoco
+      '''
+    }
+}
+}
