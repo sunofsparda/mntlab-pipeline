@@ -6,19 +6,35 @@ node('host'){
 //CHECKOUT GIT BRANCH
             stage('Preparation')
             {
-                echo 'Checking out git branch'
+		try
+		{
+		echo 'Checking out git branch'
                 checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+		}
+		catch (err)
+		{
+		result = "An error with connection to GIT"
+		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
           stage('Building code')
             {
-                echo 'Building gradle'
+                try
+		{	
+		echo 'Building gradle'
                 sh 'gradle clean build'
+		}
+		catch (err)
+		{
+		result = "An error with a gradle building"
+		}  
             }
         //PERFORMING TESTS (CUCUMBER    
         stage('Testing')
             {
-                echo 'Tests....'
+                try
+		{
+		echo 'Tests....'
                 parallel cucumber: 
                 	{
                     	echo 'Cucumber test'    
@@ -34,22 +50,41 @@ node('host'){
 		        echo 'Jacoco test'    
 		        sh 'gradle jacoco'
 		        }
+		}
+		catch (err)
+		{
+		result = "An error with passing the tests"
+		}  
             }
         stage('Triggering job and fetching')
             {
-                echo 'Triggering job..'
+                try
+		{    
+		echo 'Triggering job..'
 		sh 'echo ${BRANCH_NAME}'
 		build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "origin/${BRANCH_NAME}")]
                	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+		}
+		catch (err)
+		{
+		result = "An error with building a job from previous project"
+		}  
             }
 
          stage('Packaging and Publishing') 
             {
 //CREATES AN APP GRADLE-SIMPLE.JAR, EXTRACTS ALL THE FILES FROM DSL-ARCHIVE, ADDS AN APP AND CREATES A NEW ARCHIVE		    
-    		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
+    		try
+		{
+		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
        		sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
         	sh 'tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
         	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+		}
+		catch (err)
+		{
+		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"	
+		}
             }
 
         stage('Asking for manual approval') 
@@ -63,8 +98,15 @@ node('host'){
             }
         stage('Deploying') 
             {
+		try    
+		{    
                 echo 'Deploying an application'
 		sh 'java -jar gradle-simple.jar'
+		}
+		catch (err)
+		{
+		result = "An error with deploying an application"
+		}
             }
    /*     stage('Sending status') 
             {
