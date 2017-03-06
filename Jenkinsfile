@@ -55,7 +55,8 @@ node ('host') {
 
    stage('Deployment') 
    {
-   		echo "Checking"
+    echo "##########Deployment##########"
+   	sh 'java -jar \$(basename \${WORKSPACE}).jar'
    }
 
    stage('Sending status') 
