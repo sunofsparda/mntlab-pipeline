@@ -52,7 +52,7 @@ stage 'Packaging and Publishing results'
 
 
 stage 'Asking for manual approval'
-	timeout(time:60, unit:'SECONDS') {
+	timeout(time:1, unit:'HOURS') {
 	input 'Previous stage successful. Artefact is ready. Deploy this artefact?'
 	}
 stage 'Deployment'
