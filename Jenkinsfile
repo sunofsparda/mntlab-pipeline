@@ -8,7 +8,7 @@ node
       try{
     
 // Choose repos               
-	  stage ('Preparation (Checking out).')
+	  stage ('Preparation (Checking out)')
 	    { git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski' }
 	    
 //Build with gradle
@@ -43,14 +43,15 @@ node
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 	      }
-            
+//waiting for approval            
 	  stage ('Manual approval ')
 	      {	input 'deploy'   }
             
 
 	  stage ('Deployment.')
 	      { sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar' }
-            
+	      
+//if build successful show status             
 	  stage ('View status')
 	      {
 		env.status = " === Build Successful === "
@@ -58,7 +59,8 @@ node
 	      }
 	} //end try
 	catch(err){
-		env.status = " === Build FAILED with $err === "
+		env.status = " === Build FAILED  === "
+		throw err
 	  
 	} // end catch
      }  
