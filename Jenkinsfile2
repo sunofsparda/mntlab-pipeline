@@ -33,6 +33,6 @@ stage ('Asking for manual approval'){
     }
 stage ('Deployment'){
     sh 'java -jar ./build/libs/$(basename "$PWD").jar'
-    {
+    }    
 }
 }
