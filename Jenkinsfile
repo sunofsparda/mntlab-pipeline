@@ -46,7 +46,7 @@ node('host') {
 			}
 
 			stage ('status send'){
-                        	echo "PIPELINE SUCCESS"
+                        	echo "########### PIPELINE SUCCESS ###########"
                 	}
 
 		} catch (Exception err){
