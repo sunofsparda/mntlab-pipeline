@@ -58,7 +58,8 @@ node('master') {
     stage ('Wiping out WORKSPACE')
         timeout(time:1, unit:'HOURS') {
         input 'Are you shure you want to wipeout workspace dir?'
-        sh 'rm -rf ${WORKSPACE}/*>>2>&1'
+        sh 'rm -rf ${WORKSPACE}/*'
+        sh 'echo "WORKSPACE cleared"'
         }
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
