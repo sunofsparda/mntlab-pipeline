@@ -49,21 +49,9 @@ try {
 	}
 }
 catch (err) {
-	currentBuild.result = 'FAILURE'
-}
+	currentBuild.result = 'FAILURE'}
   	stage ('Sending status'){	
-		 def user = err.getCauses()[0].getUser()
-                 if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-                        didTimeout = true
-                   } 
-		  
-		 else {
-        		userInput = false
-        		echo "Aborted by: [${user}]"
-    		      }		
-		
-     		// echo "RESULT: ${currentBuild.result} - ${result}"
-	}
-	
+     		 echo "RESULT: ${currentBuild.result} - ${result}"
+	}	
     }
 }
