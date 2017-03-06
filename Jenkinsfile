@@ -51,10 +51,11 @@ node('host') { timestamps {
                     cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar
                     tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar
                 ''';
+                archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz', onlyIfSuccessful: true
             }
 
 
-            stage('Asking for manual approva') {
+            stage('Asking for manual approval') {
             	echo 'NOT WORKING YET........'
             }
 
