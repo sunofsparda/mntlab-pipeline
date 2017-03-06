@@ -15,12 +15,11 @@ node('master')
 			}
 			stage('build gradle dew')
 			{
-				step
-				{
-					sh 'echo "build gradledew" ' //вывод для того чтобы хоть отдаленно понимать где фейлится
-					sh returnStatus: true, script: 'gradle build' //билд зис //долго билдается что-то
-					sh 'echo "*****YEAH BITCH*****"'
-				}
+				try {
+			sh 'gradle build'
+		} catch (err) {
+			result = "Fail with Building code"
+		}
 			}
 
 
@@ -28,23 +27,18 @@ node('master')
 
 			stage('testing')
 			{
-				step
-				{
-					parallel JUnit:
-						{
-							sh 'gradle test'
-						}, //тест зис ин параллел виз ждиюнит, якоко, огурец
-						Jacoco:
-						{
-							sh 'gradle jacoco'
-						},
-						Cucumber:
-						{
-							sh 'gradle cucumber'
-						}
-					failFast: true | false //
-					sh 'echo "*****YEAH BITCH*****"'
-				}
+				try {
+    		parallel JUnit: {
+      			sh 'gradle test'
+    		}, Jacoco: {
+      			sh 'gradle cucumber'
+    		}, Cucumber: {
+      			sh 'gradle jacoco'
+		} 
+		} catch (err) {
+			result = "Fail with Testing"
+		}
+    	failFast: true|false  
 			}
 
 			//parallel map
