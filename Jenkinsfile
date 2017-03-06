@@ -9,9 +9,9 @@ node('master') {
         tool name: 'gradle3.3', type: 'gradle' 
     
 
-    stage ('Preparation. Checkout') {
-    git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
-    }
+    //stage ('Preparation checkout') {
+    //git branch: 'ikhamiakou', url: 'https://github.com/MNT-Lab/mntlab-pipeline'
+    //}
 
     stage ('Build') {
         sh 'gradle clean build'
