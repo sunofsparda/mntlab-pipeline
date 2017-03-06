@@ -58,30 +58,26 @@ node('master')
 
 
 
-			stage('Starting child job')
-			{
-				try
-				{
-					build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [
-						[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]
-					]
-					step([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
-				}
-				catch (err)
-				{
-					result = "Fail with Triggering job and fetching artefact"
-				}
-			}
+  	stage ('Triggering job and fetching artefact after finishing'){
+   		try {
+			build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]]
+            	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
+		} catch (err) {
+			result = "Fail with Triggering job and fetching artefact"
+		}
+	}
 
 
-			stage('Package')
-			{
-				sh ''
-				'cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/mnikolayev-${BUILD_NUMBER}.jar;tar -zxvf mnikolayev_dsl_script.tar.gz jobs.groovy; tar -czf pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile mnikolayev-${BUILD_NUMBER}.jar'
-				'';
-				archiveArtifacts artifacts: "pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz"
-			}
-
+			stage ('Packaging and Publishing results'){
+		try{
+			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
+			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz'	
+			sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar'
+			archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
+		} catch (err) {
+			result = "Fail with Packaging and Publishing results"
+		}
+  	}
 
 
 
