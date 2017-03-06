@@ -40,7 +40,7 @@ node('host') {
     }
 	stage('\u27A1 Asking for manual approval') {
 		env.Stage = 'Asking for manual approval'
-		input message 'Artifact is built and ready for deployment. Proceed?', submitterParameter: 'submitter'
+		input message: 'Artifact is built and ready for deployment. Proceed?', submitterParameter: 'submitter'
     }
 	stage('\u27A1 Deployment') {
 		env.Stage = 'Deployment'
