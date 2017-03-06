@@ -25,7 +25,7 @@ node('host') {
                	sh 'gradle build'
             	//sh './gradlew build --stacktrace --info --debug'
             }
-
+    }
 
             stage('Testing code') {   	
             	parallel (
@@ -44,6 +44,6 @@ node('host') {
             stage('Deploy') {
             	echo 'Deploying....'
             }
-    }
+    
 
 }
