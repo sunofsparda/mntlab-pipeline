@@ -56,12 +56,12 @@ catch (caughtError) {
     err = caughtError
     currentBuild.result = "FAILURE"
 } finally {
-    (currentBuild.result != "ABORTED") && node("master") {
+    (currentBuild.result != "ABORTED") {
         // Send e-mail notifications for failed or unstable builds.
         // currentBuild.result must be non-null for this step to work.
         step([$class: 'Mailer',
            notifyEveryUnstableBuild: true,
-           recipients: "${email_to}",
+           recipients: "n.g.kuznetsov@gmail.com",
            sendToIndividuals: true])
     }
 
