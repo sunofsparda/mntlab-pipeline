@@ -2,7 +2,7 @@ node
 {
     tool name: 'JDK', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
-    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'JDK'}","PATH+JAVA=${tool 'JDK'}/bin"])
     {
         def errorArray = []
         stage ('Preparation (Checking out).')
