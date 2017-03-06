@@ -8,6 +8,13 @@ node('master') {
 	env.GRADLE_HOME="${tool 'gradle3.3'}"
 	env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
 
+
+	def err = null
+	currentBuild.result = "SUCCESS"
+
+	try {
+
+
 //    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
 //	withEnv(["JAVA_HOME=${tool 'java8'}"])        
 
@@ -18,7 +25,7 @@ stage 'Preparation (Checking out)'
         sh 'java -version'
 
 stage 'Building code'
-	sh 'gradle -b ${WORKSPACE}/build.gradle'
+	sh 'gradle clean build'
   
 
 stage 'Testing code'
@@ -32,7 +39,7 @@ stage 'Testing code'
 
 
 stage 'Triggering job and fetching artefact after finishing'
-	build job: 'MNTLAB-mkuzniatsou-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'mkuzniatsou')]
+	build job: 'MNTLAB-{BRANCH_NAME}-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
 	archiveArtifacts '{BRANCH_NAME}_dsl_script.tar.gz,jobs.groovy,script.sh'
 
   stage 'Packaging and Publishing results'
@@ -42,6 +49,26 @@ stage 'Triggering job and fetching artefact after finishing'
 	input 'Previous stage successful. Deploy this artefact?'
 	}
   stage 'Deployment'
- 
+} 
   stage 'Sending status'
+
+catch (caughtError) {
+    err = caughtError
+    currentBuild.result = "FAILURE"
+} finally {
+    (currentBuild.result != "ABORTED") && node("master") {
+        // Send e-mail notifications for failed or unstable builds.
+        // currentBuild.result must be non-null for this step to work.
+        step([$class: 'Mailer',
+           notifyEveryUnstableBuild: true,
+           recipients: "${email_to}",
+           sendToIndividuals: true])
+    }
+
+    /* Must re-throw exception to propagate error */
+    if (err) {
+        throw err
+    }
+}
+
 }
