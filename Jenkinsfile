@@ -40,7 +40,7 @@ node('host') {
     }
 	stage('\u27A1 Asking for manual approval') {
 		env.Stage = 'Asking for manual approval'
-		input message: 'Artifact is built and ready for deployment. Proceed?', submitterParameter: 'submitter'
+		input 'Artifact is built and ready for deployment. Proceed?'
     }
 	stage('\u27A1 Deployment') {
 		env.Stage = 'Deployment'
@@ -67,14 +67,4 @@ node('host') {
 		$err
 		"""
 		echo "$Msg"
-} finally {
-		(currentBuild.result = "ABORTED") {
-		env.Msg = """
-		===============================================
-		Build ABORTED on stage "$Stage"  by "$submitter"
-		===============================================
-		"""
-		echo "$Msg"
-		}
-	}
-
+} 
