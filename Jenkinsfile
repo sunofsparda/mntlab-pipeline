@@ -4,8 +4,6 @@ node('host')
     tool name: 'gradle3.3', type: 'gradle'
     def stageStatus = ''
     
-	stage ('clean'){deleteDir()}
-	
     try{
 	    stage ('Preparation (Checking out from git)')
 		{
@@ -36,7 +34,7 @@ node('host')
 		stage ('Triggering')
 		{
 		    stage = 'Triggering'
-		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-jobFAKE", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
 		    step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
 		    sh "tar -zxf ${BRANCH_NAME}*.tar.gz"
 		}
@@ -44,7 +42,7 @@ node('host')
 		stage ('Packaging')
 		{
 		    stageStatus = 'Packaging'
-		    /*sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''*/
+		    sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''
 		    sh '''tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
 		    archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		    sh '''rm pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'''
