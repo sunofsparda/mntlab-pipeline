@@ -48,11 +48,11 @@ node('master') {
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
 //tab
     stage ('Wipeout WORKSPACE')
-        sh 'rm -rf ${WORKSPACE}/*'
+        sh 'rm -rf ${WORKSPACE}/*.tar.gz'
 //tab
     stage ('Asking for manual approval')
         timeout(time:1, unit:'HOURS') {
-        input 'We are ready for deployment. Deploy ${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz ?'
+        input 'We are ready for deployment. Deploy gradle-simple.jar ?'
         }
 //tab
     stage ('Deployment')
