@@ -12,9 +12,9 @@ git branch: 'akutsko', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 
 stage ('Building code'){sh 'gradle build'}
 stage ('Testing code'){
-    parallel Unit Tests: {sh 'gradle test'
-             }, Jacoco Tests: {sh 'gradle jacoco'
-             }, cucumber: {sh 'gradle cucumber'
+    parallel Unit_Test: {sh 'gradle test'
+             }, Jacoco_Test: {sh 'gradle jacoco'
+             }, cucumber_Test: {sh 'gradle cucumber'
              }
     }
 stage ('Triggering job and fetching artefact after finishing'){
