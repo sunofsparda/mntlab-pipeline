@@ -1,4 +1,4 @@
-#!Groovy
+#!groovy
 
 node('host') { timestamps {
     
@@ -57,12 +57,12 @@ node('host') { timestamps {
 
             stage('Asking for manual approval') {
             	echo 'NOT WORKING YET........'
+            	input "Deploy?"
             }
 
 
             stage('Deployment') {
-                echo 'Deploying'
-                
+                echo 'Deploying'  
                 sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar'
                 
             }
