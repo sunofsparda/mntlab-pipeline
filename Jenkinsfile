@@ -4,7 +4,7 @@ node('host'){
 //I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
 
-def result = 'SUCCESS'
+//def result = 'SUCCESS'
 	
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
@@ -18,9 +18,9 @@ def result = 'SUCCESS'
 		}
 		catch (err)
 		{
-		result = 'An error with connection to GIT'
+		env.result = 'An error with connection to GIT'
 		throw err
-		echo "${result}"
+		echo "${env.result}"
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
