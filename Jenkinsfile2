@@ -44,7 +44,7 @@ stage ('Package')
           sh '''
                 cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/aslesarenka-${BUILD_NUMBER}.jar
                 tar -zxvf aslesarenka_dsl_script.tar.gz jobs.groovy
-                tar -czf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz jobs.groovy /*Jenkinsfile*/ aslesarenka-${BUILD_NUMBER}.jar
+                tar -czf pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz jobs.groovy aslesarenka-${BUILD_NUMBER}.jar
                 ''';
                 archiveArtifacts artifacts: "pipeline-aslesarenka-${BUILD_NUMBER}.tar.gz"
            
