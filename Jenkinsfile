@@ -108,14 +108,22 @@ node('master')
 
 		}
 		catch (err)
-		echo "*****fail*****"
+
 		{
 			currentBuild.result = 'FAILURE'
+			echo "*****fail*****"
 		}
 
 		stage('Sending status')
 		{
-			echo "*****fail*****"
+			if (currentBuild.result = 'FAILURE'  ) 
+			{
+   				echo "*****fail*****"
+			}else (currentBuild.result = 'SUCCESS')
+			{
+				echo "*****YEAH BITCH*****"
+			} 
+
 		}
 	}
 
