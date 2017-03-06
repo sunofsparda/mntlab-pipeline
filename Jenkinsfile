@@ -4,36 +4,23 @@ node
     tool name: 'gradle3.3', type: 'gradle'
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'JDK'}","PATH+JAVA=${tool 'JDK'}/bin"])
     {
-        def errorArray = []
-        stage ('Preparation (Checking out).')
-        {
-            try
-            {
-                git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski'
+        currentBuild.result = "SUCCESS"
+        try{
+        
+	  stage ('Preparation (Checking out).')
+	    {
+              git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski'
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Cant clone from git!")
-            }
-        }
+            
 
-        stage ('Building code.')
-        {
-            try
-            {
-                sh 'gradle build';
+	  stage ('Building code.')
+	    {
+              sh 'gradle build';
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Cant build with gradle!")
-            }
-        }
-
-        stage ('Testing.')
-        {
-            try
-            {
-                parallel JUnit:
+            
+	  stage ('Testing.')
+	    {
+               parallel JUnit:
                 {
                     sh 'gradle test';
                 },
@@ -46,80 +33,44 @@ node
                     sh 'gradle jacoco';
                 }
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Something goes wrong with tests!")
-            }
-        }
-/*
+           
         stage ('Triggering job and fetching artefact after finishing.')
-        {
-            try
-            {
-                build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
-                step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+	    {
+              build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+              step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Cant trigger other project!")
-            }
-        }
+            
 
-        stage ('Packaging and Publishing results.')
-        {
-            try
-            {
+	  stage ('Packaging and Publishing results.')
+	      {
                 sh '''
                 cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
                 tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
-            }
-            catch (error)
-            {
-                errorArray.push("ERROR: Cant create artifacts!")
-            }
-        }
-
+	      }
+            
         stage ('Asking for manual approval.')
-        {
-            try
-            {
-                timeout(time:3, unit:'MINUTES') 
+	    {
+             timeout(time:3, unit:'MINUTES') 
                 {
                     input message:'Approve deployment?'
                 }
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Somet wrong with with approve!")
-            }
-        }
+            
 
         stage ('Deployment.')
-        {
-            try
-            {
-                sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
+	    {
+             sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
             }
-            catch (error)
-            {
-                errorArray.push("ERROR: Somet wrong with deployent!")
-            }
-        }
+            
 
-        stage ('Sending status.')
-        {
-            def arrSize = errorArray.size();
-            if (arrSize != 0)
-            {
-                echo "${errorArray}"
-            }
-            else
-            {
-                echo "SUCCESS: No errors found!"
-            }
-        } */
+       }
+       catch (err)
+	     {
+	    currentBuild.result = "FAILURE"
+	    throw err
+	    }
     }
 }
