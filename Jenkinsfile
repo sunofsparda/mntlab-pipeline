@@ -18,7 +18,7 @@ node ('host') {
         if (abortUser) {
             println "Aborted by ${abortUser} and bla-bla-bla... "
         } else {
-            printls "Just failed by some reason ..."
+            println "Just failed by some reason ..."
         }
         throw err
     }
