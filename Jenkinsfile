@@ -4,9 +4,7 @@ node
     tool name: 'gradle3.3', type: 'gradle'
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'JDK'}","PATH+JAVA=${tool 'JDK'}/bin"])
     {
-        currentBuild.result = "SUCCESS"
-        try{
-        
+               
 	  stage ('Preparation (Checking out).')
 	    {
               git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski'
@@ -37,7 +35,7 @@ node
         stage ('Triggering job and fetching artefact after finishing.')
 	    {
               build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
-              step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+              step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job",filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
             }
             
 
@@ -66,11 +64,5 @@ node
             }
             
 
-       }
-       catch (err)
-	     {
-	    currentBuild.result = "FAILURE-TEST"
-	    throw err
-	    }
-    }
+     }  
 }
