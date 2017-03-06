@@ -2,17 +2,22 @@ node ('master') {
    
  stage('Preparation')
    {
-   sh 'which java'
+	tool name: 'java8', type: 'jdk'
+        def jdktool = tool 'java8'
+        tool name: 'gradle3.3', type: 'gradle'
+        def gradletool = tool 'gradle3.3'
+
+  /* sh 'which java'
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
       echo WORKSPACE
-    
     	echo "Getting Source:"
-    	checkout([$class: 'GitSCM', branches: [[name: '*/aslesarenka']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
+    	checkout([$class: 'GitSCM', branches: [[name: '*/aslesarenka']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])*/
+         git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
          echo "Success!"
    }
 
-  stage('Building code') 
+ /* stage('Building code') 
    {
    		echo "Starting build"
    		sh 'chmod +x gradlew'
@@ -60,4 +65,4 @@ node ('master') {
    }
 
 
-  }
+  }*/
