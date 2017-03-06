@@ -76,8 +76,8 @@ node('master')
 			stage('Package')
 			{
 				sh ''
-				'cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/mnikolayev-${BUILD_NUMBER}.jar 
-				tar -zxvf mnikolayev_dsl_script.tar.gz jobs.groovytar -czf pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile mnikolayev-${BUILD_NUMBER}.jar'
+				'cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/mnikolayev-${BUILD_NUMBER}.jar; 
+				tar -zxvf mnikolayev_dsl_script.tar.gz jobs.groovy; tar -czf pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile mnikolayev-${BUILD_NUMBER}.jar'
 				'';
 				archiveArtifacts artifacts: "pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz"
 			}
