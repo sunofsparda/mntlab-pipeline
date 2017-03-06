@@ -88,5 +88,8 @@ node('host')
 @NonCPS
 def getLog() {
     def log = currentBuild.rawBuild.getLog(100)
-    return log.toString()
+	log.each{line ->
+		if (line.contains('Aborted By')){
+			return line}	   
+	}
 }
