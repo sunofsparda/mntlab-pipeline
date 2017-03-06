@@ -69,10 +69,10 @@ node('host')
     }
     catch (hudson.AbortException ae) {
     	stage('Status') {
-	           echo "Aborted"
+	        echo "Aborted"
 		log = currentBuild.rawBuild.getLog(100)
 		echo "$log"
-		   throw ae
+		throw ae
 		   
 	}
     }
