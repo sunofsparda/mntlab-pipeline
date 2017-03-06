@@ -11,13 +11,13 @@ stage('Checking out') {
 stage('Building code') {
         sh '''      
         gradle clean build
-        ''';
+        '''
         }
         // chmod +x gradlew
     	// ./gradlew build
     	
     
-stage('Testing code') 
+stage('Testing') 
     parallel junit: {
 	sh 'gradle test'}, 
 	jacoco: {
@@ -26,6 +26,11 @@ stage('Testing code')
 	sh 'gradle cucumber'}
     }
  
+stage ('Triggering job and fetching') {
+	build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+        step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"])
+	}
+	
 stage('Deploy') {
     echo 'Deploying....'
 	sh 'ls -lh'
