@@ -49,8 +49,11 @@ try {
     stage('Triggering job and fetching artefact after finishing') 
    {
     	echo "##########Triggering job and fetching artefact##########"  
-   	    build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-   	    step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+   	    //build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+   	    //step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+        build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+        step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+   	    
 
    	    trigStatus = "\nTriggering job and fetching artefact Stage: [\u2705]"
    }
@@ -59,6 +62,7 @@ try {
    {
    		artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
   		echo "ARTEFACT NAME: ${artefactName}"
+  		sh 'echo $BRANCH_NAME'
    		echo "##########Packaging and Publishing results##########" 
    		sh "tar -zxf yskrabkou_dsl_script.tar.gz"
    		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
