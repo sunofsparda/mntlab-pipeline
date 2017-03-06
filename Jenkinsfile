@@ -26,9 +26,16 @@
 	},      jacoco: {
 		sh 'gradle jacoco'
 		}
-    stage ('Triggering job and fetching artefact after finishing'){
+    stage ('Triggering job and fetching artefact after finishing') {
    		build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]]
             	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
 		} 
+stage ('Packaging and publishing results') {
+       	sh '''
+	cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
+	tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy       	
+	tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar'''
+	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+		}
     }
 }
