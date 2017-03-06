@@ -121,11 +121,6 @@ node('host')
                 errorArray.push("ERROR: Somet wrong with deployent!")
             }
         }
-        
-        stage ('Checking for build abort.')
-        {
-           sh "curl http://jenkins-mntlab.dynu.com/view/pheraska/job/_MNT-Lab-Pipeline-testing_/job/pheraska/lastBuild/consoleText";
-        }
 
         stage ('Sending status.')
         {
