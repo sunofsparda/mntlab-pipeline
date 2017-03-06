@@ -7,7 +7,7 @@ node('host'){
             stage('Preparation')
             {
                 echo 'Checking out git branch'
-                checkout([$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
           stage('Building code')
@@ -38,7 +38,7 @@ node('host'){
         stage('Triggering job and fetching')
             {
                 echo 'Triggering job..'
-                build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
+		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
                 step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
 
