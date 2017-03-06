@@ -16,17 +16,14 @@ node('host') {
 			}
 	
 			stage ('testing'){
-				parallel Cucumber: {
-					sh './gradlew cucumber'
-				}, JUnit: {
-					sh './gradlew test'
-				}, Jacoco: {
-					sh './gradlew jacoco'
-				}
+				parallel 
+				Cucumber: {sh './gradlew cucumber';},
+				JUnit: {sh './gradlew test';},
+				Jacoco: {sh './gradlew jacoco';}
 			}
 
 			stage ('triggering job and fetching'){
-				build job: 'MNTLAB-${BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+				build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
 				step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', filter: '*.tar.gz']);
 			}
 
