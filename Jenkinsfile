@@ -97,19 +97,19 @@ node('master')
 			stage('Request deploy permission')
 			{
 				try
-{
-	timeout(time: 15, unit: 'SECONDS')
-	{
-		input message: 'Do you want to release this build?',
-	
-}
+				{
+					timeout(time: 15, unit: 'SECONDS')
+					{
+					input message: 'Do you want to release this build?',
+					}
+				}
 				catch (err)
 				{
 					result = "Permisson denied" 
 				} //без трайкетча просто инпут
 
+			
 			}
-
 			stage('Deployment')
 			{
 				try
