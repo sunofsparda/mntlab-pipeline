@@ -122,7 +122,7 @@ node('host')
             }
         }
         
-        stahe ('Checking for build abort.')
+        stage ('Checking for build abort.')
         {
            sh "curl '${JENKINS_URL}/job/${JOB_NAME}/lastBuild/consoleText'";
         }
