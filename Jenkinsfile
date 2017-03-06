@@ -4,7 +4,7 @@ node('host') {
     tool name: 'gradle3.3', type: 'gradle'
 //	def jdktool = tool 'java8'
 //    def gradletool = tool 'gradle3.3'
-//    withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"])
+    withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"])
 
 
     stage('Checking out') {
