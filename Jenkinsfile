@@ -12,7 +12,7 @@ try {
 		}
 	stage ('Building code'){
 		result.push("Fail with Building code")
-		sh 'gradle build'
+		sh 'gradle clean build'
 	}	
   	stage ('Testing'){
 		result.push("Fail with Testing")
