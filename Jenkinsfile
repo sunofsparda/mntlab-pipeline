@@ -17,13 +17,12 @@ node('host')
 	    
 //Start parallel test with gradle            
 	  stage ('Tests')
-	    {
-               parallel JUnit:
+	    {   parallel JUnit:
                 { sh 'gradle test'},
                 Jacoco:
                 { sh 'gradle cucumber'},
                 Cucumber:
-                { sh 'gradle jacoco'  }
+                { sh 'gradle jacoco'}
             }
             
 //Start another job with transfer var BRANCH_NAME , recieve artifact with plug-in CopyArtefact       
@@ -38,7 +37,7 @@ node('host')
 	      {
                 sh '''
                 cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
-                tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
+                tar -zxf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
                 tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
                 ''';
                 archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
@@ -47,16 +46,15 @@ node('host')
 	  stage ('Manual approval ')
 		{
 		try {
-		     	input 'deploy'
-		} 
+		     input 'deploy'
+		     } 
 		catch (err) {
 		    def user = err.getCauses()[0].getUser()
 		    echo "Aborted by:\n ${user}"
 		    throw err
 			    }
 		}
-	    
-
+//execute .jar with java
 	  stage ('Deployment.')
 	      { sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar' }
 	      
@@ -68,11 +66,10 @@ node('host')
 	      }
 	} //end try
 
-
 	catch(err){
 		env.status = " === Build FAILED  === "
 		throw err
 	  
 	} // end catch
-     }  
+     } //end withEnv 
 }
