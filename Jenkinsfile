@@ -42,7 +42,7 @@ node('host')
 		stage ('Packaging')
 		{
 		    stageStatus = 'Packaging'
-		    sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''
+		    /*sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''*/
 		    sh '''tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
 		    archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		    sh '''rm pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'''
