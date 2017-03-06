@@ -5,15 +5,19 @@
 
 node('host') {
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"]) {
+	try {
 	stage('\u27A1 Preparation (Checking out)') {
-//	checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/shreben']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]]
+		env.Stage = 'Preparation (Checking out)'
 		checkout scm
 	}
 	stage('\u27A1 Building code') {
-	    sh 'gradle build'
+		env.Stage = 'Building code'
+		sh '''gradle clean
+		gradle build'''
 	}
 	stage('\u27A1 Testing') {
-	    parallel cucumber: {
+		env.Stage = 'Building code'
+		parallel cucumber: {
 			sh 'gradle cucumber'
 		}, junit: {
 			sh 'gradle test'
@@ -23,23 +27,38 @@ node('host') {
 	}
 	
 	stage('\u27A1 Triggering job and fetching artefact after finishing') {
-            build job: 'MNTLAB-shreben-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'shreben'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-            step ([$class: 'CopyArtifact',projectName: 'MNTLAB-shreben-child1-build-job',filter: 'shreben_dsl_script.tar.gz']);
-            sh 'tar -zxf shreben_dsl_script.tar.gz'
+		env.Stage = 'Triggering job and fetching artefact after finishing'
+		build job: 'MNTLAB-shreben-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'shreben'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+		step ([$class: 'CopyArtifact',projectName: 'MNTLAB-shreben-child1-build-job',filter: 'shreben_dsl_script.tar.gz']);
+		sh 'tar -zxf shreben_dsl_script.tar.gz'
     }
 	stage('\u27A1 Packaging and Publishing results') {
+		env.Stage = 'Packaging and Publishing results'
 		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
 		sh "tar -czf pipeline-shreben-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
 		archiveArtifacts "pipeline-shreben-${BUILD_NUMBER}.tar.gz"
     }
 	stage('\u27A1 Asking for manual approval') {
-            input 'Artifact is built and ready for deployment. Proceed?'
+		env.Stage = 'Asking for manual approval'
+		input 'Artifact is built and ready for deployment. Proceed?'
     }
 	stage('\u27A1 Deployment') {
-	sh 'java -jar \$(basename \${WORKSPACE}).jar'
+		env.Stage = 'Deployment'
+		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 	stage('\u27A1 Sending status') {
-            echo 'Deployment is successful!'
+		echo "============================"
+		echo "Build SUCCESSFUL"
+		echo "============================"
 	}
-}
-}
+	}	// try end
+	catch(error) {
+		currentBuild.result = "FAILURE"
+		echo "============================"
+		echo "Build FAILED on stage $Stage"
+		echo "============================"
+		echo "The error message is:"
+		echo "$error"
+	}
+}	// withEnv end
+}	// node end
