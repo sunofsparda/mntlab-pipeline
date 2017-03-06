@@ -60,6 +60,8 @@ catch (ERROR){}
     stage('Sending status') 
    {
 	echo prepStatus + buildStatus + testStatus + trigStatus + packStatus + aprStatus + deployStatus
+        if ( *Status==[\u26c8] ){currentBuild.result = 'FAILURE'}
+        else {currentBuild.result = 'SACCESS'}
    }
 
 }
