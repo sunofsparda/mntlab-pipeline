@@ -1,4 +1,4 @@
-node('master') {
+node('host') {
         tool name: 'gradle3.3', type: 'gradle'
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle3.3', type: 'gradle'          
@@ -30,7 +30,8 @@ node('master') {
         }
 //tab
     stage ('Triggering job')
-        build job: 'MNTLAB-ikhamiakou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'origin/ikhamiakou']]
+        sh 'BRANCH_NAME=$(echo $BRANCH_NAME | cut -c 8-)'
+        build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
 
-        sh 'echo "MNTLAB-ikhamiakou-child1-build-job STARTED OK"'
+        sh 'echo "MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"'
 }
