@@ -72,7 +72,7 @@ stage '\u2787 Sending status'
     	throw e
     } 
 */
-
+/*
 catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e){
 
         echo "the job was cancelled or aborted"
@@ -88,7 +88,7 @@ catch (e) {
         to: 'n.g.kuznetsov@gmail.com'
         throw e
     }
-
+*/
 
 
 /*catch (caughtError) {
@@ -99,6 +99,41 @@ catch (e) {
 	subject: 'project build failed',
 	to: 'n.g.kuznetsov@gmail.com'
 } */
+
+
+def doTheThing(Closure doMe) {
+    try {
+        return doMe()
+    } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fie) {
+        // this ambiguous condition means a user probably aborted
+        if (fie.causes.size() == 0) {
+            throw new UserInterruptedException(fie)
+        } else {
+            throw fie
+        }
+    } catch (hudson.AbortException ae) {
+        // this ambiguous condition means during a shell step, user probably aborted
+        if (ae.getMessage().contains('script returned exit code 143')) {
+            throw new UserInterruptedException(ae)
+        } else {
+            throw ae
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 finally {
 
