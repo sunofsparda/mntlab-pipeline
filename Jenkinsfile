@@ -30,6 +30,7 @@ node('host') {
 				sh '''
 					cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}
 					mv $(basename "${WORKSPACE}").jar gradle-simple.jar
+					cp artifacts/${BRANCH_NAME}_dsl_script.tar.gz ./${BRANCH_NAME}_dsl_script.tar.gz
 					tar -xvzf ${BRANCH_NAME}_dsl_script.tar.gz
 					tar -cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar
 				''';
