@@ -50,7 +50,7 @@ node('host') {
                 	}
 
 		} catch (Exception err){
-			currentBuild.result = 'FAILURE'
+				echo "########### PIPELINE FAILURE ###########"
 		}
 	}
 }
