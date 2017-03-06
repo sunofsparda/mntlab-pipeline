@@ -98,10 +98,10 @@ node('master')
 			{
 				try
 				{
-					timeout(time: 15, unit: 'SECONDS')
-					{
+				//	timeout(time: 15, unit: 'SECONDS')
+				//	{
 					input message: 'Do you want to release this build?',
-					}
+				//	}
 				}
 				catch (err)
 				{
