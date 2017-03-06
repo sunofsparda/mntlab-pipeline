@@ -21,7 +21,7 @@ try {
  stage('Preparation')
    {    
     	echo "##########Preparation##########"
-    	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
+    	checkout([$class: 'GitSCM', branches: [[name: 'yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
 
     prepStatus = "\nPreparation Stage: [\u2705]"
    }
