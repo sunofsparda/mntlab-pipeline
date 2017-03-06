@@ -63,20 +63,29 @@ stage '\u2787 Sending status'
 	echo "\u2705 RESULT: ${currentBuild.result}"
 } 
 
-catch (InterruptedException e) {
+/*catch (InterruptedException e) {
         currentBuild.result = "ABORTED"
 	sh "echo ${e}"
         mail body: "project build error: ${e}" ,
         subject: 'project build failed',
         to: 'n.g.kuznetsov@gmail.com'
     	throw e
-    } catch (e) {
+    } 
+*/
+
+catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err){
+
+        echo "the job was cancelled or aborted"
+        sh "echo ${err}"
+         }
+
+catch (err) {
         currentBuild.result = "FAILED"
-        sh "echo ${e}"
-        mail body: "project build error: ${e}" ,
+        sh "echo ${err}"
+        mail body: "project build error: ${err}" ,
         subject: 'project build failed',
         to: 'n.g.kuznetsov@gmail.com'
-        throw e
+        throw err
     }
 
 
