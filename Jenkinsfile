@@ -53,7 +53,7 @@ node
 	  stage ('View status')
 	      {
 		env.status = " === Build Successful === "
-		echo $status
+		echo "$status"
 	      }
      }  
 }
