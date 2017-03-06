@@ -49,6 +49,11 @@ stage 'Triggering job and fetching artefact after finishing'
 	input 'Previous stage successful. Deploy this artefact?'
 	}
   stage 'Deployment'
+
+        stage 'Sending status'
+        echo "RESULT: ${currentBuild.result}"
+
+
 } 
 //  stage 'Sending status'
 
@@ -61,8 +66,8 @@ subject: 'project build failed',
 to: 'n.g.kuznetsov@gmail.com'
 } 
 
-	stage 'Sending status'
-	echo "RESULT: ${currentBuild.result}"
+//	stage 'Sending status'
+//	echo "RESULT: ${currentBuild.result}"
 
 finally {
 
