@@ -27,6 +27,9 @@ stage ('Packaging and Publishing results'){
     sh 'tar -xf akutsko_dsl_script.tar.gz jobs.groovy'
     sh 'tar -cvzf pipeline-akutsko-${BUILD_NUMBER}.tar.gz ./jobs.groovy ./Jenkinsfile  ./build/libs/$(basename "$PWD").jar'
     archiveArtifacts artifacts: 'pipeline-akutsko-${BUILD_NUMBER}.tar.gz', excludes: null
-    }   
+    }
+stage ('Asking for manual approval'){
+    input message: 'Do you want to deploy this artefact?', ok: 'Deploy'
+    } 
 }
 }
