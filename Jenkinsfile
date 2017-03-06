@@ -45,17 +45,19 @@ node('host'){
 
          stage('Packaging and Publishing') 
             {
+//		    
     		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
        		sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
         	sh 'tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
         	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
             }
-/*
+
         stage('Asking for manual approval') 
             {
-                echo 'Do you want to approve?'
+                echo "Asking for permission..."
+		input message: 'Do you agree to start deployment?', submitter: 'submitter'
             }
-        stage('Deploying') 
+  /*      stage('Deploying') 
             {
                 echo 'Deploying'
             }
