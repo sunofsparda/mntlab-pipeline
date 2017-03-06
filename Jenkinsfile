@@ -18,11 +18,14 @@ node('master') {
     stage 'Testing'
         parallel JUnit: {
             sh 'gradle test'
+            sh 'echo "--------------JUnit OK--------------"'
             },
         Jacoco: {
             sh 'gradle jacoco'
+            sh 'echo "--------------Jacoco OK--------------"'
         },
         Cucumber: {
             sh 'gradle jacoco'
+            sh 'echo "--------------Cucumber OK--------------"'
         }
 }
