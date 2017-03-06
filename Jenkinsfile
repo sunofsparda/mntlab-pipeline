@@ -4,7 +4,7 @@ tool name: 'java8', type: 'jdk'
 currentBuild.result = 'SUCCESS'
 def result = []
 	
-withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) { 
+withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}", "PATH+JAVA=${tool 'java8'}/bin"]) { 
 try {
 	stage('Preparation (Checking out)') {
 		try {
@@ -15,7 +15,7 @@ try {
 	}
 	stage ('Building code'){
 		try {
-			sh 'gradle build'
+			sh 'gradle clean build'
 		} catch (err) {
 			result.push("Fail with Building code")
 		}
