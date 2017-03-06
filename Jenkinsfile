@@ -14,14 +14,14 @@ node ('host') {
    		sh 'gradle build'
    }
 
-   stage('Parallel Testing') 
-   {
-   		parallel (
-   		unit: {sh 'gradle build'},
-   		jacoco: {sh 'gradle jacoco'},
-   		cucumber: {sh 'gradle cucumber'}
-   		)
-   }
+   //stage('Parallel Testing') 
+   //{
+   	//	parallel (
+   	//	unit: {sh 'gradle build'},
+   	//	jacoco: {sh 'gradle jacoco'},
+   	//	cucumber: {sh 'gradle cucumber'}
+   	//	)
+   //}
 
 stage ('Trigerred')
 {   
