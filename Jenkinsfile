@@ -1,4 +1,4 @@
-node('master')
+node('host')
 { //определить чем будет польоваться пайплайн 
 	tool name: 'gradle3.3', type: 'gradle' //
 	tool name: 'java8', type: 'jdk'
