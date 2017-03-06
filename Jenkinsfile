@@ -14,7 +14,7 @@ node ('host') {
     //building
     stage ('building') {
         
-        sh ' gradle "clean build' '
+        sh ' gradle ''clean build'''
         
     }
 
