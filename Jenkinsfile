@@ -14,7 +14,6 @@ node('master') {
 
 	try {
 
-
 //    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
 //	withEnv(["JAVA_HOME=${tool 'java8'}"])        
 
@@ -37,7 +36,6 @@ stage 'Testing code'
 	sh 'gradle cucumber'
 	}
 
-
 stage 'Triggering job and fetching artefact after finishing'
 	build job: 'MNTLAB-{BRANCH_NAME}-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
 	archiveArtifacts '{BRANCH_NAME}_dsl_script.tar.gz,jobs.groovy,script.sh'
@@ -55,20 +53,15 @@ stage 'Triggering job and fetching artefact after finishing'
 catch (caughtError) {
     err = caughtError
     currentBuild.result = "FAILURE"
+
+mail body: "project build error: ${err}" ,
+subject: 'project build failed',
+to: 'n.g.kuznetsov@gmail.com'
 } finally {
-    (currentBuild.result != "ABORTED") {
-        // Send e-mail notifications for failed or unstable builds.
-        // currentBuild.result must be non-null for this step to work.
-        step([$class: 'Mailer',
-           notifyEveryUnstableBuild: true,
-           recipients: "n.g.kuznetsov@gmail.com",
-           sendToIndividuals: true])
-    }
 
     /* Must re-throw exception to propagate error */
     if (err) {
         throw err
     }
 }
-
 }
