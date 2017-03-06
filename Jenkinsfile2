@@ -50,6 +50,15 @@ build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRA
            
 //}
 
+stage ('Packaging and Publishing results'){
+		result = "Fail with Packaging and Publishing results"
+		sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
+		sh 'mv $(basename "${WORKSPACE}").jar gradle-simple.jar '
+		sh "tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz"	
+		sh "tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar"
+		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+		}
+
     stage('Approve for Deploy:') 
    {
                 timeout(time:60, unit:'SECONDS') 
