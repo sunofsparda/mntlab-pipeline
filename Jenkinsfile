@@ -17,8 +17,13 @@ stage('Building code') {
     	// ./gradlew build
     	
     
-stage('Testing code') {  
-    echo 'Deploying....'
+stage('Testing code') 
+    parallel junit: {
+	sh 'gradle test'}, 
+	jacoco: {
+	sh 'gradle jacoco'}, 
+	cucumber: {
+	sh 'gradle cucumber'}
     }
  
 stage('Deploy') {
