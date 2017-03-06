@@ -73,16 +73,12 @@ node('master')
 			}
 
 
-			stage('create archive and stuff into archive')
+			stage('Package')
 			{
-				step
-				{
-					sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}' //падает с трещиной от шеи до жопы
-					sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz' //постоянно еб твою мать
-					sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar' //распаковали и достали jobs.groovy
-					archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz' //сделаем тарку
-
-				}
+				sh ''
+				'cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/mnikolayev-${BUILD_NUMBER}.jartar -zxvf mnikolayev_dsl_script.tar.gz jobs.groovytar -czf pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile mnikolayev-${BUILD_NUMBER}.jar'
+				'';
+				archiveArtifacts artifacts: "pipeline-mnikolayev-${BUILD_NUMBER}.tar.gz"
 			}
 
 
