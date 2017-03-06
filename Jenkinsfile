@@ -47,16 +47,14 @@ node //('host')
 	  stage ('Manual approval ')
 		{
 		try {
-		      timeout(time: 30, unit: 'SECONDS') {
-			    input message: 'Do you want to release this build?'			     
-			}
-		} catch (err) {
+		     	input 'deploy'
+		} 
+		catch (err) {
 		    def user = err.getCauses()[0].getUser()
 		    echo "Aborted by:\n ${user}"
 			    }
 		}
-	     // {	input 'deploy'   }
-            
+	    
 
 	  stage ('Deployment.')
 	      { sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar' }
