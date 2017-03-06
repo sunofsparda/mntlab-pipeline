@@ -42,6 +42,7 @@ node('host') {
 			}
   
 			stage ('deployment'){
+				sh 'tree'
 				sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
 			}
 
