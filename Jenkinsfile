@@ -67,6 +67,7 @@ node('host')
 		    echo 'Successful Deployment!'
 		}
 	    }
+    }
     catch (error)
 	    {
                 stage('Status') {
