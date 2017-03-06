@@ -1,4 +1,11 @@
 node ('host') {
+    tool name: 'java8', type: 'jdk'
+	tool name: 'gradle3.3', type: 'gradle'
+	env.JAVA_HOME="${tool 'java8'}"
+	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+	env.GRADLE_HOME="${tool 'gradle3.3'}"
+    env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+
 prepStatus = "\nPreparation Stage: [FAIL]"
 buildStatus = "\nBuilding code Stage: [FAIL]"
 testStatus = "\nTesting Stage: [FAIL]"
@@ -11,13 +18,7 @@ trigStatus = "\nTriggering job and fetching artefact Stage: [FAIL]"
 try {
 
  stage('Preparation')
-   {   
-    tool name: 'java8', type: 'jdk'
-	tool name: 'gradle3.3', type: 'gradle'
-	env.JAVA_HOME="${tool 'java8'}"
-	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-	env.GRADLE_HOME="${tool 'gradle3.3'}"
-    env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+   {    
     	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
 
@@ -56,8 +57,8 @@ try {
 
      stage('Packaging and Publishing results') 
    {
-   artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
-   echo "ARTEFACT NAME: ${artefactName}"
+   		artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
+  		echo "ARTEFACT NAME: ${artefactName}"
    		echo "##########Packaging and Publishing results##########" 
    		sh "tar -zxf yskrabkou_dsl_script.tar.gz"
    		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
@@ -79,16 +80,16 @@ try {
 
    stage('Deployment') 
    {
-    echo "##########Deployment##########"
-   	sh 'java -jar \$(basename \${WORKSPACE}).jar'
+    	echo "##########Deployment##########"
+   		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 
-   	 deplStatus = "\nDeployment Stage: [OK]"
+   	    deplStatus = "\nDeployment Stage: [OK]"
    }
 
 }
 catch (ex)
 {
-    echo "###################SOMETHING FAIL################"
+   
 }
    stage('Sending status') 
    {
