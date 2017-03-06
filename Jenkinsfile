@@ -2,7 +2,7 @@ node('master')
 {
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
-    tool name: 'git', type: 'git'
+//tool name: 'git', type: 'git'
     def gradleHome  = tool "gradle3.3" 
     def javaHome  = tool "java8"
     println gradleHome
@@ -10,7 +10,7 @@ node('master')
 //export GRADLE_HOME=/opt/gradle/gradle-3.3
 //export PATH=${PATH}:${GRADLE_HOME}/bin
 
-withEnv(["JAVA_HOME=${ tool 'java8' }", "GRADLE_HOME=${tool 'gradle3.3'}", "PATH=${PATH}:${env.GRADLE_HOME}/bin"]) { 
+withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin:${env.JAVA_HOME}/bin"]) { 
  
 stage ('Preparation (Checking out).')
     {
