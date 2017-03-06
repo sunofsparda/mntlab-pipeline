@@ -29,7 +29,6 @@ node('host')
         
         stage ('Triggering')
         {
-            echo "$BRANCH_NAME"
             build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
             step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             sh "tar -zxf ${BRANCH_NAME}*.tar.gz"
@@ -44,12 +43,15 @@ node('host')
         
         stage('Asking for approval')
         {
-            input 'All done. We are ready for deployment. Proceed?'
+	    timeout(time:1, unit:'DAYS')
+	    {
+	        input 'All done. We are ready for deployment. Proceed?'
+	    }
         }
 
-	    stage('Deployment')
+	stage('Deployment')
         {
-	        sh '''java -jar $(basename ${WORKSPACE}).jar'''
+	    sh '''java -jar $(basename ${WORKSPACE}).jar'''
         }
         
         stage('Status') {
