@@ -10,10 +10,9 @@ node ('master') {
   /* sh 'which java'
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
-      echo WORKSPACE
+      echo WORKSPACE*/
     	echo "Getting Source:"
-    	checkout([$class: 'GitSCM', branches: [[name: '*/aslesarenka']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])*/
-         git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+    	checkout([$class: 'GitSCM', branches: [[name: '*/aslesarenka']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
          echo "Success!"
    }
 
