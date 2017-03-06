@@ -30,17 +30,21 @@ node('master') {
         }
 //tab
     stage ('Triggering job')
-        sh 'echo $BRANCH_NAME'
-        sh '$ORIGIN_NAME="origin/${BRANCH_NAME}"'
-        sh 'echo $ORIGIN_NAME'
-        sh 'echo "ORIGIGIGGIGNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"'
+        //sh 'echo $BRANCH_NAME'
+        //sh '$ORIGIN_NAME="origin/${BRANCH_NAME}"'
+        //sh 'echo $ORIGIN_NAME'
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
         sh 'mv *tar.gz ${BRANCH_NAME}_dsl_script.tar.gz'
         sh 'pwd'
         sh 'echo "--------------------PWD------------------------"'
-        
+//tab
+    stage ('Packaging and Publishing results')        
+        cp  cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar
+        tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
+        tar -czf pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+        archiveArtifacts "pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz"
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
