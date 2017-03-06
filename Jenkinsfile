@@ -61,7 +61,10 @@ node('host') { timestamps {
 
 
             stage('Deployment') {
-                echo 'NOT WORKING YET........'
+                echo 'Deploying'
+                
+                sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar'
+                
             }
 
 
