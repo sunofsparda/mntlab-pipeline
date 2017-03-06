@@ -44,6 +44,7 @@ stage ('Asking for manual approval')
 	
 stage('Deployment') {
 	sh ''' 
+	java -version
 	java -jar gradle-simple.jar
 	ls -lh
 	'''
