@@ -59,7 +59,7 @@ stage ('Deployment'){
 catch (ERROR){}
     stage('Sending status') 
    {
-	echo prepStatus + buildStatus + testStatus + trigStatus + packStatus + aprStatus + deploylStatus
+	echo prepStatus + buildStatus + testStatus + trigStatus + packStatus + aprStatus + deployStatus
    }
 
 }
