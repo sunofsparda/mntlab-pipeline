@@ -138,7 +138,7 @@ node('master')
 
 		stage('Sending status')
 		{
-				sh 'echo "${currentBuild.result}'
+				sh 'echo ${currentBuild.result}'
 		}
 	}
 
