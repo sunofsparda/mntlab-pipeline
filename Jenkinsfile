@@ -14,7 +14,7 @@ node('host') {
             echo $JAVA_HOME           
         ''';
         //sh './gradlew build --stacktrace --info --debug'
-    }
+    
 
     stage('Checking out') {
     	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
@@ -46,8 +46,11 @@ node('host') {
     		}
     	)
     }
+
     stage('Deploy') {
     	echo 'Deploying....'
     } 
+
+    }
 
 }
