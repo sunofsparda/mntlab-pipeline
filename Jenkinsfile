@@ -54,6 +54,7 @@ node('host') {
         }
 //tab
     stage ('Deployment')
+        //
         sh 'java -jar gradle-simple.jar'
 //tab
     stage ('Wiping out WORKSPACE')
@@ -62,9 +63,12 @@ node('host') {
         sh 'rm -rf ${WORKSPACE}/*'
         sh 'echo "WORKSPACE cleared"'
         }
+//tab
+    stage ('Status')
+        sh 'echo result: ${currentBuild.result}"'
+    //STASH using
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
-//tab
     //stage ('stash_test')
     //    unstash 'test'
     //    sh 'ls -la *.tar.gz>>test.txt'
