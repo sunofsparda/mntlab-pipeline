@@ -21,7 +21,10 @@ stage ('Testing code'){
              }
     }
 stage ('Triggering job and fetching artefact after finishing'){
-build job: 'MNTLAB-akutsko-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'akutsko')], quietPeriod: 0
+    build job: 'MNTLAB-akutsko-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'akutsko')], quietPeriod: 0
+    step ([$class: 'CopyArtifact',
+          projectName: 'MNTLAB-akutsko-child1-build-job',
+          filter: 'akutsko_dsl_script.tar.gz']);
     }
 }
 }
