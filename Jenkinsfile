@@ -28,7 +28,7 @@ env.status='Everything is working fine!!!'
                 try
 		{	
 		echo 'Building gradle'
-                sh 'gradlezz cleanzz build'
+                sh 'gradle clean build'
 		}
 		catch (err)
 		{
@@ -119,8 +119,8 @@ env.status='Everything is working fine!!!'
 		throw err
 		}
             }
-      stage('Sending OK status') 
-  
+//FINAL STAGE! NO ERRORS IN IT -- ALL IS FINE!
+	 stage('Sending OK status') 
             {
 		env.Msg = """
 		****************************
@@ -133,8 +133,9 @@ env.status='Everything is working fine!!!'
 	    }
  }
 }
-	
+
 }
+//IF SECTION FAILS, AN ERROR WILL APPEAR!
 catch (err) { 
 		env.Msg = """
 		---------------------------
