@@ -1,6 +1,7 @@
 #!groovy
 
-node('master') {
+//node('master') {
+node('host') {	
 	tool name: 'java8', type: 'jdk'
 	tool name: 'gradle3.3', type: 'gradle'
 	env.JAVA_HOME="${tool 'java8'}"
@@ -59,8 +60,7 @@ stage 'Deployment'
 	sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
 
 stage 'Sending status'
-        stage 'Sending status'
-        echo "RESULT: ${currentBuild.result}"
+	echo "RESULT: ${currentBuild.result}"
 } 
 
 catch (caughtError) {
