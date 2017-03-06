@@ -19,20 +19,20 @@ node ('host') {
     		echo $PATH
     		echo $JAVA_HOME
     		chmod +x gradlew
-    		./gradlew build
+    		./gradle build
     	''';
     	//sh './gradlew build --stacktrace --info --debug'
     }
     stage('Testing code') {   	
     	parallel (
     		Junit: {
-    		 	sh './gradlew test'
+    		 	sh 'gradle test'
     		},
     		Jacoco: {
-    			sh './gradlew jacoco'
+    			sh 'gradle jacoco'
     		},
     		Cucumber: {
-    			sh './gradlew cucumber'
+    			sh 'gradle cucumber'
     		}
     	)
     }
