@@ -8,7 +8,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 try {
 	stage('Preparation (Checking out)') {
 		result.push("Fail with Checking")
-		git url:'https://github.com/hvysotski/mntlab-pipeline.git', branch:'hvysotski'
+		git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'hvysotski'
 		}
 	stage ('Building code'){
 		result.push("Fail with Building code")
