@@ -14,6 +14,7 @@ node('host'){
 		catch (err)
 		{
 		result = "An error with connection to GIT"
+		throw err
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
@@ -27,6 +28,7 @@ node('host'){
 		catch (err)
 		{
 		result = "An error with a gradle building"
+		throw err
 		}  
             }
         //PERFORMING TESTS (CUCUMBER    
@@ -54,6 +56,7 @@ node('host'){
 		catch (err)
 		{
 		result = "An error with passing the tests"
+		throw err
 		}  
             }
         stage('Triggering job and fetching')
@@ -68,6 +71,7 @@ node('host'){
 		catch (err)
 		{
 		result = "An error with building a job from previous project"
+		throw err
 		}  
             }
 
@@ -83,7 +87,8 @@ node('host'){
 		}
 		catch (err)
 		{
-		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"	
+		result = "An error with extracting a dsl-archive or archiving a pipeline-archive"
+		throw err
 		}
             }
 
@@ -106,6 +111,7 @@ node('host'){
 		catch (err)
 		{
 		result = "An error with deploying an application"
+		throw err
 		}
             }
    /*     stage('Sending status') 
