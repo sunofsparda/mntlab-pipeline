@@ -48,8 +48,8 @@ node('host') { timestamps {
             stage('Packaging and Publishing results') {
                 echo 'Creating new artifact'
                 sh '''
-                    cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/gradle-simple.jar
-                    tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+                    cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar
+                    tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}-gradle-simple.jar
                 ''';
             }
 
