@@ -133,18 +133,18 @@ node('master')
 
 		{
 			currentBuild.result = 'FAILURE'
-			echo "*****fail*****"
+			sh 'echo ---------------'
 		}
 
 		stage('Sending status')
 		{
 			if (currentBuild.result == 'FAILURE')
 			{
-				echo "*****fail*****"
+				sh 'echo ---------------'
 			}
 			else(currentBuild.result == 'SUCCESS')
 			{
-				echo "*****YEAH BITCH*****"
+				sh 'echo +++++++++++++++'
 			}
 
 		}
