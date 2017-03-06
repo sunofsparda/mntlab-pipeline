@@ -47,7 +47,7 @@ node //('host')
 	  stage ('Manual approval ')
 		{
 		try {
-		      timeout(time: 15, unit: 'SECONDS') {
+		      timeout(time: 30, unit: 'SECONDS') {
 			    input message: 'Do you want to release this build?',
 			     parameters: [[$class: 'BooleanParameterDefinition',
                             defaultValue: false,
