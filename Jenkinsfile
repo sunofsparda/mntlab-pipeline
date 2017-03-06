@@ -71,6 +71,7 @@ node('host')
 	    {
                 stage('Status') {
 	           echo "Error on $stageStatus"
+		   trow error
 		}
 	    } 
 }
