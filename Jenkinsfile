@@ -69,7 +69,9 @@ node { timestamps {
 
 
 	            stage('Sending status') {
-	                echo 'NOT WORKING YET........'
+	            	echo 'error'
+	            	sh 'tarwqe'
+	                echo1 'NOT WORKING YET........'
 	            }
 
 
