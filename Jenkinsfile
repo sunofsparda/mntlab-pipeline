@@ -2,10 +2,12 @@ node ('host') {
    
  stage('Prepare for Deploy:')
    {
-   sh 'which java'
-   sh 'echo $JAVA_HOME'
-      echo BUILD_NUMBER
-      echo WORKSPACE
+  // sh 'which java'
+   //sh 'echo $JAVA_HOME'
+     // echo BUILD_NUMBER
+     // echo WORKSPACE
+      tool name: 'java8', type: 'jdk'
+         def gradletool = tool 'java8'
    tool name: 'gradle3.3', type: 'gradle'
    def gradletool = tool 'gradle3.3'
 
