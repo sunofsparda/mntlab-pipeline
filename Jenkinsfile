@@ -55,16 +55,24 @@ node('host') {
 	}
 }       // withEnv end
 }       // node end
-
-} catch (err) {  // try end
-		currentBuild.result = "FAILURE"
+} catch (hudson.AbortException exc) {
+        env.Msg = """
+		============================
+		Build ABORTED on stage "$Stage"
+		============================
+		   
+		Trace: $exc
+		"""
+        echo "$Msg"
+        
+} catch (err) {
+		currentBuild.result = 'FAILURE'
 		env.Msg = """
 		============================
 		Build FAILED on stage "$Stage"
 		============================
 
-		The error message is:
-		$err
+		Trace: $err
 		"""
 		echo "$Msg"
 } 
