@@ -32,6 +32,9 @@ node('host') {
     stage ('Triggering job')
         sh 'BRANCH_NAME=$(echo $BRANCH_NAME | cut -c 8-)'
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
+        step ([$class: 'CopyArtifact',
+          projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job',
+          filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
 
         sh 'echo "MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"'
 }
