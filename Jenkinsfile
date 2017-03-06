@@ -1,4 +1,4 @@
-node('host') {
+node('master') {
         tool name: 'gradle3.3', type: 'gradle'
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle3.3', type: 'gradle'          
