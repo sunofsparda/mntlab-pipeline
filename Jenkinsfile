@@ -122,15 +122,27 @@ env.status='Everything is working fine!!!'
       stage('Sending OK status') 
   
             {
-		echo '!!!SUCCESS!!!'
-		echo "$status"
+		env.Msg = '''
+		****************************
+		PASSED SUCCESSFULLY!!!
+		"$status"
+		COOL!
+		****************************
+		'''
+		echo "$Msg"
 	    }
  }
 }
 	
 }
 catch (err) { 
-		//currentBuild.result = "FAILURE"
-		env.Msg = "$status"
+		env.Msg = '''
+		/////////////////////////////
+		FAILED!!!
+		"$status"
+		LOOK AT THE NECESSARY SECTION!!!
+		\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		'''
 		echo "$Msg"
+		throw err
 	}
