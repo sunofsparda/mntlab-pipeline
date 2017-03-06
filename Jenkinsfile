@@ -2,7 +2,7 @@ node ('host') {
 tool name: 'gradle3.3', type: 'gradle'
 tool name: 'java8', type: 'jdk'
 currentBuild.result = 'SUCCESS'
-def result = ""
+def result = []
 	
 withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) { 
 //try {
@@ -10,14 +10,14 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 		try {
 			git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
 		} catch (err) {
-			result = "Fail with Checking" 
+			result.push("Fail with Checking")
 		}
 	}
 	stage ('Building code'){
 		try {
 			sh 'gradle build'
 		} catch (err) {
-			result = "Fail with Building code"
+			result.push("Fail with Building code")
 		}
 	}	
   	stage ('Testing'){
@@ -30,7 +30,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
       			sh 'gradle jacoco'
 		} 
 		} catch (err) {
-			result = "Fail with Testing"
+			result.push("Fail with Testing")
 		}
     	failFast: true|false  
   	}
@@ -39,7 +39,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 			build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
             		step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', filter: '*.tar.gz']);
 		} catch (err) {
-			result = "Fail with Triggering job and fetching artefact"
+			result.push("Fail with Triggering job and fetching artefact")
 		}
 	}
   	stage ('Packaging and Publishing results'){
@@ -49,21 +49,21 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 			sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar'
 			archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
 		} catch (err) {
-			result = "Fail with Packaging and Publishing results"
+			result.push("Fail with Packaging and Publishing results")
 		}
   	}
   	stage ('Asking for manual approval'){
 		try {
 			input "Deployment?"
 		} catch (err) {
-			result = "Fail with approval"
+			result.push("Fail with approval")
 		}
   	}    
   	stage ('Deployment'){
 		try {
 			sh 'java -jar $(basename "${WORKSPACE}").jar'
 		} catch (err) {
-			result = "Fail with Deployment"
+			result.push("Fail with Deployment")
 		}	
   	}
 //}
