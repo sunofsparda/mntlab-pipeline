@@ -58,7 +58,7 @@ node('host'){
 //IF YOU DON'T PUSH PROCEED, IT WILL WAIT FOR 5 MIN OT WILL ABORT LATER
 		timeout(time:5, unit:'MINUTES')
 		{
-			input message: 'Do you agree to start deployment?', submitter: 'submitter'
+			input message: 'Do you agree to start deployment? Proceed?'
 		}
             }
         stage('Deploying') 
