@@ -1,8 +1,9 @@
 //IS NECESSARY FOR NODES
-node{
+node('host') {
 //('host'){
 //DECLARE ENVIRONMENT VARIABLES
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
+ {
 //pipeline{
 
 //agents is a mandatory section
@@ -53,7 +54,7 @@ node{
                 echo 'Finished'
             }
         }*/
-
+ }
 }
 
 
