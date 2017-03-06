@@ -18,13 +18,12 @@ node //('host')
 //Start parallel test with gradle            
 	  stage ('Tests')
 	    {
-               parallel
-		JUnit:
-                { sh 'gradle test'; },
+               parallel JUnit:
+                { sh 'gradle test'},
                 Jacoco:
-                { sh 'gradle cucumber';},
+                { sh 'gradle cucumber'},
                 Cucumber:
-                { sh 'gradle jacoco';  }
+                { sh 'gradle jacoco'  }
             }
             
 //Start another job with transfer var BRANCH_NAME , recieve artifact with plug-in CopyArtefact       
