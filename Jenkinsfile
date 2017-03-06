@@ -16,8 +16,7 @@ node('master') {
 
 //tab
     stage 'Testing'
-        parallel 
-        JUnit:{
+        parallel JUnit:{
             sh 'gradle test'
         }
         Cucumber:{
