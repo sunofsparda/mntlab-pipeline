@@ -1,4 +1,4 @@
-node('host') {
+node('master') {
         tool name: 'gradle3.3', type: 'gradle'
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle3.3', type: 'gradle'          
@@ -35,6 +35,8 @@ node('host') {
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
         sh 'echo "--------------COPIED OK"----------'
+        sh 'pwd'
+        sh 'echo "pwd is ^^"'
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
