@@ -5,7 +5,7 @@ currentBuild.result = 'SUCCESS'
 def result = ""
 	
 withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) { 
-try {
+//try {
 	stage('Preparation (Checking out)') {
 		try {
 			git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'mburakouski'
@@ -66,13 +66,13 @@ try {
 			result = "Fail with Deployment"
 		}	
   	}
-}
-catch (err) {
+//}
+/*catch (err) {
 	currentBuild.result = 'FAILURE'
-}
+}*/
   	stage ('Sending status'){
 		result = "No fails. Congratulations!"
      		echo "RESULT: ${currentBuild.result} - ${result}"
 	}
-}
+    }
 }
