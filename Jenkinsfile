@@ -60,6 +60,9 @@ def result = ""
 		{
 		currentBuild.result = "An error with passing the tests"
 		throw err
+		sh 'echo ${currentBuild.result}'
+		echo WARNING
+		echo ${currentBuild.result}
 		}  
             }
         stage('Triggering job and fetching')
