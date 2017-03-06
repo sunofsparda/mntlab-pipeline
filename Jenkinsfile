@@ -45,14 +45,10 @@ node('host'){
 
          stage('Packaging and Publishing') 
             {
-                echo 'Packaging and Publishing..'
-		echo '##############'    
-		echo ${WORKSPACE}
-		echo '##############'    
-		echo ${basename}
-		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
-		sh "tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
-		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+    		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
+       		sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
+        	sh 'tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
+        	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
             }
 /*
         stage('Asking for manual approval') 
