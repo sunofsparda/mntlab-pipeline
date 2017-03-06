@@ -48,7 +48,8 @@ stage ('Starting child job')
     		}
 }
 
-stage ('create archive and stuff into archive'){
+stage ('create archive and stuff into archive')
+{
 		step
 		{
 			sh 'echo "create archive and stuff into archive" '								//падает с трещиной от шеи до жопы
@@ -59,7 +60,8 @@ stage ('create archive and stuff into archive'){
 		}
 	}
 
-//stage ('create archive and stuff into archive'){
+//stage ('create archive and stuff into archive')
+//{
 //		step{
 //			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
 //			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.zip'									
@@ -68,7 +70,8 @@ stage ('create archive and stuff into archive'){
 //		}
 //	}
 
-stage ('Request deploy permission'){
+stage ('Request deploy permission')
+{
 	try 
 		{
 			input "Requesting permission to deploy"
@@ -92,13 +95,10 @@ stage ('Deployment')
 		}	
 }
 
-catch (err) 
-{
-	currentBuild.result = 'FAILURE'														///wdad//awdaw/wda/daw/   
-}
 stage ('Sending status')
 {
 	result = "No fails. Congratulations!"
 	echo "RESULT: ${currentBuild.result} - ${result}"
 }
 }
+
