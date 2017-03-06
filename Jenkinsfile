@@ -112,7 +112,7 @@ catch (e) {
 //def doTheThing(Closure doMe) {
 //    try {
 //        return doMe()
-    } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fie) {
+     catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fie) {
         // this ambiguous condition means a user probably aborted
         if (fie.causes.size() == 0) {
             throw new UserInterruptedException(fie)
