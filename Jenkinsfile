@@ -1,4 +1,4 @@
-node ('master') {
+node ('host') {
    
  stage('Prepare for Deploy:')
    {
@@ -6,8 +6,8 @@ node ('master') {
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
       echo WORKSPACE
-   tool name: 'gradle', type: 'gradle'
-   def gradletool = tool 'gradle'
+   tool name: 'gradle3.3', type: 'gradle'
+   def gradletool = tool 'gradle3.3'
 
   git branch: 'aslesarenka', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
    }
