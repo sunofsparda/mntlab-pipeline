@@ -6,10 +6,7 @@ node{
 //pipeline{
 
 //agents is a mandatory section
-agent any
-        stages {
-        
-        //CHECKOUT GIT BRANCH
+//CHECKOUT GIT BRANCH
             stage('Preparation')
             {
                 steps {
@@ -57,7 +54,6 @@ agent any
             }
         }*/
 
-    }
 }
 
 
