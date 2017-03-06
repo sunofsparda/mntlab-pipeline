@@ -1,5 +1,6 @@
 #!groovy
 
+//Setting parameters for current node: tools, PATH, HOME
 //node('master') {
 node('host') {	
 	tool name: 'java8', type: 'jdk'
@@ -11,11 +12,14 @@ node('host') {
 //      withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
 //      withEnv(["JAVA_HOME=${tool 'java8'}"])
 
+
+//ENbling errors cathing
 	def err = null
 	currentBuild.result = "SUCCESS"
 
 	try {
 
+//All stages step-by-step
 stage '\u2780 Preparation (Checking out)'
 	git branch: 'mkuzniatsou', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 	sh 'env | sort'
