@@ -1,5 +1,13 @@
 node ('host') {
-   
+prepStatus = "\nPreparation Stage: [FAIL]"
+buildStatus = "\nBuilding code Stage: [FAIL]"
+testStatus = "\nTesting Stage: [FAIL]"
+packStatus = "\nPackaging and Publishing results Stage: [FAIL]"
+askStatus = "\nAsking for manual approval Stage: [FAIL]"
+deplStatus = "\nDeployment Stage: [FAIL]"
+
+try {
+
  stage('Preparation')
    {   
     tool name: 'java8', type: 'jdk'
@@ -10,6 +18,8 @@ node ('host') {
     env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
     	echo "##########Preparation##########"
     	checkout([$class: 'GitSCM', branches: [[name: '*/yskrabkou']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
+
+    prepStatus = "\nPreparation Stage: [OK]"
    }
 
   stage('Building code') 
@@ -17,6 +27,8 @@ node ('host') {
    		echo "##########Building code##########"
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
+
+   		buildStatus = "\nBuilding code Stage: [OK]"
    }
 
    stage('Testing') 
@@ -27,6 +39,8 @@ node ('host') {
    		jacoco_tests: {sh './gradlew jacoco'},
    		cucumber_tests: {sh './gradlew cucumber'}
    		)
+
+   		testStatus = "\nTesting Stage: [OK]"
    }
 
      stage('Packaging and Publishing results') 
@@ -42,26 +56,36 @@ node ('host') {
    		//sh "cp build/libs/$artefactName ./"
    		sh "tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
    		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
+
+   		packStatus = "\nPackaging and Publishing results Stage: [OK]"
    }
 
     stage('Asking for manual approval') 
     timeout(time:8, unit:'HOURS')
    {
    		echo "##########Asking for manual approval##########"
-   		//stage 'PO Approval'
-        //timeout(time:8, unit:'HOURS') {
-        input message:'Approve Deployment?'
+   	    input message:'Approve Deployment?'
+
+        askStatus = "\nAsking for manual approval Stage: [OK]"
    }
 
    stage('Deployment') 
    {
     echo "##########Deployment##########"
    	sh 'java -jar \$(basename \${WORKSPACE}).jar'
+
+   	 deplStatus = "\nDeployment Stage: [OK]"
    }
 
+}
+catch (ex)
+{
+    echo "###################SOMETHING FAIL################"
+}
    stage('Sending status') 
    {
-   		echo "Checking"
+   		echo "###################Sending status###################"
+   		echo prepStatus + buildStatus + testStatus + packStatus + askStatus + deplStatus
    }
 
 
