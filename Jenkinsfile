@@ -131,11 +131,12 @@ env.status='Everything is working fine!!!'
 		"""
 		echo "$Msg"
 //SENDING A STATUS TO THE SPECIFIC EMAIL 
-		mail body: "project build successful ${env.Msg}",
+/*		mail body: "project build successful ${env.Msg}",
                 from: 'ivanOKman@mail.ru',
                 replyTo: 'ivanOKman@tut.by',
                 subject: 'project build successful',
                 to: 'ivanOKman@mail.ru'
+*/
 	    }
  }
 }
@@ -151,10 +152,11 @@ catch (err) {
 		"""
 		echo "$Msg"
 		throw err
-		//SENDING A STATUS TO THE SPECIFIC EMAIL 
-           	mail body: "project build error is here: ${env.Msg}" ,
+//SENDING A STATUS TO THE SPECIFIC EMAIL 
+ /*          	mail body: "project build error is here: ${env.Msg}" ,
             	from: 'ivanOKman@mail.ru',
             	replyTo: 'ivanOKman@tut.by',
             	subject: 'project build failed',
             	to: 'ivanOKman@mail.ru'
+*/
 	}
