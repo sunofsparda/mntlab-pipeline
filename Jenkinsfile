@@ -49,6 +49,14 @@ node('master') {
 //tab
     stage ('Wipeout WORKSPACE')
         sh 'rm -rf ${WORKSPACE}/*'
+//tab
+    stage ('Asking for manual approval')
+        timeout(time:1, unit:'HOURS') {
+        input 'We are ready for deployment. Deploy ${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz ?'
+        }
+//tab
+    stage ('Deployment')
+        sh 'java -jar gradle-simple.jar'
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
 //tab
