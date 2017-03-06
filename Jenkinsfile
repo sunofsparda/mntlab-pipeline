@@ -28,7 +28,7 @@ stage ('Triggering job and fetching') {
         step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"])
 	}
 	
-stage ('Packaging and Publishing results’) {
+stage ('Packaging and Publishing results') {
 	sh '''
 	cp ${WORKSPACE}/build/libs/$(basename "$WORKSPACE").jar ${WORKSPACE}/gradle-simple.jar
 	tar zxf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
