@@ -2,8 +2,7 @@ node('host'){
 //I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
 
-currentBuild.result = 'SUCCESS'
-def result = ""	
+def currentBuild.result = 'SUCCESS'
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
 //CHECKOUT GIT BRANCH
@@ -18,6 +17,7 @@ def result = ""
 		{
 		currentBuild.result = "An error with connection to GIT"
 		throw err
+		echo "${currentBuild.result}"
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
@@ -123,10 +123,8 @@ def result = ""
 		if(currentBuild.result == 'SUCCESS')
 		{
 		echo "### SUCCESS!!! ###"
-		sh 'echo ${currentBuild.result}'
-		echo WARNING
-		echo ${currentBuild.result}
-		return currentBuild.result
+		echo "COOL!"
+		echo "${currentBuild.result}"
 		}
 		else
 		{
