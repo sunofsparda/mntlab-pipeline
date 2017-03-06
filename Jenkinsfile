@@ -3,6 +3,8 @@ node('host')
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
     def stageStatus = ''
+    
+	stage ('clean'){deleteDir()}
 	
     try{
 	    stage ('Preparation (Checking out from git)')
