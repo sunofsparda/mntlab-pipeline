@@ -39,7 +39,9 @@ node('host'){
             {
                 echo 'Triggering job..'
 		    sh 'echo $BRANCH_NAME'
-		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "origin/${BRANCH_NAME}")]
+		    sh 'NAME = origin/${BRANCH_NAME}'
+		    sh 'echo $NAME'
+		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${NAME}")]
                 step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
 
