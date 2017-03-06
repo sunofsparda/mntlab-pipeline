@@ -35,7 +35,7 @@ node('host') {
         //sh 'echo $ORIGIN_NAME'
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
-        step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${BRANCH_NAME}-child1-build-job']);
+        step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
         //fixing invalid name caused by DSL script that cuts "origin/"
         sh 'mv *tar.gz ${BRANCH_NAME}_dsl_script.tar.gz'
         sh 'pwd'
