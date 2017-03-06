@@ -26,11 +26,19 @@ node('host') {
 			}
 
 			stage ('packaging and publishing'){
-				archive 'jenkinsfile'
+
+				sh '''
+   				tar -xvzf ${BRANCH_NAME}_dsl_script.tar.gz
+   				cp build/libs/\$(basename \${WORKSPACE}).jar .
+	   			tar czvf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile
+				''';
+
+	   			archiveArtifacts artifacts: 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz', excludes: null
+
 			}
 	
 			stage ('approval asking'){
-				input 'deploy'
+				input 'deploy?'
 			}
   
 			stage ('deployment'){
