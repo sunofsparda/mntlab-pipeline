@@ -50,4 +50,4 @@ stage 'Sending status'
 	echo "RESULT: Success"
 }
 
-}
+
