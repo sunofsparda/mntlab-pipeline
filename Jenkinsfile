@@ -17,7 +17,14 @@ node('master') {
 	def err = null
 	currentBuild.result = "SUCCESS"
 
-	try {
+//	try {
+
+def doTheThing(Closure doMe) {
+    try {
+        return doMe()
+
+
+
 
 //All stages step-by-step
 stage '\u2780 Preparation (Checking out)'
@@ -102,9 +109,9 @@ catch (e) {
 */
 
 
-def doTheThing(Closure doMe) {
-    try {
-        return doMe()
+//def doTheThing(Closure doMe) {
+//    try {
+//        return doMe()
     } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fie) {
         // this ambiguous condition means a user probably aborted
         if (fie.causes.size() == 0) {
