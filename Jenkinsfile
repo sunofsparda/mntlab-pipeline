@@ -131,7 +131,7 @@ env.status='Everything is working fine!!!'
 		"""
 		echo "$Msg"
 //SENDING A STATUS TO THE SPECIFIC EMAIL 
-		mail body: 'project build successful',
+		mail body: "project build successful ${env.Msg}",
                 from: 'ivanOKman@mail.ru',
                 replyTo: 'ivanOKman@tut.by',
                 subject: 'project build successful',
