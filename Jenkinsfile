@@ -1,25 +1,24 @@
 node ('master') {
    
- stage('Preparation')
+ stage('Prepare for Deploy:')
    {
    sh 'which java'
    sh 'echo $JAVA_HOME'
       echo BUILD_NUMBER
       echo WORKSPACE
-        tool name: 'gradle', type: 'gradle'
-        def gradletool = tool 'gradle'
-
+   tool name: 'gradle', type: 'gradle'
+   def gradletool = tool 'gradle'
 
   git branch: 'aslesarenka', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
    }
 
-  stage('Building code') 
+  stage('Build source:') 
    {
    		sh 'chmod +x gradlew'
    		sh './gradlew build'
    }
 
-   stage('Testing') 
+   stage('Parallel Testing') 
    {
    		parallel (
    		unit: {sh './gradlew build'},
@@ -31,9 +30,12 @@ node ('master') {
 stage ('Package')
 {echo "skip"}
 
-    stage('Asking for manual approval') 
+    stage('Approve for Deploy:') 
    {
-   		echo "Checking"
+                timeout(time:60, unit:'SECONDS') 
+                {
+                    input message:'New package are ready for Deploy.Your decision?'
+                }
    }
 
    stage('Deployment') 
@@ -41,7 +43,7 @@ stage ('Package')
    		echo "skip"
    }
 
-   stage('Sending status') 
+   stage('Sending Final Status') 
    {
    		echo "skip"
    }
