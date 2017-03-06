@@ -20,7 +20,7 @@ node('host'){
 		{
 		env.result = 'An error with connection to GIT'
 		throw err
-		echo "${env.result}"
+		//echo "${env.result}"
 		}    
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
