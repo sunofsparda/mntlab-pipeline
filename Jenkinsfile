@@ -1,95 +1,75 @@
-import hudson.AbortException
-
 node('host')
 {
-    tool name: 'java8', type: 'jdk'
+// Configurate tools as they set into Jenkins  
+    tool name: 'java8', type: 'jdk'	
     tool name: 'gradle3.3', type: 'gradle'
-    def stageStatus = ''
+    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
+    {
+      try{
     
-    try{
-	    stage ('Preparation (Checking out from git)')
-		{
-		    stageStatus = 'Preparation (Checking out from git)'
-		    checkout scm
-		}
-
-	    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin", "PATH+JAVA=${tool 'java8'}/bin","JAVA_HOME=${tool 'java8'}"]) {
-		stage ('Building')
-		{
-		    stageStatus = 'Building'
-		    sh '''gradle build'''
-		}
-
-		stage ('Testing')
-		{
-                    stageStatus = 'Testing'
-		    parallel junit:
-			{sh 'gradle test'},
-
-			jacoco:
-			{sh 'gradle jacoco'},
-
-			cucumber:
-			{sh 'gradle cucumber'}
-		}
-
-		stage ('Triggering')
-		{
-		    stage = 'Triggering'
-		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
-		    step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
-		    sh "tar -zxf ${BRANCH_NAME}*.tar.gz"
-		}
-
-		stage ('Packaging')
-		{
-		    stageStatus = 'Packaging'
-		    sh '''cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}'''
-		    sh '''tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
-		    archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
-		    sh '''rm pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'''
-		}
-
-		stage('Asking for approval')
-		{
-		    timeout(time:1, unit:'DAYS')
-		    {
-			input 'All done. We are ready for deployment. Proceed?'
-		    }
-		}
-
-		stage('Deployment')
-		{
-	            stageStatus = 'Deployment'
-		    sh '''java -jar $(basename ${WORKSPACE}).jar'''
-		}
-
-		stage('Status') {
-		    echo 'Successful Deployment!'
-		}
-	    }
-    }
-    catch (hudson.AbortException ae) {
-      def userName = ae.getCauses()[0].getUser()
-	    stage('Status') {
-		    echo "Aborted by:\n ${userName}"
-		    throw ae
-	    }
-    }
-    catch (error)
+// Choose repos               
+	  stage ('Preparation (Checking out)')
+	    { git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'akaminski' }
+	    
+//Build with gradle
+	  stage ('Building code.')
+	    { sh 'gradle build'; }
+	    
+//Start parallel test with gradle            
+	  stage ('Tests')
+	    {   parallel JUnit:
+                { sh 'gradle test'},
+                Jacoco:
+                { sh 'gradle cucumber'},
+                Cucumber:
+                { sh 'gradle jacoco'}
+            }
+            
+//Start another job with transfer var BRANCH_NAME , recieve artifact with plug-in CopyArtefact       
+	  stage ('Triggering job and fetching artefact ')
 	    {
-                stage('Status') {
-	           echo "Error on $stageStatus"
-		   throw error
-		}
-	    } 
-}
+              build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+              step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job",filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
+            }
 
-/*NonCPS
-def getLog() {
-    def log = currentBuild.rawBuild.getLog(100)
-	log.each{String line ->
-		if (line.contains('Aborted by')){
-			return line}	   
-	}
-}*/
+            
+	  stage ('Packaging and Publishing results ')
+	      {
+                sh '''
+                cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/${BRANCH_NAME}-${BUILD_NUMBER}.jar
+                tar -zxf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
+                tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile ${BRANCH_NAME}-${BUILD_NUMBER}.jar
+                ''';
+                archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+	      }
+//waiting for approval            
+	  stage ('Manual approval ')
+		{
+		try {
+		     input 'deploy'
+		     } 
+		catch (err) {
+		    def user = err.getCauses()[0].getUser()
+		    echo "Aborted by:\n ${user}"
+		    throw err
+			    }
+		}
+//execute .jar with java
+	  stage ('Deployment.')
+	      { sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar' }
+	      
+//if build successful show status             
+	  stage ('View status')
+	      {
+		env.status = " === Build Successful === "
+		echo "$status"
+	      }
+	} //end try
+
+	catch(err){
+		env.status = " === Build FAILED  === "
+		throw err
+	  
+	} // end catch
+     } //end withEnv 
+}
