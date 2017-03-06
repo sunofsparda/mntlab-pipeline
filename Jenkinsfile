@@ -53,7 +53,7 @@ def result = ""
 		        jacoco:
 		        {
 		        echo 'Jacoco test'    
-		        sh 'gradle jacoco'
+		        sh 'gradlezz jacoco'
 		        }
 		}
 		catch (err)
@@ -127,6 +127,7 @@ def result = ""
 		else
 		{
 		echo "!!! FAILED !!!"
+		sh 'echo ${currentBuild.result}'
 		}
 		
 
