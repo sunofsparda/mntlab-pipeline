@@ -13,9 +13,6 @@ stage('Building code') {
         gradle clean build
         '''
         }
-        // chmod +x gradlew
-    	// ./gradlew build
-    	
     
 stage('Testing') 
     parallel junit: {
@@ -27,10 +24,19 @@ stage('Testing')
     }
  
 stage ('Triggering job and fetching') {
-	build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"]]
+	build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "origin/${BRANCH_NAME}"]]
         step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"])
 	}
 	
+stage ('Packaging and Publishing results’) {
+	sh '''
+	cp ${WORKSPACE}/build/libs/$(basename "$WORKSPACE").jar ${WORKSPACE}/gradle-simple.jar
+	tar zxf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
+	tar czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+	'''
+        archiveArtifacts artifacts: "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+	}
+	       
 stage('Deploy') {
     echo 'Deploying....'
 	sh 'ls -lh'
