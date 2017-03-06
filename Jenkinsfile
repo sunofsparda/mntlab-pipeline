@@ -9,8 +9,8 @@ node ('host') {
 
     stage('Checking out') {
     	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
-    	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
-        git checkout scm
+    	git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
+        //git checkout scm
     }
     stage('Building code') {
        	sh '''
