@@ -28,5 +28,6 @@ stage('Testing code')
  
 stage('Deploy') {
     echo 'Deploying....'
+	sh 'ls -lh'
     }  
 }
