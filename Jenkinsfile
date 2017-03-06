@@ -50,7 +50,7 @@ def result = ""
 		        echo 'Junit test'    
 		        sh 'gradle test'
 		        },
-		        jacoco:
+		        jacocozz:
 		        {
 		        echo 'Jacoco test'    
 		        sh 'gradlezz jacoco'
@@ -123,6 +123,9 @@ def result = ""
 		if(currentBuild.result == 'SUCCESS')
 		{
 		echo "### SUCCESS!!! ###"
+		sh 'echo ${currentBuild.result}'
+		echo WARNING
+		echo ${currentBuild.result}
 		}
 		else
 		{
