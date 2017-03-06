@@ -73,10 +73,10 @@ stage '\u2787 Sending status'
     } 
 */
 
-catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err){
+catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e){
 
         echo "the job was cancelled or aborted"
-        sh "echo ${err}"
+        sh "echo ${e}"
          }
 
 catch (e) {
