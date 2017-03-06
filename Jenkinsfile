@@ -111,6 +111,7 @@ node('master')
 			{
 				try
 				{
+					sh 'ls -al'
 					sh 'java -jar mnikolayev-${BUILD_NUMBER}.jar'
 				}
 				catch (err)
