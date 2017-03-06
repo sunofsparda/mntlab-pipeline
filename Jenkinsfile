@@ -13,19 +13,16 @@ node('host') {
         ''';
         //sh './gradlew build --stacktrace --info --debug'
         
-
             stage('Checking out') {
             	//git url: 'https://github.com/sunofsparda/mntlab-pipeline.git', branch: 'master'
             	//git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'acherlyonok'
                 checkout scm
             }
 
-
             stage('Building code') {
                	sh 'gradle build'
             	//sh './gradlew build --stacktrace --info --debug'
             }
-    }
 
             stage('Testing code') {   	
             	parallel (
@@ -40,10 +37,9 @@ node('host') {
             		}
             	)
             }
-
+    }
             stage('Deploy') {
             	echo 'Deploying....'
             }
-    
 
 }
