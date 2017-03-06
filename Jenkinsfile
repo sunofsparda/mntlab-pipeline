@@ -73,5 +73,4 @@ node('host')
 	           echo "Error on $stageStatus"
 		}
 	    } 
-    }
 }
