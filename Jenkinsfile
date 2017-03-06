@@ -56,8 +56,8 @@ node('host') { timestamps {
 
 
             stage('Asking for manual approval') {
-            	echo 'NOT WORKING YET........'
-            	input "Deploy?"
+            	echo 'Deploy?'
+            	input "Badaboom?"
             }
 
 
