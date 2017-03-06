@@ -14,6 +14,7 @@ askStatus = "\nAsking for manual approval Stage: [\u274C]"
 deplStatus = "\nDeployment Stage: [\u274C]"
 trigStatus = "\nTriggering job and fetching artefact Stage: [\u274C]"
 
+withEnv(["JAVA_HOME=${tool 'java8'}","PATH+GRADLE=${tool 'gradle3.3'}/bin","PATH+JAVA=${tool 'java8'}/bin"]) {
 
 try {
 
@@ -27,9 +28,8 @@ try {
 
   stage('Building code') 
    {
-   		echo "##########Building code##########"
-   		sh 'chmod +x gradlew'
-   		sh './gradlew build'
+   		echo "##########Building code##########"   		
+   		sh 'gradle build'
 
    		buildStatus = "\nBuilding code Stage: [\u2705]"
    }
@@ -38,9 +38,9 @@ try {
    {
    		echo "##########Testing##########"
    		parallel (
-   		unit_tests: {sh './gradlew build'},
-   		jacoco_tests: {sh './gradlew jacoco'},
-   		cucumber_tests: {sh './gradlew cucumber'}
+   		unit_tests: {sh 'gradle build'},
+   		jacoco_tests: {sh 'gradle jacoco'},
+   		cucumber_tests: {sh 'gradle cucumber'}
    		)
 
    		testStatus = "\nTesting Stage: [\u2705]"
@@ -88,8 +88,10 @@ try {
 
 }
 catch (ex)
-{
+	{
    
+	}
+
 }
    stage('Sending status') 
    {
