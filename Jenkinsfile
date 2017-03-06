@@ -58,11 +58,9 @@ try {
    {
    artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
    echo "ARTEFACT NAME: ${artefactName}"
-   		echo "##########Packaging and Publishing results##########"   	
-   		
-   	    sh "tar -zxf yskrabkou_dsl_script.tar.gz"
+   		echo "##########Packaging and Publishing results##########" 
+   		sh "tar -zxf yskrabkou_dsl_script.tar.gz"
    		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
-   		echo "22##############################"
    		//sh "cp build/libs/$artefactName ./"
    		sh "tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
    		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
