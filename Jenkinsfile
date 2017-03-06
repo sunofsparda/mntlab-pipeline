@@ -65,11 +65,11 @@ try {
   		echo "ARTEFACT NAME: ${artefactName}"
   		sh 'echo $BRANCH_NAME'
    		echo "##########Packaging and Publishing results##########" 
-   		sh "tar -zxf yskrabkou_dsl_script.tar.gz"
+   		sh "tar -zxf $BRANCH_NAME_dsl_script.tar.gz"
    		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
    		//sh "cp build/libs/$artefactName ./"
-   		sh "tar czvf pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
-   		archiveArtifacts artifacts: 'pipeline-yskrabkou-${BUILD_NUMBER}.tar.gz', excludes: null
+   		sh "tar czvf pipeline-$BRANCH_NAME-${BUILD_NUMBER}.tar.gz \$(basename \${WORKSPACE}).jar jobs.groovy Jenkinsfile"
+   		archiveArtifacts artifacts: 'pipeline-$BRANCH_NAME-${BUILD_NUMBER}.tar.gz', excludes: null
 
    		packStatus = "\nPackaging and Publishing results Stage: [\u2705]"
    }
