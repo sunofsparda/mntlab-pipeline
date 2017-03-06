@@ -30,7 +30,7 @@ stage ('Trigerred')
     step ([$class: 'CopyArtifact',
           projectName: 'MNTLAB-aslesarenka-child1-build-job',
           filter: 'aslesarenka_dsl_script.tar.gz']);     
-build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+//build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
        //     step ([$class: 'CopyArtifact',projectName: 'MNTLAB-aslesarenka-child1-build-job',filter: 'aslesarenka_dsl_script.tar.gz']);
          //   sh 'tar -zxf aslesarenka_dsl_script.tar.gz'
 }
