@@ -10,12 +10,13 @@ def ABORTED_RE = /^Aborted by (.+)$/
 
 node ('host') {
     try {
+        checkout scm
         sleep 10
         println "Aborted by ${abortUser} ... "
     } catch (err) {
         def abortUser = findInLog(currentBuild.rawBuild.getLog(100), ABORTED_RE)
         if (abortUser) {
-            println "Aborted by ${abortUser} ... "
+            println "Aborted by ${abortUser} and bla-bla-bla... "
         } else {
             printls "Just failed by some reason ..."
         }
