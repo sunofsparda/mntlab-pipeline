@@ -18,7 +18,7 @@ node('master') {
         Test{
             sh 'gradle Test'
         }
-        jacoco{
+        Jacoco{
             sh 'gradle jacoco'
         }
         Cucumber{
