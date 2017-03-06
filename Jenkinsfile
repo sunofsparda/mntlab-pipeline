@@ -3,7 +3,7 @@ node('host')
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
 
-withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin:${env.JAVA_HOME}/bin"]) { 
+withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin" "PATH+JAVA=${tool 'java8'}/bin"]) { 
  
 stage ('Preparation (Checking out).')
     {
@@ -32,7 +32,8 @@ stage ('Asking for manual approval'){
     input message: 'Do you want to deploy this artefact?', ok: 'Deploy'
     } 
     stage ('Deployment'){
-    sh 'java -jar ./build/libs/$(basename "$PWD").jar'
+    sh 'tar -xf pipeline-akutsko-${BUILD_NUMBER}.tar.gz $(basename "$PWD").jar'
+    sh 'java -jar ./$(basename "$PWD").jar'
     }
 }
 }
