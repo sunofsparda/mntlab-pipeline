@@ -48,7 +48,8 @@ node('host') { timestamps {
 
             stage('Triggering job and fetching artefact after finishing') {
                 echo 'Building MNTLAB-acherlyonok-child1-build-job'
-                build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok']]             
+                build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok']]
+                archiveArtifacts '*.tar.gz'             
             }
 
 
