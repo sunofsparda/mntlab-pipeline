@@ -42,8 +42,7 @@ node('host') {
 			}
   
 			stage ('deployment'){
-				sh 'ls -Ra'
-				sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
+				sh 'java -jar gradle-simple.jar'
 			}
 
 			stage ('status send'){
