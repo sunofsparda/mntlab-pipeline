@@ -63,14 +63,32 @@ stage '\u2787 Sending status'
 	echo "\u2705 RESULT: ${currentBuild.result}"
 } 
 
-catch (caughtError) {
+catch (InterruptedException e) {
+        currentBuild.result = "ABORTED"
+	sh "echo ${e}"
+        mail body: "project build error: ${e}" ,
+        subject: 'project build failed',
+        to: 'n.g.kuznetsov@gmail.com'
+    	throw e
+    } catch (e) {
+        currentBuild.result = "FAILED"
+        sh "echo ${e}"
+        mail body: "project build error: ${e}" ,
+        subject: 'project build failed',
+        to: 'n.g.kuznetsov@gmail.com'
+        throw e
+    }
+
+
+
+/*catch (caughtError) {
     err = caughtError
     currentBuild.result = "FAILURE"
 
 	mail body: "project build error: ${err}" ,
 	subject: 'project build failed',
 	to: 'n.g.kuznetsov@gmail.com'
-} 
+} */
 
 finally {
 
