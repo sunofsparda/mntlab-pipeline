@@ -47,10 +47,11 @@ try {
 
     stage('Triggering job and fetching artefact after finishing') 
    {
-    	echo "##########Triggering job and fetching artefact##########"
-   	    trigStatus = "\nTriggering job and fetching artefact Stage: [OK]"
+    	echo "##########Triggering job and fetching artefact##########"  
    	    build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
    	    step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+
+   	    trigStatus = "\nTriggering job and fetching artefact Stage: [OK]"
    }
 
      stage('Packaging and Publishing results') 
@@ -94,7 +95,7 @@ catch (ex)
    stage('Sending status') 
    {
    		echo "###################Sending status###################"
-   		echo prepStatus + buildStatus + testStatus + packStatus + askStatus + deplStatus
+   		echo prepStatus + buildStatus + testStatus + trigStatus + packStatus + askStatus + deplStatus
    }
 
 
