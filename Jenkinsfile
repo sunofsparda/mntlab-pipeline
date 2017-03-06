@@ -47,9 +47,6 @@ node('master') {
         archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
 //tab
-    stage ('Wipeout WORKSPACE')
-        sh 'rm -rf ${WORKSPACE}/*.tar.gz'
-//tab
     stage ('Asking for manual approval')
         timeout(time:1, unit:'HOURS') {
         input 'We are ready for deployment. Deploy gradle-simple.jar ?'
@@ -57,6 +54,9 @@ node('master') {
 //tab
     stage ('Deployment')
         sh 'java -jar gradle-simple.jar'
+//tab
+    stage ('Wiping out WORKSPACE')
+        sh 'rm -rf ${WORKSPACE}/*'
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
 //tab
