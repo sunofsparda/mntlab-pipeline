@@ -20,19 +20,19 @@ node('host'){
             {
                 echo 'Tests....'
                 parallel cucumber: 
-                {
-                    echo 'Cucumber test'    
-			        sh 'gradle cucumber'
-                },
-		        junit:
+                	{
+                    	echo 'Cucumber test'    
+			sh 'gradle cucumber'
+                	},
+		       	junit:
 		        {
-		            echo 'Junit test'    
-			        sh 'gradle test'
+		        echo 'Junit test'    
+		        sh 'gradle test'
 		        },
 		        jacoco:
 		        {
-		            echo 'Jacoco test'    
-			        sh 'gradle jacoco'
+		        echo 'Jacoco test'    
+		        sh 'gradle jacoco'
 		        }
             }
         stage('Triggering job and fetching')
