@@ -41,9 +41,9 @@ node('master') {
         sh 'echo "--------------------PWD------------------------"'
 //tab
     stage ('Packaging and Publishing results')        
-        cp  cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar
-        tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy
-        tar -czf pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+        sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
+        sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
+        sh 'tar -czf pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
         archiveArtifacts "pipeline-${BRANCH_NAME}-${BRANCH_NAME}.tar.gz"
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
     //    sh 'echo "STASH_TEST">>stash.txt'
