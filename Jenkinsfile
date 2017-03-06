@@ -15,8 +15,14 @@ node('master') {
 //tab
     stage 'Testing'
         Parallel(
-        Test{}
-        jacoco{}
-        CucumberP{}
+        Test{
+            sh 'gradle Test'
+        }
+        jacoco{
+            sh 'gradle jacoco'
+        }
+        Cucumber{
+            sh 'gradle cucumber'
+        }
         )
 }
