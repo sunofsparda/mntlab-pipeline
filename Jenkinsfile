@@ -18,7 +18,7 @@ def result = 'SUCCESS'
 		try
 		{
 		echo 'Checking out git branch'
-                checkout([$class: 'GitSCM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                checkout([$class: 'GitM', branches: [[name: 'origin/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
 		}
 		catch (err)
 		{
