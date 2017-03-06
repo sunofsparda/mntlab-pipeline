@@ -106,7 +106,7 @@ node('master')
 				catch (err)
 				{
 					result = "Permisson denied" 
-				} //без трайкетча просто инпут
+				} //без трайкетча просто input
 
 			
 			}
