@@ -3,19 +3,20 @@
 node('master') {
 	tool name: 'java8', type: 'jdk'
 	tool name: 'gradle3.3', type: 'gradle'
-	env.JAVA_HOME="${tool 'java8'}"
-	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-	env.GRADLE_HOME="${tool 'gradle3.3'}"
-	env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
+//	env.JAVA_HOME="${tool 'java8'}"
+//	env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 
+	env.GRADLE_HOME="${tool 'gradle3.3'}"
+
+        withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
+        withEnv(["JAVA_HOME=${tool 'java8'}"])
+
+	env.PATH="${env.GRADLE_HOME}/bin:${env.PATH}"
 
 	def err = null
 	currentBuild.result = "SUCCESS"
 
 	try {
-
-//    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin"])
-//	withEnv(["JAVA_HOME=${tool 'java8'}"])        
 
 stage 'Preparation (Checking out)'
 	git branch: 'mkuzniatsou', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
@@ -42,13 +43,20 @@ stage 'Triggering job and fetching artefact after finishing'
 	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
 
 
-  stage 'Packaging and Publishing results'
-
-  stage 'Asking for manual approval'
-	timeout(time:60, unit:'SECONDS') {
-	input 'Previous stage successful. Deploy this artefact?'
+stage 'Packaging and Publishing results'
+        {
+        	sh '''
+		cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}
+            	tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile $(basename $WORKSPACE).jar'''
+		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 	}
-  stage 'Deployment'
+
+
+stage 'Asking for manual approval'
+	timeout(time:60, unit:'SECONDS') {
+	input 'Previous stage successful. Artefact is ready. Deploy this artefact?'
+	}
+stage 'Deployment'
 
         stage 'Sending status'
         echo "RESULT: ${currentBuild.result}"
