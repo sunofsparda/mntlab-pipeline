@@ -7,41 +7,58 @@ def result = []
 withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) { 
 try {
 	stage('Preparation (Checking out)') {
-		result.push("Fail with Checking")
-		git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'hvysotski'
+		try {
+			git url:'https://github.com/MNT-Lab/mntlab-pipeline.git', branch:'hvysotski'
+		} catch (err) {
+			result.push("Fail with Checking")
 		}
+	}
 	stage ('Building code'){
-		result.push("Fail with Building code")
-		sh 'gradle clean build'
-	}	
+		try {
+			sh 'gradle build'
+		} catch (err) {
+			result.push("Fail with Building code")
+		}
+	}		
   	stage ('Testing'){
-		result.push("Fail with Testing")
-		parallel JUnit: {
+		try {
+    		parallel JUnit: {
       			sh 'gradle test'
     		}, Jacoco: {
       			sh 'gradle cucumber'
     		}, Cucumber: {
       			sh 'gradle jacoco'
 		} 
-		failFast: true|false  
+		} catch (err) {
+			result.push("Fail with Testing")
+		}
+    	failFast: true|false  
   	}
   	stage ('Triggering job and fetching artefact after finishing'){
-		result.push("Fail with Triggering job and fetching artefact")
-   		build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [[$class: 'StringParameterValue', name: "${BRANCH_NAME}", value: "${BRANCH_NAME}"]]
-            	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job", filter: '*.tar.gz']);
+   		try {
+			build job: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
+            		step ([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', filter: '*.tar.gz']);
+		} catch (err) {
+			result.push("Fail with Triggering job and fetching artefact")
 		}
-  	stage ('Packaging and Publishing results'){
-		result.push("Fail with Packaging and Publishing results")
-		sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
-		sh 'mv $(basename "${WORKSPACE}").jar gradle-simple.jar '
-		sh "tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz"	
-		sh "tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar"
-		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+	}
+       stage ('Packaging and Publishing results'){
+		try{
+			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
+			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.tar.gz'	
+			sh 'tar cvzf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy *.jar'
+			archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'
+		} catch (err) {
+			result.push("Fail with Packaging and Publishing results")
 		}
+  	}
   	stage ('Asking for manual approval'){
-		result.push("Fail with approval")
-		input "Deployment?"
-		}    
+		try {
+			input "Deployment?"
+		} catch (err) {
+			result.push("Fail with approval")
+		}
+  	}     
   	stage ('Deployment'){
 		try {
 			sh 'java -jar $(basename "${WORKSPACE}").jar'
