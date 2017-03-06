@@ -140,11 +140,11 @@ node('host')
     catch (hudson.AbortException ae)
     {
         echo "${ae}"
-        if (ae.getMessage().contains('script returned exit code 143'))
+        /*if (ae.getMessage().contains('script returned exit code 143'))
         {
             throw new UserInterruptedException(ae)
         } else {
             throw ae
-        }
+        }*/
     }
 }
