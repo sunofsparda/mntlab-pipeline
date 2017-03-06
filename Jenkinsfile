@@ -116,10 +116,11 @@ node('master')
 
 		stage('Sending status')
 		{
-			if (currentBuild.result = 'FAILURE'  ) 
+			if (currentBuild.result == 'FAILURE'  ) 
 			{
    				echo "*****fail*****"
-			}else (currentBuild.result = 'SUCCESS')
+			}
+			else (currentBuild.result == 'SUCCESS')
 			{
 				echo "*****YEAH BITCH*****"
 			} 
