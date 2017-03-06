@@ -12,19 +12,18 @@ node('master') {
 //tab    
     stage 'Building'
         sh 'gradle clean build'
-        sh 'echo "11111111111111111111BUILD OK, ECHO TEST1111111111111111111111111"'
+        sh 'echo "--------------BUILD OK--------------"'
 
 //tab
-    //stage 'Testing'
-    //    Parallel(
-    //    Cucumber{
-    //        sh 'gradle cucumber'
-    //    }
-    //    Test{
-    //        sh 'gradle Test'
-    //    }
-    //    Jacoco{
-    //        sh 'gradle jacoco'
-    //    }        
-    //    )
+    stage 'Testing'
+        parallel 
+        JUnit:{
+            sh 'gradle test'
+        }
+        Cucumber:{
+            sh 'gradle cucumber'
+        }
+        Jacoco{
+            sh 'gradle jacoco'
+        }
 }
