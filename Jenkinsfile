@@ -45,7 +45,7 @@ node('host'){
 
          stage('Packaging and Publishing') 
             {
-//		    
+//CREATES AN APP GRADLE-SIMPLE.JAR, EXTRACTS ALL THE FILES FROM DSL-ARCHIVE, ADDS AN APP AND CREATES A NEW ARCHIVE		    
     		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
        		sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
         	sh 'tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
@@ -55,13 +55,16 @@ node('host'){
         stage('Asking for manual approval') 
             {
                 echo "Asking for permission..."
+//IF YOU DON'T PUSH PROCEED, IT WILL WAIT FOR 5 MIN OT WILL ABORT LATER
+		timeout(time:5, unit:'MINUTES')
 		input message: 'Do you agree to start deployment?', submitter: 'submitter'
             }
-  /*      stage('Deploying') 
+        stage('Deploying') 
             {
-                echo 'Deploying'
+                echo 'Deploying an application'
+		sh 'java -jar gradle-simple.jar'
             }
-        stage('Sending status') 
+   /*     stage('Sending status') 
             {
                 echo 'Finished'
             }
