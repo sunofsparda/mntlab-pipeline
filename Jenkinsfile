@@ -23,7 +23,6 @@ node('host') {
 				}, Jacoco: {
 					sh './gradlew jacoco'
 				}
-				failFast: true|false    
 			}
 
 			stage ('triggering job and fetching'){
