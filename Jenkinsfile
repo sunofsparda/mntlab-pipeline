@@ -1,4 +1,4 @@
-node {
+node ('host') {
    
  stage('Preparation')
    {   
