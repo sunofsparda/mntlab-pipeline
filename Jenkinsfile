@@ -62,10 +62,8 @@ node('master') {
         input 'Are you shure you want to wipeout workspace dir?'
         sh 'rm -rf ${WORKSPACE}/*'
         sh 'echo "WORKSPACE cleared"'
+        sh 'echo "-----------BUILD SUCCESS-------------"'
         }
-//tab
-    stage ('Status')
-        sh 'echo result: -------------BUILD SUCCESS!-------------"'
     //STASH using
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
