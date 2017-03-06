@@ -4,9 +4,7 @@ node('host')
     tool name: 'gradle3.3', type: 'gradle'
     def stageStatus = ''
 	
-    try
-    {
-
+    try{
 	    stage ('Preparation (Checking out from git)')
 		{
 		    stageStatus = 'Preparation (Checking out from git)'
@@ -16,6 +14,7 @@ node('host')
 	    withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin", "PATH+JAVA=${tool 'java8'}/bin","JAVA_HOME=${tool 'java8'}"]) {
 		stage ('Building')
 		{
+		    stageStatus = 'Building'
 		    sh '''gradle build'''
 		}
 
