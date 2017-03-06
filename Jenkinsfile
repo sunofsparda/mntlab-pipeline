@@ -5,6 +5,8 @@ testStatus = "\nTesting Stage: [FAIL]"
 packStatus = "\nPackaging and Publishing results Stage: [FAIL]"
 askStatus = "\nAsking for manual approval Stage: [FAIL]"
 deplStatus = "\nDeployment Stage: [FAIL]"
+trigStatus = "\nTriggering job and fetching artefact Stage: [FAIL]"
+
 
 try {
 
@@ -43,13 +45,20 @@ try {
    		testStatus = "\nTesting Stage: [OK]"
    }
 
+    stage('Triggering job and fetching artefact after finishing') 
+   {
+    	echo "##########Triggering job and fetching artefact##########"
+   	    trigStatus = "\nTriggering job and fetching artefact Stage: [OK]"
+   	    build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
+   	    step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+   }
+
      stage('Packaging and Publishing results') 
    {
    artefactName = sh (script: "basename ${WORKSPACE}" + '.jar', returnStdout: true) 
    echo "ARTEFACT NAME: ${artefactName}"
-   		echo "##########Packaging and Publishing results##########"
-   		build job: 'MNTLAB-yskrabkou-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'yskrabkou'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-   		step ([$class: 'CopyArtifact', projectName: 'MNTLAB-yskrabkou-child1-build-job', filter: 'yskrabkou_dsl_script.tar.gz']);
+   		echo "##########Packaging and Publishing results##########"   	
+   		
    	    sh "tar -zxf yskrabkou_dsl_script.tar.gz"
    		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
    		echo "22##############################"
