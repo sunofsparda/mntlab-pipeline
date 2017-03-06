@@ -47,9 +47,9 @@ node('host'){
             {
                 echo 'Packaging and Publishing..'
 		echo '##############'    
-		echo '${WORKSPACE}'
+		echo ${WORKSPACE}
 		echo '##############'    
-		echo '${basename}'
+		echo ${basename}
 		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
 		sh "tar czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
 		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
