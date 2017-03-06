@@ -28,7 +28,7 @@ stage ('Triggering job and fetching artefact after finishing'){
     sh 'tar -xf akutsko_dsl_script.tar.gz jobs.groovy'
     }
 stage ('Packaging and Publishing results'){
-    sh 'tar -cvzf pipeline-akutsko-${BUILD_NUMBER}.tar.gz ./jobs.groovy ./Jenkinsfile  ./build/libs/${WORKSPACE}.jar'
+    sh 'tar -cvzf pipeline-akutsko-${BUILD_NUMBER}.tar.gz ./jobs.groovy ./Jenkinsfile  ./build/libs/akutsko.jar'
     archiveArtifacts artifacts: 'pipeline-akutsko-${BUILD_NUMBER}.tar.gz', excludes: null
     }   
 }
