@@ -48,11 +48,7 @@ node //('host')
 		{
 		try {
 		      timeout(time: 30, unit: 'SECONDS') {
-			    input message: 'Do you want to release this build?',
-			     parameters: [[$class: 'BooleanParameterDefinition',
-                            defaultValue: false,
-                            description: 'Ticking this box will do a release',
-                            name: 'Release']]
+			    input message: 'Do you want to release this build?'			     
 			}
 		} catch (err) {
 		    def user = err.getCauses()[0].getUser()
