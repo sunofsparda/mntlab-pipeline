@@ -11,7 +11,7 @@ stage('scm checkout') {
 }
 stage ('build gradle dew')
 	{
-  	steps
+  	step
   		{
   			sh 'echo "build gradle dew" '													//вывод для того чтобы хоть отдаленно понимать где фейлится
   			sh returnStatus: true, script: 'bash gradlew build'									//билд зис //долго билдается что-то
@@ -23,7 +23,7 @@ stage ('build gradle dew')
 
 stage ('testing')
 	{
-		steps
+		step
   		{
     		parallel 	JUnit: {sh 'bash gradlew test'},											//тест зис ин параллел виз ждиюнит, якоко, огурец
       		 	Jacoco: {sh 'bash gradlew jacoco'},
@@ -44,7 +44,7 @@ stage ('testing')
 stage ('Starting child job') 
 {
 	build job: 'MNTLAB-mnikolayev-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"]]
-    		steps
+    		step
     		{
     			([$class: 'CopyArtifact', projectName: 'MNTLAB-${env.BRANCH_NAME}-child1-build-job', filter: '*.tar.gz']);
     		}
