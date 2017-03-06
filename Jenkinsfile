@@ -54,6 +54,6 @@ node ('host') {
 		echo "SUCCESS"
 		}
    }
-}
+
 }
 // rm -rf *
