@@ -101,11 +101,11 @@ node('master')
 	timeout(time: 15, unit: 'SECONDS')
 	{
 		input message: 'Do you want to release this build?',
-	}
+	
 }
 				catch (err)
 				{
-					result = "Permisson denied" //без трайкетча не знаю как сделать
+					result = "Permisson denied" 
 				} //без трайкетча просто инпут
 
 			}
