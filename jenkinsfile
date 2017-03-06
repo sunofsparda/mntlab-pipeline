@@ -7,9 +7,9 @@ node (host) {
     }
     //building
     stage ('building') {
-        build(
+        
         sh ' gradle build '
-        )
+        
     }
 
 
