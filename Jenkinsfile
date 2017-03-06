@@ -39,15 +39,18 @@ node('host') { timestamps {
             stage('Triggering job and fetching artefact after finishing') {
                 echo 'Building MNTLAB-acherlyonok-child1-build-job'
                 build job: 'MNTLAB-acherlyonok-child1-build-job', parameters: [[$class: 'GitParameterValue', name: 'BRANCH_NAME', value: 'acherlyonok'], string(name: 'WORKSPACE', value: "${WORKSPACE}")]
-                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-acherlyonok-child1-build-job', filter: 'acherlyonok_dsl_script.tar.gz']);
-                sh 'tar -xzf acherlyonok_dsl_script.tar.gz'
+                step ([$class: 'CopyArtifact', projectName: 'MNTLAB-acherlyonok-child1-build-job', filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
+                sh 'tar -xzf acherlyonok_dsl_script.tar.gz jobs.groovy'
 
             }
 
 
             stage('Packaging and Publishing results') {
                 echo 'Creating new artifact'
-                sh 'tar -czf pipeline-acherlyonok-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
+                sh '''
+                    cp ${WORKSPACE}/build/libs/$(basename "$PWD").jar ${WORKSPACE}/gradle-simple.jar
+                    tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+                ''';
             }
 
 
