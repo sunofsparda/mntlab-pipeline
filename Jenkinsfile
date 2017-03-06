@@ -31,16 +31,11 @@ node('master') {
 //tab
     stage ('Triggering job')
         //sh 'BRANCH_NAME=$(echo $BRANCH_NAME | cut -c 8-)'
-        sh 'TRUE_BRANCH=$BRANCH_NAME'
-        sh 'echo $TRUE_BRANCH'
+        
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
-        sh 'TRUE_BRANCH=$(echo $TRUE_BRANCH | cut -c 8-)'
-        sh 'mv ${TRUE_BRANCH}_dsl_script.tar.gz $BRANCH_NAME_dsl_script.tar.gz'
-        sh 'echo "--------------COPIED OK"----------'
-        sh 'pwd'
-        sh 'echo "pwd is ^^"'
+        
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
     //    sh 'echo "STASH_TEST">>stash.txt'
     //    stash includes: '*.tar.gz', name: 'test'
