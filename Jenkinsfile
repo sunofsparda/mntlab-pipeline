@@ -47,18 +47,21 @@ node('host') {
 		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 	stage('\u27A1 Sending status') {
-		echo "============================"
-		echo "Build SUCCESSFUL"
-		echo "============================"
+		env.Msg = '''============================
+		Build SUCCESSFUL
+		============================'''
+		echo "$Msg"
 	}
 	}	// try end
 	catch(error) {
 		currentBuild.result = "FAILURE"
-		echo "============================"
-		echo "Build FAILED on stage $Stage"
-		echo "============================"
-		echo "The error message is:"
-		echo "$error"
+		env.Msg = '''============================
+		Build FAILED on stage $Stage
+		============================
+
+		The error message is:
+		$error'''
+		echo "$Msg"
 	}
 }	// withEnv end
 }	// node end
