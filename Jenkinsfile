@@ -16,13 +16,13 @@ node('master') {
 
 //tab
     stage 'Testing'
-        parallel JUnit:{
+        parallel JUnit: {
             sh 'gradle test'
-        }
-        cucumber:{
-            sh 'gradle cucumber'
-        }
-        jacoco{
+            },
+        Jacoco: {
+            sh 'gradle jacoco'
+        },
+        Cucumber: {
             sh 'gradle jacoco'
         }
 }
