@@ -70,7 +70,7 @@ node('host')
     catch (hudson.AbortException ae) {
     	stage('Status') {
 	        echo "Aborted"
-		log = currentBuild.rawBuild.getLog(100)
+		log = getLog()
 		echo "$log"
 		throw ae
 		   
@@ -83,4 +83,9 @@ node('host')
 		   throw error
 		}
 	    } 
+}
+
+@NonCPS
+def getLog() {
+    return currentBuild.rawBuild.getLog(100)
 }
