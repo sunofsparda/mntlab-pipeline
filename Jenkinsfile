@@ -15,7 +15,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 	}
 	stage ('Building code'){
 		try {
-			sh 'gradle1 build'
+			sh 'gradle build'
 		} catch (err) {
 			result = "Fail with Building code"
 		}
@@ -70,8 +70,7 @@ withEnv (["PATH+GRADLE=${tool 'gradle3.3'}/bin", "JAVA_HOME=${tool 'java8'}"]) {
 /*catch (err) {
 	currentBuild.result = 'FAILURE'
 }*/
-  	stage ('Sending status'){
-		result = "No fails. Congratulations!"
+  	stage ('Sending status'){		
      		echo "RESULT: ${currentBuild.result} - ${result}"
 	}
     }
