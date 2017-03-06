@@ -11,9 +11,7 @@ node('host') {
             export PATH=$PATH:${gradletool}/bin/
             export JAVA_HOME=$PATH:$jdktool
             echo $PATH
-            echo $JAVA_HOME
-            chmod +x gradlew
-            gradle build
+            echo $JAVA_HOME           
         ''';
         //sh './gradlew build --stacktrace --info --debug'
     }
@@ -25,9 +23,7 @@ node('host') {
 
 
     stage('Building code') {
-       	sh '''
-       		export PATH=$PATH:${gradletool}/bin/
-            export JAVA_HOME=$PATH:$jdktool
+       	sh '''      
     		echo $PATH
     		echo $JAVA_HOME
     		chmod +x gradlew
