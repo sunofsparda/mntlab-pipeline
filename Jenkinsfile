@@ -106,7 +106,7 @@ node('master')
 			{
 				try
 				{
-					input "Do you want to release this build?"
+					input "permission granted?"
 				}
 				catch (err)
 				{
@@ -138,7 +138,7 @@ node('master')
 
 		stage('Sending status')
 		{
-				sh 'echo +++++++DONE++++++++'
+				sh 'echo "${currentBuild.result}'
 		}
 	}
 
