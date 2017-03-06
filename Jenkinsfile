@@ -10,7 +10,7 @@ node('master')
 //export GRADLE_HOME=/opt/gradle/gradle-3.3
 //export PATH=${PATH}:${GRADLE_HOME}/bin
 
-withEnv(["JAVA_HOME=${ tool 'java8' }", "GRADLE_HOME=${tool 'gradle3.3'}", "PATH=${PATH}:${GRADLE_HOME}/bin"]) { 
+withEnv(["JAVA_HOME=${ tool 'java8' }", "GRADLE_HOME=${tool 'gradle3.3'}", "PATH=${PATH}:${env.GRADLE_HOME}/bin"]) { 
  
 stage ('Preparation (Checking out).')
     {
