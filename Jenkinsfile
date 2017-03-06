@@ -38,4 +38,16 @@ stage ('Packaging and publishing results') {
 	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		}
     }
+    stage 'Asking for manual approval'
+	timeout(time:1, unit:'HOURS') {
+	input 'Artefact is ready for deploy. Do you want proceed?', submitter:'admin' 
+	}
+
+stage 'Deployment'
+	sh 'java -jar ${BRANCH_NAME}-${BUILD_NUMBER}.jar'
+
+stage 'Sending status'
+	echo "RESULT: Success"
+}
+
 }
