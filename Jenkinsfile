@@ -38,14 +38,15 @@ node('host'){
         stage('Triggering job and fetching')
             {
                 echo 'Triggering job..'
-		    sh 'echo ${BRANCH_NAME}'
-		    build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "origin/${BRANCH_NAME}")]
-                step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
+		sh 'echo ${BRANCH_NAME}'
+		build job: "MNTLAB-${BRANCH_NAME}-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "origin/${BRANCH_NAME}")]
+               	step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
 
          stage('Packaging and Publishing') 
             {
                 echo 'Packaging and Publishing..'
+		sh 'echo ${WORKSPACE}'
 		sh "cp build/libs/\$(basename \${WORKSPACE}).jar ."
 		sh "tar czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile \$(basename \${WORKSPACE}).jar"
 		archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
