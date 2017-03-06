@@ -1,31 +1,25 @@
 node ('host') {
-   
+    tool name: 'java8', type: 'jdk'
+      tool name: 'gradle3.3', type: 'gradle'
+     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin", "PATH+JAVA=${tool 'java8'}/bin"]) {
  stage('Prepare for Deploy:')
    {
-  // sh 'which java'
-   //sh 'echo $JAVA_HOME'
-     // echo BUILD_NUMBER
-     // echo WORKSPACE
-      tool name: 'java8', type: 'jdk'
-         def gradletool = tool 'java8'
-   tool name: 'gradle3.3', type: 'gradle'
-   def gradletool = tool 'gradle3.3'
-
+ 
   git branch: 'aslesarenka', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
    }
 
   stage('Build source:') 
    {
-   		sh 'chmod +x gradlew'
-   		sh './gradlew build'
+   		sh 'chmod +x gradle'
+   		sh 'gradle build'
    }
 
    stage('Parallel Testing') 
    {
    		parallel (
-   		unit: {sh './gradlew build'},
-   		jacoco: {sh './gradlew jacoco'},
-   		cucumber: {sh './gradlew cucumber'}
+   		unit: {sh 'gradle build'},
+   		jacoco: {sh 'gradle jacoco'},
+   		cucumber: {sh 'gradle cucumber'}
    		)
    }
 
@@ -73,3 +67,4 @@ stage ('Trigerred')
 
 
   }
+}
