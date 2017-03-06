@@ -1,6 +1,8 @@
 #!Groovy
 
-node('host') {
+node('host') { timestamps {
+    
+
 	tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
 //	def jdktool = tool 'java8'
@@ -38,8 +40,27 @@ node('host') {
             	)
             }
     }
-            stage('Deploy') {
-            	echo 'Deploying....'
+
+            stage('Triggering job and fetching artefact after finishing') {
+                echo 'NOT NOT WORKING YET....'
+
+
             }
 
+            stage('Packaging and Publishing results') {
+                echo 'NOT WORKING YET........'
+            }
+
+            stage('Asking for manual approva') {
+            	echo 'NOT WORKING YET........'
+            }
+
+            stage('Deployment') {
+                echo 'NOT WORKING YET........'
+            }
+
+            stage('Sending status') {
+                echo 'NOT WORKING YET........'
+            }
+}
 }
