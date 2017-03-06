@@ -90,18 +90,6 @@ node('master')
 				}
 			}
 
-
-
-			//stage ('create archive and stuff into archive')
-			//{
-			//		step{
-			//			sh 'cp ${WORKSPACE}/build/libs/$(basename "${WORKSPACE}").jar ${WORKSPACE}'
-			//			sh 'tar xvzf ${BRANCH_NAME}_dsl_script.zip'									
-			//			sh 'tar cvzf pipeline-${BUILD_NUMBER}.zip Jenkinsfile jobs.groovy *.jar' 				//сделаем архив
-			//			archiveArtifacts 'pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz'						//делаем доступным
-			//		}
-			//	}
-
 			stage('Request deploy permission')
 			{
 				try
