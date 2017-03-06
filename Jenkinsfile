@@ -18,6 +18,13 @@
         sh "gradle clean build"
         
     }
-
-
+    stage ('testing') {
+       parallel cucumber: {
+    	sh 'gradle cucumber'
+	},      junit: {
+		sh 'gradle test'
+	},      jacoco: {
+		sh 'gradle jacoco'
+		}
+    }
 }
