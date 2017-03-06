@@ -19,10 +19,10 @@ node('master') {
         parallel JUnit:{
             sh 'gradle test'
         }
-        Cucumber:{
+        cucumber:{
             sh 'gradle cucumber'
         }
-        Jacoco{
+        jacoco{
             sh 'gradle jacoco'
         }
 }
