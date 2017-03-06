@@ -63,8 +63,8 @@ echo 'Deployment succeeded!'}
 catch (Error) {echo "Deployment failed: ${Error}"}
 
 stage ('Sending status'){
-            def size = Error.size();
-            if (size != 0)
+   
+            if (build.result == 'FAILURE')
             {
                 echo "${Error}"
             }
