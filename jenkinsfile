@@ -1,4 +1,4 @@
-node('host')
+node('master')
 {
     tool name: 'java8', type: 'jdk'
     tool name: 'gradle3.3', type: 'gradle'
@@ -22,19 +22,30 @@ stage ('Building code')
       '''  
         }
 stage ('Testing code'){
-    stage ('Unit Tests'){
+    parallel firstBranch: {
+        stage ('Unit Tests'){
       sh '''
       export GRADLE_HOME=/opt/gradle/gradle-3.3
       export PATH=${PATH}:${GRADLE_HOME}/bin
       gradle test
       '''
     }
-    stage ('Jacoco Tests'){
+    }, secondBranch: {
+      stage ('Jacoco Tests'){
       sh '''
       export GRADLE_HOME=/opt/gradle/gradle-3.3
       export PATH=${PATH}:${GRADLE_HOME}/bin
       gradle jacoco
       '''
     }
-}
+    }, thirdBranch: {
+      stage ('cucumber'){
+      sh '''
+      export GRADLE_HOME=/opt/gradle/gradle-3.3
+      export PATH=${PATH}:${GRADLE_HOME}/bin
+      gradle cucumber
+      '''
+      }
+    }
+    }
 }
