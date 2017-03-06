@@ -3,9 +3,9 @@
 /* Written by Siarhei Hreben
    DevOps Lab 2017	*/
 
+try {
 node('host') {
     withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"]) {
-	try {
 	stage('\u27A1 Preparation (Checking out)') {
 		env.Stage = 'Preparation (Checking out)'
 		checkout scm
@@ -44,6 +44,7 @@ node('host') {
     }
 	stage('\u27A1 Deployment') {
 		env.Stage = 'Deployment'
+		sh 'failed'
 		sh 'java -jar \$(basename \${WORKSPACE}).jar'
 	}
 	stage('\u27A1 Sending status') {
@@ -53,27 +54,28 @@ node('host') {
 		============================'''
 		echo "$Msg"
 	}
-	}	// try end
-	catch(error) {
+}       // withEnv end
+}       // node end
+
+} catch (err) {  // try end
 		currentBuild.result = "FAILURE"
-		env.Msg = '''
+		env.Msg = """
 		============================
 		Build FAILED on stage $Stage
 		============================
 
 		The error message is:
-		$error'''
+		$err
+		"""
 		echo "$Msg"
-	}
-	finally {
+} finally {
 		(currentBuild.result = "ABORTED") {
-		env.Msg = '''
+		env.Msg = """
 		===============================================
 		Build ABORTED on stage $Stage  by $submitter
 		===============================================
-		'''
+		"""
 		echo "$Msg"
 		}
 	}
-}	// withEnv end
-}	// node end
+
