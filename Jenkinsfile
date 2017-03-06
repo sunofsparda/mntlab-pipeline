@@ -28,6 +28,5 @@ stage('Testing code')
  
 stage('Deploy') {
     echo 'Deploying....'
-    } 
-  }
+    }  
 }
