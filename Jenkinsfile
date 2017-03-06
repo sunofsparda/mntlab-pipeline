@@ -1,4 +1,4 @@
-!/bin/groovy
+#!/bin/groovy
 
 import hudson.AbortException
 @NonCPS
