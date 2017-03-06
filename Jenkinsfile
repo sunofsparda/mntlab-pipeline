@@ -69,7 +69,7 @@ node
        }
        catch (err)
 	     {
-	    currentBuild.result = "FAILURE"
+	    currentBuild.result = "FAILURE-TEST"
 	    throw err
 	    }
     }
