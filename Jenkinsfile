@@ -83,7 +83,7 @@ node('host'){
 		sh 'cp ${WORKSPACE}/build/libs/$(basename $WORKSPACE).jar ${WORKSPACE}/gradle-simple.jar'
        		sh 'tar -zxvf ${BRANCH_NAME}_dsl_script.tar.gz jobs.groovy'
         	sh 'tar -czf pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar'
-        	archiveArtifats "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
+        	archiveArtifacts "pipeline-${BRANCH_NAME}-${BUILD_NUMBER}.tar.gz"
 		}
 		catch (err)
 		{
@@ -114,10 +114,18 @@ node('host'){
 		throw err
 		}
             }
-   /*     stage('Sending status') 
+      stage('Sending status') 
+  
             {
-                echo 'Finished'
-            }
-*/
+		if (currentBuild.result == 'FAILURE')
+		{
+		echo "!!! FAILED !!!"
+		}
+		else(currentBuild.result == 'SUCCESS')
+		{
+		echo "### SUCCESS!!! ###"
+		}
+
+	    }
  }
 }
