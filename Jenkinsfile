@@ -1,4 +1,5 @@
 //ALL FIXED. DONT TOUCH!
+extends Exception
 node('host')
 {
     try
