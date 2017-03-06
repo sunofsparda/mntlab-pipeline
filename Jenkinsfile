@@ -35,7 +35,9 @@ node('master') {
         build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
         sh 'echo "--------------MNTLAB-$BRANCH_NAME-child1-build-job STARTED OK"----------'
         step ([$class: 'CopyArtifact', projectName: 'MNTLAB-$BRANCH_NAME-child1-build-job']);
-        sh 'mv *tar.gz '
+        sh 'mv *tar.gz $BRANCH_NAME_dsl_script.tar.gz'
+        sh 'pwd'
+        sh 'echo "--------------------PWD------------------------"'
         
         //, filter: '${BRANCH_NAME}_dsl_script.tar.gz']);
     //    sh 'echo "STASH_TEST">>stash.txt'
