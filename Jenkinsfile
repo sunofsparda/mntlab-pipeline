@@ -138,7 +138,7 @@ node('host')
             }
         }
     }
-    catch (AbortException ae)
+    catch (hudson.AbortException ae)
     {
         echo "ima here"
         if (ae.getMessage().contains('script returned exit code 143'))
