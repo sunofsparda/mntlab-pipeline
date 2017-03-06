@@ -26,7 +26,8 @@ withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle3.3'}/bin", "
 stage ('Trigerred')
 {   
  build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka')], quietPeriod: 0
-          projectName: 'MNTLAB-aslesarenka-child1-build-job',
+          step ([$class: 'CopyArtifact',
+    projectName: 'MNTLAB-aslesarenka-child1-build-job',
           filter: 'aslesarenka_dsl_script.tar.gz']);     
 //build job: 'MNTLAB-aslesarenka-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'aslesarenka'),string(name: 'WORKSPACE', value: "${WORKSPACE}")]
 }
