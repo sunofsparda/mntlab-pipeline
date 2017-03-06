@@ -1,49 +1,63 @@
 node('host'){
-//I TRY IT ON MNT-LAB
+//I'LL USE node('host'){ WHEN I TRY IT ON MNT-LAB
 //DECLARE ENVIRONMENT VARIABLES
  withEnv(["PATH+GRADLE=${tool 'gradle3.3'}/bin","JAVA_HOME=${tool 'java8'}","PATH+JAVA=${tool 'java8'}/bin"])
  {
 //CHECKOUT GIT BRANCH
             stage('Preparation')
             {
-                    echo 'Checking out git branch'
-                    checkout([$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
+                echo 'Checking out git branch'
+                checkout([$class: 'GitSCM', branches: [[name: '*/imanzhulin']], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline.git']]])
             }
         //CLEANING WORKSPACE AND BUILDING GRADLE
           stage('Building code')
             {
-                    echo 'Building gradle'
-                    sh 'gradle clean build'
+                echo 'Building gradle'
+                sh 'gradle clean build'
             }
-    /*    stage('Testing') {
-            steps {
+        //PERFORMING TESTS (CUCUMBER    
+        stage('Testing')
+            {
                 echo 'Tests....'
+                parallel cucumber: 
+                {
+                    echo 'Cucumber test'    
+			        sh 'gradle cucumber'
+                },
+		        junit:
+		        {
+		            echo 'Junit test'    
+			        sh 'gradle test'
+		        },
+		        jacoco:
+		        {
+		            echo 'Jacoco test'    
+			        sh 'gradle jacoco'
+		        }
             }
-        }
-         stage('Triggering job and fetching') {
-            steps {
+        stage('Triggering job and fetching')
+            {
                 echo 'Triggering job..'
+                build job: "MNTLAB-$BRANCH_NAME-child1-build-job", parameters: [string(name: 'BRANCH_NAME', value: "${BRANCH_NAME}")]
+                step ([$class: 'CopyArtifact', projectName: "MNTLAB-${BRANCH_NAME}-child1-build-job"]);
             }
-        }
-         stage('Packaging and Publishing') {
-            steps {
+    /*
+         stage('Packaging and Publishing') 
+            {
                 echo 'Packaging and Publishing..'
             }
-        }
-        stage('Asking for manual approval') {
-            steps {
+        stage('Asking for manual approval') 
+            {
                 echo 'Do you want to approve?'
             }
-        }
-        stage('Deploying') {
-            steps {
+        stage('Deploying') 
+            {
                 echo 'Deploying'
             }
-        }
-              stage('Sending status') {
-            steps {
+        stage('Sending status') 
+            {
                 echo 'Finished'
             }
-        }*/
+*/
  }
 }
