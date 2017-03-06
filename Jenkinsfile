@@ -43,9 +43,12 @@ try {
 		input "Deployment?"
 		}    
   	stage ('Deployment'){
-		result.push("Fail with Deployment")
-		sh 'java -jar \$(basename \${WORKSPACE}).jar'
-	}
+		try {
+			sh 'java -jar $(basename "${WORKSPACE}").jar'
+		} catch (err) {
+			result.push("Fail with Deployment")
+		}	
+  	}
 }
 catch (err) {
 	currentBuild.result = 'FAILURE'
